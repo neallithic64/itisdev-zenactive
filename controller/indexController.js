@@ -13,6 +13,9 @@ const saltRounds = 10;
 function Admin() {
 	
 }
+function Product() {
+	
+}
 
 /* Backend Helper Functions
  */
