@@ -10,73 +10,91 @@ const options = {
 };
 
 const database = {
-	connect: function() {
-		mongoose.connect(url, options, function(error) {
-			if(error) throw error;
-			console.log('Connected to: ' + url);
-		});
+	connect: async function() {
+		try {
+			await mongoose.connect(url, options);
+			console.log('Connected to db');
+		} catch (error) {
+			throw error;
+		}
 	},
 	
-	insertOne: function(model, doc, callback) {
-		model.create(doc, function(error, result) {
-			if(error) return callback(false);
+	insertOne: async function(model, doc, callback) {
+		try {
+			var result =  await model.create(doc);
 			console.log('Added ' + result);
 			return callback(true);
-		});
+		} catch (e) {
+			return callback(false);
+		}
 	},
 	
-	insertMany: function(model, docs) {
-		model.insertMany(docs, function(error, result) {
-			if(error) return callback(false);
+	insertMany: async function(model, docs, callback) {
+		try {
+			var result = await model.insertMany(docs);
 			console.log('Added ' + result);
 			return callback(true);
-		});
+		} catch (e) {
+			return callback(false);
+		}
 	},
 	
-	findOne: function(model, query, projection, callback) {
-		model.findOne(query, projection, function(error, result) {
-			if(error) return callback(false);
+	findOne: async function(model, query, projection, callback) {
+		try {
+			var result = await model.findOne(query, projection);
 			return callback(result);
-		});
+		} catch (e) {
+			return callback(false);
+		}
 	},
 	
-	findMany: function(model, query, projection, callback) {
-		model.find(query, projection, function(error, result) {
-			if(error) return callback(false);
+	findMany: async function(model, query, projection, callback) {
+		try {
+			var result = await model.find(query, projection);
 			return callback(result);
-		});
+		} catch (e) {
+			return callback(false);
+		}
 	},
 	
-	updateOne: function(model, filter, update) {
-		model.updateOne(filter, update, function(error, result) {
-			if(error) return callback(false);
+	updateOne: async function(model, filter, update, callback) {
+		try {
+			var result = await model.updateOne(filter, update);
 			console.log('Document modified: ' + result.nModified);
 			return callback(true);
-		});
+		} catch (e) {
+			return callback(false);
+		}
 	},
 	
-	updateMany: function(model, filter, update) {
-		model.updateMany(filter, update, function(error, result) {
-			if(error) return callback(false);
-			console.log('Documents modified: ' + result.nModified);
+	updateMany: async function(model, filter, update, callback) {
+		try {
+			var result = await model.updateMany(filter, update);
+			console.log('Document modified: ' + result.nModified);
 			return callback(true);
-		});
+		} catch (e) {
+			return callback(false);
+		}
 	},
 	
-	deleteOne: function(model, conditions) {
-		model.deleteOne(conditions, function (error, result) {
-			if(error) return callback(false);
+	deleteOne: async function(model, conditions, callback) {
+		try {
+			var result = await model.deleteOne(conditions);
 			console.log('Document deleted: ' + result.deletedCount);
 			return callback(true);
-		});
+		} catch (e) {
+			return callback(false);
+		}
 	},
 	
-	deleteMany: function(model, conditions) {
-		model.deleteMany(conditions, function (error, result) {
-			if(error) return callback(false);
+	deleteMany: async function(model, conditions, callback) {
+		try {
+			var result = await model.deleteMany(conditions);
 			console.log('Document deleted: ' + result.deletedCount);
 			return callback(true);
-		});
+		} catch (e) {
+			return callback(false);
+		}
 	},
 	
 	populate: function() {

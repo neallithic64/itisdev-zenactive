@@ -35,6 +35,9 @@ app.set('view engine', 'hbs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+const db = require('./model/db');
+db.connect();
+
 const router = require('./router/indexRouter');
 app.use('/', router);
 
