@@ -10,12 +10,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 /* Object constructors */
-function Admin() {
-	
-}
-function Product() {
-	
-}
+
 
 /* Backend Helper Functions
  */
