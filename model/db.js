@@ -14,8 +14,8 @@ const database = {
 		try {
 			await mongoose.connect(url, options);
 			console.log('Connected to db');
-		} catch (error) {
-			throw error;
+		} catch (e) {
+			throw e;
 		}
 	},
 	
@@ -97,8 +97,14 @@ const database = {
 		}
 	},
 	
-	populate: function() {
-		// stuff
+	aggregate: async function(model, pipelines, callback) {
+		try {
+			var result = await model.aggregate(pipelines);
+			console.table(result);
+			return callback(result);
+		} catch (e) {
+			return callback(false);
+		}
 	}
 };
 
