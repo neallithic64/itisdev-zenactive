@@ -1,3 +1,4 @@
+const db = require('../models/db');
 const Test = require('../models/Test');
 
 /* Index Functions
@@ -10,7 +11,8 @@ const indexFunctions = {
 	},
 	
 	postHome: function(req, res) {
-		db.insertMany(Test, )
+		console.table(req.body);
+		// db.insertMany(Test, req.body);
 	}
 };
 
