@@ -10,9 +10,10 @@ const indexFunctions = {
 		});
 	},
 	
-	postHome: function(req, res) {
-		console.table(req.body);
-		// db.insertMany(Test, req.body);
+	postHome: async function(req, res) {
+		var arr = [{a: req.body.a}, {a: req.body.b}, {a: req.body.c}];
+		db.insertMany(Test, arr, a => {});
+		res.redirect('/');
 	}
 };
 

@@ -41,11 +41,13 @@ db.connect();
 const router = require('./router/indexRouter');
 app.use('/', router);
 
+/*
 app.get('*', function(req, res) {
 	res.render('error', {
 		// idk
 	});
 });
+*/
 
 app.listen(PORT, () => {
 	console.log(`Listening to localhost on port ${PORT}.`);
