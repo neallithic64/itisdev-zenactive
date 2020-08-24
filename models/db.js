@@ -18,7 +18,7 @@ const database = {
 	
 	insertOne: async function(model, doc) {
 		try {
-			var result =  await model.create(doc);
+			var result = await model.create(doc);
 			console.log('Added ' + result);
 			return true;
 		} catch (e) {
@@ -97,7 +97,6 @@ const database = {
 	aggregate: async function(model, pipelines) {
 		try {
 			var result = await model.aggregate(pipelines);
-			console.table(result);
 			return result;
 		} catch (e) {
 			return false;
