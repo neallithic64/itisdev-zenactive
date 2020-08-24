@@ -4,7 +4,8 @@ const nodemailer = require('nodemailer');
 
 /* Accessing the models (db) of each class
  */
-
+const Admin = require('./Admin');
+const Products = require('./Products');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;

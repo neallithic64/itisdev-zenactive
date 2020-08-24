@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 
-const Admin = require('./Admin');
-const Products = require('./Products');
-
 const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@zenactive-cluster.ot555.mongodb.net/zenactive?retryWrites=true&w=majority`;
 const options = {
 	useUnifiedTopology: true,
