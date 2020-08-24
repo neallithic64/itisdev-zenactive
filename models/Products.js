@@ -23,4 +23,4 @@ var productSchema = new mongoose.Schema({
 	}
 }, {collection: "Products"});
 
-module.exports = mongoose.model('Admin', productSchema);
+module.exports = mongoose.model('Products', productSchema);
