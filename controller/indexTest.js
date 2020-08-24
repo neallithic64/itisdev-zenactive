@@ -12,7 +12,8 @@ const indexFunctions = {
 	
 	postHome: async function(req, res) {
 		var arr = [{a: req.body.a}, {a: req.body.b}, {a: req.body.c}];
-		db.insertMany(Test, arr, a => {});
+		var result = await db.insertMany(Test, arr);
+		console.log(result);
 		res.redirect('/');
 	}
 };
