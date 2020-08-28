@@ -21,6 +21,6 @@ var productSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	}
-}, {collection: "Products"});
+}, {collection: "Product"});
 
-module.exports = mongoose.model('Products', productSchema);
+module.exports = mongoose.model('Product', productSchema);

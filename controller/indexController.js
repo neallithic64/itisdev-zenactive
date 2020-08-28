@@ -11,7 +11,8 @@ const Products = require('../models/Products');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-/* Object constructors */
+/* Object constructors
+ */
 
 
 /* Backend Helper Functions
