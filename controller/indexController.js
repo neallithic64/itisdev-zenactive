@@ -5,12 +5,13 @@ const nodemailer = require('nodemailer');
 /* Accessing the models (db) of each class
  */
 const Admin = require('./Admin');
-const Products = require('./Products');
+const Products = require('./Product');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-/* Object constructors */
+/* Object constructors
+ */
 
 
 /* Backend Helper Functions
