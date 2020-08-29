@@ -12,7 +12,13 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 /* Object constructors */
-
+function Product (productID, name, price, size, color){
+	this.productID = productID;
+	this.name = name;
+	this.price = price;
+	this.size = size;
+	this.color = color;
+}
 
 /* Backend Helper Functions
  */
@@ -170,9 +176,9 @@ const indexFunctions = {
 			if (prodFind){
 				// handle error: product exists in db
 			} else {
-				var prodInsert = await db.insertOne('Product', {productID: productID});
-				var categInsert = await db.insertOne('ProdCategory', {productID: productID});
-				var photoInsert = await db.insertOne('ProdPhoto', {productID: productID});
+				var prodInsert = await db.insertOne(Product, {productID: productID});
+				var categInsert = await db.insertOne(ProdCategory, {productID: productID});
+				var photoInsert = await db.insertOne(ProdPhoto, {productID: productID});
 			}
 		} catch (e){
 			// error handling
@@ -181,17 +187,20 @@ const indexFunctions = {
 	
 	editProduct: async function(req, res){
 		try {
-			var product = await getJoinedQuery();
+//			var product = await getJoinedQuery();
 
 			// how to deal with updating prod quantity?
 			let {productID, name, price, size, color, categName, photoLink} = req.body;
-
+			var updateProd = new Product(productID, name, price, size, color);
+			
 			var prodFind = await db.findOne(Product, {productID: productID});
 
 			if (!prodFind){
 				// handle error: cannot edit product that does not exist
 			} else {
-				//update the doc
+				await db.updateOne(Product, {productID: productID}, updateProd);
+//				await db.updateOne(ProdCategory, {productID: productID}, {categName: categName});
+//				await db.updateOne(ProdPhoto, {productID: productID}, {photoLink: photoLink});
 			}	
 		} catch (e){
 			// error handling
