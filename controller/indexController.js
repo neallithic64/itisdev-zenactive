@@ -193,7 +193,7 @@ const indexFunctions = {
  * are cancelled, the reason for cancelling will also be displayed.
  */
 
-/** Manage Inventory --
+/* Manage Inventory --
  * 
  * The admin/seller can add products or edit existing products 
  * with their corresponding pictures, details and colors. Since 
@@ -230,7 +230,7 @@ const indexFunctions = {
 		if (!query) {
 			//handle error
 		} else {
-			return res;
+			return query;
 		}
 	},
 	
