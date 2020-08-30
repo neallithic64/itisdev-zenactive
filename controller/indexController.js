@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
  */
 const db = require('../models/db');
 const Admin = require('../models/Admin');
-const Products = require('../models/Products');
+const Product = require('../models/Product');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
