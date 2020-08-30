@@ -23,7 +23,7 @@ const SupplierOrder = require('../models/SupplierOrder');
 const Threshold = require('../models/Threshold');
 
 /* Object constructors */
-function Product (productID, name, price, size, color){
+function Product (productID, name, price, size, color) {
 	this.productID = productID;
 	this.name = name;
 	this.price = price;
@@ -164,7 +164,7 @@ const indexFunctions = {
 	getBuyerOrders: async function (req, res) {
 		var buyOrders = await db.findMany(CustomerOrder, {}, '');
 		
-		if (!buyOrders){
+		if (!buyOrders) {
 			// error handling
 		} else {
 			res.render('buyerOrders', {
@@ -173,10 +173,10 @@ const indexFunctions = {
 		}
 	}, 
 	
-	getSupplierOrders: async function (req, res){
+	getSupplierOrders: async function (req, res) {
 		var suppOrders = await db.findMany(SupplierOrder, {}, '');
 		
-		if (!suppOrders){
+		if (!suppOrders) {
 			//error handling
 		} else {
 			res.render('supplierOrders', {
@@ -210,7 +210,7 @@ const indexFunctions = {
  * WHERE p.productID = req.query.text
  */
 
-	getJoinedQuery: async function(req, res){
+	getJoinedQuery: async function(req, res) {
 		var query = await db.aggregate('Product', [
 			{'$match': {productID: req.query.text}},
 			{'$lookup': {
@@ -227,14 +227,14 @@ const indexFunctions = {
 			}}
 		]);
 		
-		if (!query){
+		if (!query) {
 			//handle error
 		} else {
 			return res;
 		}
 	},
 	
-	addProduct: async function(req, res){
+	addProduct: async function(req, res) {
 		try {
 			var product = await getJoinedQuery();
 
@@ -243,19 +243,19 @@ const indexFunctions = {
 
 			var prodFind = await db.findOne(Product, {productID: productID});
 
-			if (prodFind){
+			if (prodFind) {
 				// handle error: product exists in db
 			} else {
 				var prodInsert = await db.insertOne(Product, {productID: productID});
 				var categInsert = await db.insertOne(ProdCategory, {productID: productID});
 				var photoInsert = await db.insertOne(ProdPhoto, {productID: productID});
 			}
-		} catch (e){
+		} catch (e) {
 			// error handling
 		}
 	},
 	
-	editProduct: async function(req, res){
+	editProduct: async function(req, res) {
 		try {
 //			var product = await getJoinedQuery();
 
@@ -265,14 +265,14 @@ const indexFunctions = {
 			
 			var prodFind = await db.findOne(Product, {productID: productID});
 
-			if (!prodFind){
+			if (!prodFind) {
 				// handle error: cannot edit product that does not exist
 			} else {
 				await db.updateOne(Product, {productID: productID}, updateProd);
 //				await db.updateOne(ProdCategory, {productID: productID}, {categName: categName});
 //				await db.updateOne(ProdPhoto, {productID: productID}, {photoLink: photoLink});
 			}	
-		} catch (e){
+		} catch (e) {
 			// error handling
 		}
 	},
@@ -280,17 +280,17 @@ const indexFunctions = {
 	
 /** The admin may choose to create a new category that products may be labelled under.
  */
-	addProductCateg: async function(req, res){
+	addProductCateg: async function(req, res) {
 		let {categName} = req.body;
 		
 		var categFind = await db.findOne(Category, {categName: categName});
 		
-		if (categFind){
+		if (categFind) {
 			// handle error: category exists in db
 		} else {
 			var categInsert = await db.insertOne(Category, {categName: categFind});
 			
-			if (!categInsert){
+			if (!categInsert) {
 				// handle error
 			} else {
 				//categ added; redirect to page
