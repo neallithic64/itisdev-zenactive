@@ -67,7 +67,7 @@ function sendEmail(email) {
  */
 const indexFunctions = {
 	getHome: function(req, res) {
-		if (req.session.logUser) {
+		if (req.session.admin) {
 			res.render('home', {
 				title: '',
 				message: 'henlo'
@@ -76,7 +76,7 @@ const indexFunctions = {
 	},
 	
 	getLogin: function(req, res) {		
-		if (req.session.logUser) {
+		if (req.session.admin) {
 			res.redirect('/'); // or whichever path for admin homepage
 		} else {
 			res.render('login', {});
@@ -95,7 +95,7 @@ const indexFunctions = {
 				var match = await bcrypt.compare(password, admin.password);	
 				
 				if (match) {
-					req.session.logUser = admin;
+					req.session.admin = admin;
 					res.redirect('/');
 					// res.send({status: 200});
 				} else {
