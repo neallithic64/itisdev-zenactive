@@ -2,14 +2,27 @@ const fs = require('fs');
 const handlebars = require('handlebars');
 const nodemailer = require('nodemailer');
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 /* Accessing the models (db) of each class
  */
 const db = require('../models/db');
 const Admin = require('../models/Admin');
 const Products = require('../models/Products');
+const CancelReason = require('../models/CancelReason');
+const Category = require('../models/Category');
+const Customer = require('../models/Customer');
+const CustomerCart = require('../models/CustomerCart');
+//const CustomerOrder = require('../models/CustomerOrder');
+const PageView = require('../models/PageView');
+const ProdCategory = require('../models/ProdCategory');
+const ProdPhoto = require('../models/ProdPhoto');
+const Product = require('../models/Product');
+const SupplierCart = require('../models/SupplierCart');
+const SupplierOrder = require('../models/SupplierOrder');
+const Threshold = require('../models/Threshold');
 
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
 
 /* Object constructors */
 function Product (productID, name, price, size, color){
@@ -113,6 +126,65 @@ const indexFunctions = {
 			//send success status or render or redirect to page
 		}
 		res.redirect('/');
+	},
+
+/* View Orders Report --
+ * 
+ * The seller may view all orders submitted to see what orders were submitted 
+ * by the buyers. The seller may also view the orders they have made to the supplier.
+ * 
+ */
+
+	viewBuyOrder: async function(req, res){
+		let {orderNo} = req.query;
+		
+		var order = await db.findOne(CustomerOrder, {buyOrdNo: orderNo}, '');
+		
+		if (!order){
+			//error handling
+		} else {
+			res.render('viewBuyOrder', {
+				buyOrder: order
+			});
+		}
+	},
+
+	viewSuppOrder: async function(req, res){
+		let {orderNo} = req.query;
+		
+		var order = await db.findOne(SupplierOrder, {batchID: orderNo}, '');
+		
+		if (!order){
+			//error handling
+		} else {
+			res.render('viewSuppOrder', {
+				suppOrder: order
+			});
+		}
+	},
+
+	getBuyerOrders: async function (req, res){
+		var buyOrders = await db.findMany(CustomerOrder, {}, '');
+		
+		if (!buyOrders){
+			//error handling
+		} else {
+			res.render('buyerOrders', {
+				buyerOrders: buyOrders
+			});
+		}
+	}, 
+	
+	getSupplierOrders: async function (req, res){
+		var suppOrders = await db.findMany(SupplierOrder, {}, '');
+		
+		if (!suppOrders){
+			//error handling
+		} else {
+			res.render('supplierOrders', {
+				supplierOrders: suppOrders
+			});
+		}
 	},
 
 /* Update Order Status --
