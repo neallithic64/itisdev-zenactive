@@ -75,7 +75,7 @@ const indexFunctions = {
 		}
 	},
 	
-	getLogin: function(req, res) {		
+	getLogin: function(req, res) {
 		if (req.session.admin) {
 			res.redirect('/'); // or whichever path for admin homepage
 		} else {
@@ -177,7 +177,7 @@ const indexFunctions = {
 		var suppOrders = await db.findMany(SupplierOrder, {}, '');
 		
 		if (!suppOrders) {
-			//error handling
+			// error handling
 		} else {
 			res.render('supplierOrders', {
 				supplierOrders: suppOrders
@@ -228,7 +228,7 @@ const indexFunctions = {
 		]);
 		
 		if (!query) {
-			//handle error
+			// handle error
 		} else {
 			return query;
 		}
@@ -278,7 +278,7 @@ const indexFunctions = {
 	},
 	
 	
-/** The admin may choose to create a new category that products may be labelled under.
+/* The admin may choose to create a new category that products may be labelled under.
  */
 	addProductCateg: async function(req, res) {
 		let {categName} = req.body;
@@ -293,14 +293,13 @@ const indexFunctions = {
 			if (!categInsert) {
 				// handle error
 			} else {
-				//categ added; redirect to page
+				// categ added; redirect to page
 			}
 		}
 		
-		//when and what is the flow to add products in this category? --make as separate function
-		//retrieve list of products
-		//ask admin to choose which to put in categ
-		
+		// when and what is the flow to add products in this category? --make as separate function
+		// retrieve list of products
+		// ask admin to choose which to put in categ
 	}
 
 };
