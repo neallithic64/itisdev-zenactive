@@ -9,12 +9,11 @@ const saltRounds = 10;
  */
 const db = require('../models/db');
 const Admin = require('../models/Admin');
-const Products = require('../models/Products');
 const CancelReason = require('../models/CancelReason');
 const Category = require('../models/Category');
 const Customer = require('../models/Customer');
 const CustomerCart = require('../models/CustomerCart');
-//const CustomerOrder = require('../models/CustomerOrder');
+// const CustomerOrder = require('../models/CustomerOrder');
 const PageView = require('../models/PageView');
 const ProdCategory = require('../models/ProdCategory');
 const ProdPhoto = require('../models/ProdPhoto');
@@ -22,7 +21,6 @@ const Product = require('../models/Product');
 const SupplierCart = require('../models/SupplierCart');
 const SupplierOrder = require('../models/SupplierOrder');
 const Threshold = require('../models/Threshold');
-
 
 /* Object constructors */
 function Product (productID, name, price, size, color){
@@ -77,31 +75,31 @@ const indexFunctions = {
 		}
 	},
 	
-	getLogin: function(req, res){		
+	getLogin: function(req, res) {		
 		if (req.session.logUser) {
-			res.redirect('/'); //or whichever path for admin homepage
+			res.redirect('/'); // or whichever path for admin homepage
 		} else {
 			res.render('login', {});
 		}
 	},
 	
-	postLogin: async function(req, res){
+	postLogin: async function(req, res) {
 		let {email, password} =  req.body;
 		
 		try {
 			var admin = await db.findOne(Admin, {email: email}, '');
 
-			if (!admin){
+			if (!admin) {
 				// credentials not found error handling-- res.send({status: 401});
 			} else {
 				var match = await bcrypt.compare(password, admin.password);	
 				
-				if (match){
+				if (match) {
 					req.session.logUser = admin;
 					res.redirect('/');
-					//res.send({status: 200});						
+					// res.send({status: 200});
 				} else {
-					//error handling-- res.send({status: 401});
+					// error handling-- res.send({status: 401});
 				}
 			}
 		} catch (e) {
@@ -109,21 +107,21 @@ const indexFunctions = {
 		}
 	},
 	
-	postLogout: function(req, res){
+	postLogout: function(req, res) {
 		req.session.destroy();
 		res.redirect("/");
 	},
 	
-	postRegister: async function(req, res){
+	postRegister: async function(req, res) {
 		let {email, password} = req.body;
 		
 		var adminPass = await bcrypt.hash(password, saltRounds);	
 		var adminInsert = await db.insertOne(Admin, {email: email, password: adminPass});
 			
-		if (!adminInsert){
-			//error handling
+		if (!adminInsert) {
+			// error handling
 		} else {
-			//send success status or render or redirect to page
+			// send success status or render or redirect to page
 		}
 		res.redirect('/');
 	},
@@ -218,11 +216,11 @@ const indexFunctions = {
 		}
 	},
 
-	getBuyerOrders: async function (req, res){
+	getBuyerOrders: async function (req, res) {
 		var buyOrders = await db.findMany(CustomerOrder, {}, '');
 		
 		if (!buyOrders){
-			//error handling
+			// error handling
 		} else {
 			res.render('buyerOrders', {
 				buyerOrders: buyOrders
