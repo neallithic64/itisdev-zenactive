@@ -7,8 +7,17 @@ const controller = require('../controller/indexController');
 router.get('/', test.getHome);
 router.get('/test', test.getHomeQuery);
 router.get('/login', controller.getLogin);
+router.get('/search-products', controller.getSearchProducts);
+router.get('/view-allproducts', controller.getAllProducts);
+router.get('/view-product', controller.getProduct);
 
+router.get('/view-buyorder', controller.getBuyOrder);
+router.get('/view-suppOrder', controller.getSuppOrder);
+router.get('/buyerOrders', controller.getBuyerOrders);
+router.get('/supplierOrders', controller.getSupplierOrders);
+//router.get('', );
 
 router.post('/', test.postHome);
+//router.post('', );
 
 module.exports = router;

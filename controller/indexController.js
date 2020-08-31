@@ -127,6 +127,61 @@ const indexFunctions = {
 		}
 		res.redirect('/');
 	},
+	
+/* Buying Process functions
+ * 
+ * [..] Search Products
+ * [..] View All Products
+ * [] View One Product
+ * 
+ */	
+	getSearchProducts: async function(req, res){
+		// use customer sessions w/ server error checking here
+		
+		let prodQuery = new RegExp(req.query.searchProducts, 'gi'); // still convert input string to regex?
+		
+		var searchProd = await db.findMany(Product, {name: prodQuery}, ''); //search through 'productName'?
+		
+		if (!searchProd){
+			// error handling: no products found
+			
+		} else {
+			res.render('search-products', {
+				products: searchProd
+			});
+		}
+	},
+	
+	getAllProducts: async function(req, res){
+		// use customer sessions w/ server error checking here
+
+		var products = await db.findMany(Product, {}, '');
+		
+		if (!products){
+			// error handling: no products
+		} else {
+			res.render('view-allproducts', {
+				allProducts: products
+			});
+		}
+	},
+
+	getProduct: async function(req, res){
+		// use customer sessions w/ server error checking here
+		
+		let {prodNo} = req.query;
+		
+		//view through productID
+		var prodMatch = await db.findOne(Product, {productID: prodNo}, '');
+		
+		if (!prodMatch){
+			// error handling: no product found
+		} else {
+			res.render('view-product', {
+				product: prodMatch
+			});
+		}
+	},
 
 /* View Orders Report --
  * 
@@ -135,30 +190,30 @@ const indexFunctions = {
  * 
  */
 
-	viewBuyOrder: async function(req, res){
+	getBuyOrder: async function(req, res){
 		let {orderNo} = req.query;
 		
-		var order = await db.findOne(CustomerOrder, {buyOrdNo: orderNo}, '');
+		var orderMatch = await db.findOne(CustomerOrder, {buyOrdNo: orderNo}, '');
 		
-		if (!order){
+		if (!orderMatch){
 			//error handling
 		} else {
-			res.render('viewBuyOrder', {
-				buyOrder: order
+			res.render('view-buyOrder', {
+				buyOrder: orderMatch
 			});
 		}
 	},
 
-	viewSuppOrder: async function(req, res){
+	getSuppOrder: async function(req, res){
 		let {orderNo} = req.query;
 		
-		var order = await db.findOne(SupplierOrder, {batchID: orderNo}, '');
+		var orderMatch = await db.findOne(SupplierOrder, {batchID: orderNo}, '');
 		
-		if (!order){
+		if (!orderMatch){
 			//error handling
 		} else {
-			res.render('viewSuppOrder', {
-				suppOrder: order
+			res.render('view-suppOrder', {
+				suppOrder: orderMatch
 			});
 		}
 	},
