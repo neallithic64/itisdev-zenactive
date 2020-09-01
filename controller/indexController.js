@@ -247,6 +247,32 @@ const indexFunctions = {
  * by utilizing the tracking details from the partner courier. When items 
  * are cancelled, the reason for cancelling will also be displayed.
  */
+	getOrderStatus: async function(req, res){
+		// details will be displayed in the view order status page
+		let {orderNo} = req.query; //depends sa front end ano fields doon
+		
+		var orderMatch = await db.findOne(CustomerOrder, {buyOrdNo: orderNo}, '');
+		
+		if (!orderMatch){
+			// error handling
+		} else {
+			if (orderMatch.status === 'SHIPPED'){
+				
+			res.render('view-orderStatus', {
+				buyOrder: orderMatch
+			});	
+				
+			// details regarding their delivery will be sent through the buyer’s email	
+			// what details to send? 
+			// how to use helper function 'sendEmail'?
+			 
+			// sendEmail(orderMatch.email);
+			
+			} else {
+				// res.render('', {}); which page?
+			}
+		}
+	},
 
 /** Manage Inventory --
  * 
