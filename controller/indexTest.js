@@ -28,13 +28,14 @@ const indexFunctions = {
 	
 	postHome: async function(req, res) {
 		// insert the document
-		await db.insertOne(Test, {mainVal: req.body.a1});
+		var result = await db.insertOne(Test, {mainVal: req.body.a, refID1: "testing1", refID2: "testing2"});
+		console.log(result ? 'inserted' : 'failed');
 		
 		// make the query
-		var a = await db.findOne(Test, {mainVal: req.body.a1});
+		var a = await db.findOne(Test, {mainVal: req.body.a});
 		
 		// make the ID thing, making use of _id
-		a.refID1 = (a._id+"").substring(9);
+		a.newID = (a._id+"").substring(9);
 		
 		// save the update/s and redirect
 		await a.save();

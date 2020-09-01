@@ -64,6 +64,10 @@ function sendEmail(email) {
 	});
 }
 
+function genBuyOrdNo() {
+	return Number.parseInt((new Date()).toISOString().substr(2, 8).split('-').join('') + Math.round(Math.random()*100000).toString().padStart(5, '0'));
+}
+
 /* Index Functions
  */
 const indexFunctions = {
@@ -88,7 +92,7 @@ const indexFunctions = {
 		let {email, password} =  req.body;
 		
 		try {
-			var admin = await db.findOne(Admin, {email: email}, '');
+			var admin = await db.findOne(AdminDB, {email: email}, '');
 
 			if (!admin) {
 				// credentials not found error handling-- res.send({status: 401});
@@ -117,7 +121,7 @@ const indexFunctions = {
 		let {email, password} = req.body;
 		
 		var adminPass = await bcrypt.hash(password, saltRounds);	
-		var adminInsert = await db.insertOne(Admin, {email: email, password: adminPass});
+		var adminInsert = await db.insertOne(AdminDB, {email: email, password: adminPass});
 			
 		if (!adminInsert) {
 			// error handling
@@ -192,7 +196,7 @@ const indexFunctions = {
 	getBuyOrder: async function(req, res){
 		let {orderNo} = req.query;
 		
-		var orderMatch = await db.findOne(CustomerOrder, {buyOrdNo: orderNo}, '');
+		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
 		
 		if (!orderMatch){
 			//error handling
@@ -206,7 +210,7 @@ const indexFunctions = {
 	getSuppOrder: async function(req, res){
 		let {orderNo} = req.query;
 		
-		var orderMatch = await db.findOne(SupplierOrder, {batchID: orderNo}, '');
+		var orderMatch = await db.findOne(SupplierOrderDB, {batchID: orderNo}, '');
 		
 		if (!orderMatch){
 			//error handling
@@ -218,7 +222,7 @@ const indexFunctions = {
 	},
 
 	getBuyerOrders: async function (req, res) {
-		var buyOrders = await db.findMany(CustomerOrder, {}, '');
+		var buyOrders = await db.findMany(CustomerOrderDB, {}, '');
 		
 		if (!buyOrders) {
 			// error handling
@@ -230,7 +234,7 @@ const indexFunctions = {
 	}, 
 	
 	getSupplierOrders: async function (req, res) {
-		var suppOrders = await db.findMany(SupplierOrder, {}, '');
+		var suppOrders = await db.findMany(SupplierOrderDB, {}, '');
 		
 		if (!suppOrders) {
 			// error handling
@@ -302,9 +306,9 @@ const indexFunctions = {
 			if (prodFind) {
 				// handle error: product exists in db
 			} else {
-				var prodInsert = await db.insertOne(Product, {productID: productID});
-				var categInsert = await db.insertOne(ProdCategory, {productID: productID});
-				var photoInsert = await db.insertOne(ProdPhoto, {productID: productID});
+				var prodInsert = await db.insertOne(ProductDB, {productID: productID});
+				var categInsert = await db.insertOne(ProdCategoryDB, {productID: productID});
+				var photoInsert = await db.insertOne(ProdPhotoDB, {productID: productID});
 			}
 		} catch (e) {
 			// error handling
@@ -319,14 +323,14 @@ const indexFunctions = {
 			let {productID, name, price, size, color, categName, photoLink} = req.body;
 			var updateProd = new Product(productID, name, price, size, color);
 			
-			var prodFind = await db.findOne(Product, {productID: productID});
+			var prodFind = await db.findOne(ProductDB, {productID: productID});
 
 			if (!prodFind) {
 				// handle error: cannot edit product that does not exist
 			} else {
-				await db.updateOne(Product, {productID: productID}, updateProd);
-//				await db.updateOne(ProdCategory, {productID: productID}, {categName: categName});
-//				await db.updateOne(ProdPhoto, {productID: productID}, {photoLink: photoLink});
+				await db.updateOne(ProductDB, {productID: productID}, updateProd);
+//				await db.updateOne(ProdCategoryDB, {productID: productID}, {categName: categName});
+//				await db.updateOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink});
 			}	
 		} catch (e) {
 			// error handling
@@ -339,12 +343,12 @@ const indexFunctions = {
 	addProductCateg: async function(req, res) {
 		let {categName} = req.body;
 		
-		var categFind = await db.findOne(Category, {categName: categName});
+		var categFind = await db.findOne(CategoryDB, {categName: categName});
 		
 		if (categFind) {
 			// handle error: category exists in db
 		} else {
-			var categInsert = await db.insertOne(Category, {categName: categFind});
+			var categInsert = await db.insertOne(CategoryDB, {categName: categFind});
 			
 			if (!categInsert) {
 				// handle error
