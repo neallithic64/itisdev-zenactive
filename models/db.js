@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+mongoose.set('useCreateIndex', true);
+
 const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@zenactive-cluster.ot555.mongodb.net/zenactive?retryWrites=true&w=majority`;
 const options = {
 	useUnifiedTopology: true,

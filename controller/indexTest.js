@@ -27,9 +27,17 @@ const indexFunctions = {
 	},
 	
 	postHome: async function(req, res) {
-		var arr = [{a: req.body.a}, {a: req.body.b}, {a: req.body.c}];
-		var result = await db.insertMany(Test, arr);
-		console.log(result);
+		// insert the document
+		await db.insertOne(Test, {mainVal: req.body.a1});
+		
+		// make the query
+		var a = await db.findOne(Test, {mainVal: req.body.a1});
+		
+		// make the ID thing, making use of _id
+		a.refID1 = (a._id+"").substring(9);
+		
+		// save the update/s and redirect
+		await a.save();
 		res.redirect('/');
 	}
 };

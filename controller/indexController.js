@@ -8,20 +8,20 @@ const saltRounds = 10;
 /* Accessing the models (db) of each class
  */
 const db = require('../models/db');
-const Admin = require('../models/Admin');
-const CancelReason = require('../models/CancelReason');
-const Category = require('../models/Category');
-const Customer = require('../models/Customer');
-const CustomerCart = require('../models/CustomerCart');
-const CustomerOrder = require('../models/CustomerOrder');
-const PaymentProof = require('../models/PaymentProof');
-const PageView = require('../models/PageView');
-const ProdCategory = require('../models/ProdCategory');
-const ProdPhoto = require('../models/ProdPhoto');
-const Product = require('../models/Product');
-const SupplierCart = require('../models/SupplierCart');
-const SupplierOrder = require('../models/SupplierOrder');
-const Threshold = require('../models/Threshold');
+const AdminDB = require('../models/Admin');
+const CancelReasonDB = require('../models/CancelReason');
+const CategoryDB = require('../models/Category');
+const CustomerDB = require('../models/Customer');
+const CustomerCartDB = require('../models/CustomerCart');
+const CustomerOrderDB = require('../models/CustomerOrder');
+const PaymentProofDB = require('../models/PaymentProof');
+const PageViewDB = require('../models/PageView');
+const ProdCategoryDB = require('../models/ProdCategory');
+const ProdPhotoDB = require('../models/ProdPhoto');
+const ProductDB = require('../models/Product');
+const SupplierCartDB = require('../models/SupplierCart');
+const SupplierOrderDB = require('../models/SupplierOrder');
+const ThresholdDB = require('../models/Threshold');
 
 /* Object constructors */
 function Product (productID, name, price, size, color) {
