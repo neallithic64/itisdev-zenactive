@@ -28,17 +28,27 @@ const indexFunctions = {
 	
 	postHome: async function(req, res) {
 		// insert the document
-		var result = await db.insertOne(Test, {mainVal: req.body.a, refID1: "testing1", refID2: "testing2"});
+		var obj = {
+			mainVal: req.body.a,
+			refID1: '1',
+			refID2: '2'
+		};
+		var result = await db.insertOne(Test, obj);
 		console.log(result ? 'inserted' : 'failed');
 		
 		// make the query
-		var a = await db.findOne(Test, {mainVal: req.body.a});
+		var a = await db.findOne(Test, {refID1: '1', refID2: '2'});
 		
-		// make the ID thing, making use of _id
-		a.newID = (a._id+"").substring(9);
-		
-		// save the update/s and redirect
-		await a.save();
+		if (a) {
+			// ID generation system
+			var str = (a._id+"");
+			// making use of _id (ObjectId)
+			a.refID1 = str.substr(0, 12);
+			a.refID2 = str.substr(12);
+			
+			// save the update/s and redirect
+			await a.save();
+		}
 		res.redirect('/');
 	}
 };
