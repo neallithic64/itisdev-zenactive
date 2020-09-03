@@ -33,7 +33,6 @@ const database = {
 			console.log('Added ' + result);
 			return true;
 		} catch (e) {
-			console.log(e);
 			return false;
 		}
 	},

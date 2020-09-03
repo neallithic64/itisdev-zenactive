@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 var testSchema = new mongoose.Schema({
-	mainVal: Date
+	mainVal: Date,
+	otherVal: Number
 }, {collection: "Test"});
 
 //testSchema.index({

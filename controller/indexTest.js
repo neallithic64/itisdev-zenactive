@@ -23,11 +23,23 @@ const indexFunctions = {
 //				{'from': 'Test', 'localField': 'a', 'foreignField': 'a', 'as': 'palibhasa'}}]);
 //		arr.forEach(e => console.table(e.palibhasa));
 		
-		var a = await db.findMany(Test, {}, '');
-		a.forEach(e => console.log(e));
-		res.render('testpage', {
-			title: 'Test Queries'
-		});
+//		var a = await db.findMany(Test, {}, '');
+//		a.forEach(e => console.log(e));
+//		res.render('testpage', {
+//			title: 'Test Queries'
+//		});
+		
+		// querying
+		var kek = {
+			start: req.query.start,
+			end: req.query.end,
+			numstart: req.query.numstart,
+			numend: req.query.numend
+		};
+//		var queys = await db.findMany(Test, {mainVal: {$gte: kek.start, $lte: kek.end}});
+		var queys = await db.findMany(Test, {otherVal: {$gte: kek.numstart, $lte: kek.numend}});
+		console.table(forceJSON(queys));
+		res.render('testpage', {title: 'Test Queries'});
 	},
 	
 	postHome: async function(req, res) {
@@ -54,12 +66,10 @@ const indexFunctions = {
 //			await a.save();
 //		}
 		
-//		// generating docs
-//		var docs = [];
-//		for (var i = 0; i < 20; i++) docs.push({mainVal: genDate()});
-//		await db.insertMany(Test, docs);
-		
-		
+		// generating docs
+		var docs = [];
+		for (var i = 0; i < 20; i++) docs.push({mainVal: genDate(), otherVal: Math.round(Math.random()*1000)});
+		await db.insertMany(Test, docs);
 		
 		res.redirect('/');
 	}
