@@ -5,6 +5,10 @@ function forceJSON(e) {
 	return JSON.parse(JSON.stringify(e));
 }
 
+function genDate() {
+	return new Date((new Date()) - Math.round(Math.random()*1000000000));
+}
+
 /* Index Functions
  */
 const indexFunctions = {
@@ -27,28 +31,36 @@ const indexFunctions = {
 	},
 	
 	postHome: async function(req, res) {
-		// insert the document
-		var obj = {
-			mainVal: req.body.a,
-			refID1: '1',
-			refID2: '2'
-		};
-		var result = await db.insertOne(Test, obj);
-		console.log(result ? 'inserted' : 'failed');
+//		// insert the document
+//		var obj = {
+//			mainVal: req.body.a,
+//			refID1: '1',
+//			refID2: '2'
+//		};
+//		var result = await db.insertOne(Test, obj);
+//		console.log(result ? 'inserted' : 'failed');
+//		
+//		// make the query
+//		var a = await db.findOne(Test, {refID1: '1', refID2: '2'});
+//		
+//		if (a) {
+//			// ID generation system
+//			var str = (a._id+"");
+//			// making use of _id (ObjectId)
+//			a.refID1 = str.substr(0, 12);
+//			a.refID2 = str.substr(12);
+//			
+//			// save the update/s and redirect
+//			await a.save();
+//		}
 		
-		// make the query
-		var a = await db.findOne(Test, {refID1: '1', refID2: '2'});
+//		// generating docs
+//		var docs = [];
+//		for (var i = 0; i < 20; i++) docs.push({mainVal: genDate()});
+//		await db.insertMany(Test, docs);
 		
-		if (a) {
-			// ID generation system
-			var str = (a._id+"");
-			// making use of _id (ObjectId)
-			a.refID1 = str.substr(0, 12);
-			a.refID2 = str.substr(12);
-			
-			// save the update/s and redirect
-			await a.save();
-		}
+		
+		
 		res.redirect('/');
 	}
 };
