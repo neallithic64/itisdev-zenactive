@@ -31,6 +31,11 @@ function Product (productID, name, price, size, color) {
 	this.size = size;
 	this.color = color;
 }
+function PaymentProof(buyOrdNo, paymentProof, referenceNo) {
+	this.buyOrdNo = buyOrdNo;
+	this.paymentProof = paymentProof;
+	this.referenceNo = referenceNo;
+}
 
 /* Backend Helper Functions
  */
@@ -295,7 +300,7 @@ const indexFunctions = {
 			//handle error: order not found
 		} else {
 			if (order.modeOfPay === 'bank transfer' || order.modeOfPay === 'GCash'){ //values of MOP to be verified 
-				var updateProof = await db.insertOne(PaymentProofDB, {buyOrdNo: order.buyOrdNo, paymentProof: payProof, referenceNo: referNo});
+				var updateProof = await db.insertOne(PaymentProofDB, new PaymentProof(order.buyOrdNo, payProof, referNo));
 				
 				if (updateProof){
 					// res.render/ redirect
