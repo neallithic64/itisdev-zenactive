@@ -12,6 +12,8 @@ router.get('/search-products', controller.getSearchProducts);
 router.get('/view-allproducts', controller.getAllProducts);
 router.get('/view-product', controller.getProduct);
 
+router.get('/view-orderStatus', controller.getOrderStatus);
+
 router.get('/view-buyorder', controller.getBuyOrder);
 router.get('/view-suppOrder', controller.getSuppOrder);
 router.get('/buyerOrders', controller.getBuyerOrders);

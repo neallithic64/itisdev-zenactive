@@ -143,7 +143,7 @@ const indexFunctions = {
 		
 		let prodQuery = new RegExp(req.query.searchProducts, 'gi'); // still convert input string to regex?
 		
-		var searchProd = await db.findMany(Product, {name: prodQuery}, ''); //search through 'productName'?
+		var searchProd = await db.findMany(ProductDB, {name: prodQuery}, ''); //search through 'productName'?
 		
 		if (!searchProd){
 			// error handling: no products found
@@ -158,7 +158,7 @@ const indexFunctions = {
 	getAllProducts: async function(req, res){
 		// use customer sessions w/ server error checking here
 
-		var products = await db.findMany(Product, {}, '');
+		var products = await db.findMany(ProductDB, {}, '');
 		
 		if (!products){
 			// error handling: no products
@@ -175,7 +175,7 @@ const indexFunctions = {
 		let {prodNo} = req.query;
 		
 		//view through productID
-		var prodMatch = await db.findOne(Product, {productID: prodNo}, '');
+		var prodMatch = await db.findOne(ProductDB, {productID: prodNo}, '');
 		
 		if (!prodMatch){
 			// error handling: no product found
@@ -252,6 +252,63 @@ const indexFunctions = {
  * by utilizing the tracking details from the partner courier. When items 
  * are cancelled, the reason for cancelling will also be displayed.
  */
+	getOrderStatus: async function(req, res){
+		// details will be displayed in the view order status page
+		let {orderNo} = req.query; //depends sa front end ano fields doon
+		
+		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
+		
+		if (!orderMatch){
+			// error handling
+		} else {
+			if (orderMatch.status === 'SHIPPED'){
+				
+          res.render('view-orderStatus', {
+            buyOrder: orderMatch
+          });	
+				
+			// details regarding their delivery will be sent through the buyer’s email	
+			// what details to send? 
+			// how to use helper function 'sendEmail'?
+			 
+			// sendEmail(orderMatch.email);
+			
+			} else {
+				// res.render('', {}); which page?
+			}
+		}
+	},
+
+/** Send Proof of Payment 
+ * 
+ * The buyer can submit proof of payment (for payments done through bank transfer and GCash) 
+ * through the order tracker. The buyer is given two days to submit this proof of payment 
+ * before the order is automatically cancelled from dormancy.
+ * 
+ */
+	postProofPayment: async function(req, res){
+		let {ordNo, payProof, referNo} = req.body;
+		
+		var order = await db.findOne(CustomerOrderDB, {buyOrdNo: ordNo}, '');
+		
+		if (!order){
+			//handle error: order not found
+		} else {
+			if (order.modeOfPay === 'bank transfer' || order.modeOfPay === 'GCash'){ //values of MOP to be verified 
+				var updateProof = await db.insertOne(PaymentProofDB, {buyOrdNo: order.buyOrdNo, paymentProof: payProof, referenceNo: referNo});
+				
+				if (updateProof){
+					// res.render/ redirect
+				} else {
+					// handle error: server error or idk amp
+				}
+				
+			} else {
+				// handle error: MOP is cash or...
+			}
+		}
+		
+	},
 
 /* Manage Inventory --
  * 
@@ -270,8 +327,8 @@ const indexFunctions = {
  * WHERE p.productID = req.query.text
  */
 
-	getJoinedQuery: async function(req, res) {
-		var query = await db.aggregate('Product', [
+	getJoinedQuery: async function(req, res){
+		var query = await db.aggregate(Product, [
 			{'$match': {productID: req.query.text}},
 			{'$lookup': {
 				'from': 'ProdCategory',
@@ -301,7 +358,7 @@ const indexFunctions = {
 			// how to deal with adding quantity?
 			let {productID, name, price, size, color, categName, photoLink} = req.body;
 
-			var prodFind = await db.findOne(Product, {productID: productID});
+			var prodFind = await db.findOne(ProductDB, {productID: productID});
 
 			if (prodFind) {
 				// handle error: product exists in db
@@ -361,7 +418,7 @@ const indexFunctions = {
 		// retrieve list of products
 		// ask admin to choose which to put in categ
 	}
-
+	
 };
 
 module.exports = indexFunctions;

@@ -55,7 +55,7 @@ const database = {
 		}
 	},
 	
-	updateOne: async function(model, filter, update) {
+	updateOne: async function(model, filter, update) { //model, filter (similar to "find"), update (what to update)
 		try {
 			var result = await model.updateOne(filter, update);
 			console.log('Document modified: ' + result.nModified);
