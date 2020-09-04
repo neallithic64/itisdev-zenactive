@@ -274,6 +274,37 @@ const indexFunctions = {
 		}
 	},
 
+/** Send Proof of Payment 
+ * 
+ * The buyer can submit proof of payment (for payments done through bank transfer and GCash) 
+ * through the order tracker. The buyer is given two days to submit this proof of payment 
+ * before the order is automatically cancelled from dormancy.
+ * 
+ */
+	postProofPayment: async function(req, res){
+		let {ordNo, payProof} = req.body;
+		
+		var order = await db.findOne(CustomerOrder, {buyOrdNo: ordNo}, '');
+		
+		if (!order){
+			//handle error: order not found
+		} else {
+			if (order.modeOfPay === 'bank transfer' || order.modeOfPay === 'GCash'){ //values of MOP to be verified 
+				var updateProof = await db.updateOne(PaymentProof, {buyOrdNo: order.buyOrdNo}, {paymentProof: payProof});
+				
+				if (!updateProof){
+					// handle error: server error or idk amp
+				} else {
+					// res.render/ redirect
+				}
+				
+			} else {
+				// handle error: MOP is cash or...
+			}
+		}
+		
+	},
+
 /** Manage Inventory --
  * 
  * The admin/seller can add products or edit existing products 
@@ -292,7 +323,7 @@ const indexFunctions = {
  */
 
 	getJoinedQuery: async function(req, res){
-		var query = await db.aggregate('Product', [
+		var query = await db.aggregate(Product, [
 			{'$match': {productID: req.query.text}},
 			{'$lookup': {
 				'from': 'ProdCategory',
@@ -383,7 +414,7 @@ const indexFunctions = {
 		//ask admin to choose which to put in categ
 		
 	}
-
+	
 };
 
 module.exports = indexFunctions;
