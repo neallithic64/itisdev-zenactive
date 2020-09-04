@@ -18,7 +18,7 @@ router.get('/buyerOrders', controller.getBuyerOrders);
 router.get('/supplierOrders', controller.getSupplierOrders);
 //router.get('', );
 
-router.post('/', test.postHome);
+router.post('/', test.postDoublePK);
 //router.post('', );
 
 module.exports = router;
