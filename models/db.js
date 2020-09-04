@@ -5,6 +5,7 @@ const options = {
 	useUnifiedTopology: true,
 	useNewUrlParser: true
 };
+mongoose.set('useCreateIndex', true);
 
 const database = {
 	connect: async function() {
@@ -32,6 +33,7 @@ const database = {
 			console.log('Added ' + result);
 			return true;
 		} catch (e) {
+			console.log(e);
 			return false;
 		}
 	},

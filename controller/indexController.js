@@ -8,22 +8,23 @@ const saltRounds = 10;
 /* Accessing the models (db) of each class
  */
 const db = require('../models/db');
-const Admin = require('../models/Admin');
-const CancelReason = require('../models/CancelReason');
-const Category = require('../models/Category');
-const Customer = require('../models/Customer');
-const CustomerCart = require('../models/CustomerCart');
-// const CustomerOrder = require('../models/CustomerOrder');
-const PageView = require('../models/PageView');
-const ProdCategory = require('../models/ProdCategory');
-const ProdPhoto = require('../models/ProdPhoto');
-const Product = require('../models/Product');
-const SupplierCart = require('../models/SupplierCart');
-const SupplierOrder = require('../models/SupplierOrder');
-const Threshold = require('../models/Threshold');
+const AdminDB = require('../models/Admin');
+const CancelReasonDB = require('../models/CancelReason');
+const CategoryDB = require('../models/Category');
+const CustomerDB = require('../models/Customer');
+const CustomerCartDB = require('../models/CustomerCart');
+const CustomerOrderDB = require('../models/CustomerOrder');
+const PaymentProofDB = require('../models/PaymentProof');
+const PageViewDB = require('../models/PageView');
+const ProdCategoryDB = require('../models/ProdCategory');
+const ProdPhotoDB = require('../models/ProdPhoto');
+const ProductDB = require('../models/Product');
+const SupplierCartDB = require('../models/SupplierCart');
+const SupplierOrderDB = require('../models/SupplierOrder');
+const ThresholdDB = require('../models/Threshold');
 
 /* Object constructors */
-function Product (productID, name, price, size, color){
+function Product (productID, name, price, size, color) {
 	this.productID = productID;
 	this.name = name;
 	this.price = price;
@@ -63,11 +64,15 @@ function sendEmail(email) {
 	});
 }
 
+function genBuyOrdNo() {
+	return Number.parseInt((new Date()).toISOString().substr(2, 8).split('-').join('') + Math.round(Math.random()*100000).toString().padStart(5, '0'));
+}
+
 /* Index Functions
  */
 const indexFunctions = {
 	getHome: function(req, res) {
-		if (req.session.logUser) {
+		if (req.session.admin) {
 			res.render('home', {
 				title: '',
 				message: 'henlo'
@@ -75,8 +80,8 @@ const indexFunctions = {
 		}
 	},
 	
-	getLogin: function(req, res) {		
-		if (req.session.logUser) {
+	getLogin: function(req, res) {
+		if (req.session.admin) {
 			res.redirect('/'); // or whichever path for admin homepage
 		} else {
 			res.render('login', {});
@@ -87,7 +92,7 @@ const indexFunctions = {
 		let {email, password} =  req.body;
 		
 		try {
-			var admin = await db.findOne(Admin, {email: email}, '');
+			var admin = await db.findOne(AdminDB, {email: email}, '');
 
 			if (!admin) {
 				// credentials not found error handling-- res.send({status: 401});
@@ -95,7 +100,7 @@ const indexFunctions = {
 				var match = await bcrypt.compare(password, admin.password);	
 				
 				if (match) {
-					req.session.logUser = admin;
+					req.session.admin = admin;
 					res.redirect('/');
 					// res.send({status: 200});
 				} else {
@@ -116,7 +121,7 @@ const indexFunctions = {
 		let {email, password} = req.body;
 		
 		var adminPass = await bcrypt.hash(password, saltRounds);	
-		var adminInsert = await db.insertOne(Admin, {email: email, password: adminPass});
+		var adminInsert = await db.insertOne(AdminDB, {email: email, password: adminPass});
 			
 		if (!adminInsert) {
 			// error handling
@@ -138,7 +143,7 @@ const indexFunctions = {
 		
 		let prodQuery = new RegExp(req.query.searchProducts, 'gi'); // still convert input string to regex?
 		
-		var searchProd = await db.findMany(Product, {name: prodQuery}, ''); //search through 'productName'?
+		var searchProd = await db.findMany(ProductDB, {name: prodQuery}, ''); //search through 'productName'?
 		
 		if (!searchProd){
 			// error handling: no products found
@@ -153,7 +158,7 @@ const indexFunctions = {
 	getAllProducts: async function(req, res){
 		// use customer sessions w/ server error checking here
 
-		var products = await db.findMany(Product, {}, '');
+		var products = await db.findMany(ProductDB, {}, '');
 		
 		if (!products){
 			// error handling: no products
@@ -170,7 +175,7 @@ const indexFunctions = {
 		let {prodNo} = req.query;
 		
 		//view through productID
-		var prodMatch = await db.findOne(Product, {productID: prodNo}, '');
+		var prodMatch = await db.findOne(ProductDB, {productID: prodNo}, '');
 		
 		if (!prodMatch){
 			// error handling: no product found
@@ -191,7 +196,7 @@ const indexFunctions = {
 	getBuyOrder: async function(req, res){
 		let {orderNo} = req.query;
 		
-		var orderMatch = await db.findOne(CustomerOrder, {buyOrdNo: orderNo}, '');
+		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
 		
 		if (!orderMatch){
 			//error handling
@@ -205,7 +210,7 @@ const indexFunctions = {
 	getSuppOrder: async function(req, res){
 		let {orderNo} = req.query;
 		
-		var orderMatch = await db.findOne(SupplierOrder, {batchID: orderNo}, '');
+		var orderMatch = await db.findOne(SupplierOrderDB, {batchID: orderNo}, '');
 		
 		if (!orderMatch){
 			//error handling
@@ -217,9 +222,9 @@ const indexFunctions = {
 	},
 
 	getBuyerOrders: async function (req, res) {
-		var buyOrders = await db.findMany(CustomerOrder, {}, '');
+		var buyOrders = await db.findMany(CustomerOrderDB, {}, '');
 		
-		if (!buyOrders){
+		if (!buyOrders) {
 			// error handling
 		} else {
 			res.render('buyerOrders', {
@@ -228,11 +233,11 @@ const indexFunctions = {
 		}
 	}, 
 	
-	getSupplierOrders: async function (req, res){
-		var suppOrders = await db.findMany(SupplierOrder, {}, '');
+	getSupplierOrders: async function (req, res) {
+		var suppOrders = await db.findMany(SupplierOrderDB, {}, '');
 		
-		if (!suppOrders){
-			//error handling
+		if (!suppOrders) {
+			// error handling
 		} else {
 			res.render('supplierOrders', {
 				supplierOrders: suppOrders
@@ -251,16 +256,16 @@ const indexFunctions = {
 		// details will be displayed in the view order status page
 		let {orderNo} = req.query; //depends sa front end ano fields doon
 		
-		var orderMatch = await db.findOne(CustomerOrder, {buyOrdNo: orderNo}, '');
+		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
 		
 		if (!orderMatch){
 			// error handling
 		} else {
 			if (orderMatch.status === 'SHIPPED'){
 				
-			res.render('view-orderStatus', {
-				buyOrder: orderMatch
-			});	
+          res.render('view-orderStatus', {
+            buyOrder: orderMatch
+          });	
 				
 			// details regarding their delivery will be sent through the buyer’s email	
 			// what details to send? 
@@ -282,20 +287,20 @@ const indexFunctions = {
  * 
  */
 	postProofPayment: async function(req, res){
-		let {ordNo, payProof} = req.body;
+		let {ordNo, payProof, referNo} = req.body;
 		
-		var order = await db.findOne(CustomerOrder, {buyOrdNo: ordNo}, '');
+		var order = await db.findOne(CustomerOrderDB, {buyOrdNo: ordNo}, '');
 		
 		if (!order){
 			//handle error: order not found
 		} else {
 			if (order.modeOfPay === 'bank transfer' || order.modeOfPay === 'GCash'){ //values of MOP to be verified 
-				var updateProof = await db.updateOne(PaymentProof, {buyOrdNo: order.buyOrdNo}, {paymentProof: payProof});
+				var updateProof = await db.insertOne(PaymentProofDB, {buyOrdNo: order.buyOrdNo, paymentProof: payProof, referenceNo: referNo});
 				
-				if (!updateProof){
-					// handle error: server error or idk amp
-				} else {
+				if (updateProof){
 					// res.render/ redirect
+				} else {
+					// handle error: server error or idk amp
 				}
 				
 			} else {
@@ -305,7 +310,7 @@ const indexFunctions = {
 		
 	},
 
-/** Manage Inventory --
+/* Manage Inventory --
  * 
  * The admin/seller can add products or edit existing products 
  * with their corresponding pictures, details and colors. Since 
@@ -339,35 +344,35 @@ const indexFunctions = {
 			}}
 		]);
 		
-		if (!query){
-			//handle error
+		if (!query) {
+			// handle error
 		} else {
-			return res;
+			return query;
 		}
 	},
 	
-	addProduct: async function(req, res){
+	addProduct: async function(req, res) {
 		try {
 			var product = await getJoinedQuery();
 
 			// how to deal with adding quantity?
 			let {productID, name, price, size, color, categName, photoLink} = req.body;
 
-			var prodFind = await db.findOne(Product, {productID: productID});
+			var prodFind = await db.findOne(ProductDB, {productID: productID});
 
-			if (prodFind){
+			if (prodFind) {
 				// handle error: product exists in db
 			} else {
-				var prodInsert = await db.insertOne(Product, {productID: productID});
-				var categInsert = await db.insertOne(ProdCategory, {productID: productID});
-				var photoInsert = await db.insertOne(ProdPhoto, {productID: productID});
+				var prodInsert = await db.insertOne(ProductDB, {productID: productID});
+				var categInsert = await db.insertOne(ProdCategoryDB, {productID: productID});
+				var photoInsert = await db.insertOne(ProdPhotoDB, {productID: productID});
 			}
-		} catch (e){
+		} catch (e) {
 			// error handling
 		}
 	},
 	
-	editProduct: async function(req, res){
+	editProduct: async function(req, res) {
 		try {
 //			var product = await getJoinedQuery();
 
@@ -375,44 +380,43 @@ const indexFunctions = {
 			let {productID, name, price, size, color, categName, photoLink} = req.body;
 			var updateProd = new Product(productID, name, price, size, color);
 			
-			var prodFind = await db.findOne(Product, {productID: productID});
+			var prodFind = await db.findOne(ProductDB, {productID: productID});
 
-			if (!prodFind){
+			if (!prodFind) {
 				// handle error: cannot edit product that does not exist
 			} else {
-				await db.updateOne(Product, {productID: productID}, updateProd);
-//				await db.updateOne(ProdCategory, {productID: productID}, {categName: categName});
-//				await db.updateOne(ProdPhoto, {productID: productID}, {photoLink: photoLink});
+				await db.updateOne(ProductDB, {productID: productID}, updateProd);
+//				await db.updateOne(ProdCategoryDB, {productID: productID}, {categName: categName});
+//				await db.updateOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink});
 			}	
-		} catch (e){
+		} catch (e) {
 			// error handling
 		}
 	},
 	
 	
-/** The admin may choose to create a new category that products may be labelled under.
+/* The admin may choose to create a new category that products may be labelled under.
  */
-	addProductCateg: async function(req, res){
+	addProductCateg: async function(req, res) {
 		let {categName} = req.body;
 		
-		var categFind = await db.findOne(Category, {categName: categName});
+		var categFind = await db.findOne(CategoryDB, {categName: categName});
 		
-		if (categFind){
+		if (categFind) {
 			// handle error: category exists in db
 		} else {
-			var categInsert = await db.insertOne(Category, {categName: categFind});
+			var categInsert = await db.insertOne(CategoryDB, {categName: categFind});
 			
-			if (!categInsert){
+			if (!categInsert) {
 				// handle error
 			} else {
-				//categ added; redirect to page
+				// categ added; redirect to page
 			}
 		}
 		
-		//when and what is the flow to add products in this category? --make as separate function
-		//retrieve list of products
-		//ask admin to choose which to put in categ
-		
+		// when and what is the flow to add products in this category? --make as separate function
+		// retrieve list of products
+		// ask admin to choose which to put in categ
 	}
 	
 };
