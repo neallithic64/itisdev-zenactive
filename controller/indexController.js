@@ -23,19 +23,7 @@ const SupplierCartDB = require('../models/SupplierCart');
 const SupplierOrderDB = require('../models/SupplierOrder');
 const ThresholdDB = require('../models/Threshold');
 
-/* Object constructors */
-function Product (productID, name, price, size, color) {
-	this.productID = productID;
-	this.name = name;
-	this.price = price;
-	this.size = size;
-	this.color = color;
-}
-function PaymentProof(buyOrdNo, paymentProof, referenceNo) {
-	this.buyOrdNo = buyOrdNo;
-	this.paymentProof = paymentProof;
-	this.referenceNo = referenceNo;
-}
+const constructors = require('./constructors');
 
 /* Backend Helper Functions
  */
@@ -284,7 +272,7 @@ const indexFunctions = {
 		}
 	},
 
-/** Send Proof of Payment 
+/* Send Proof of Payment 
  * 
  * The buyer can submit proof of payment (for payments done through bank transfer and GCash) 
  * through the order tracker. The buyer is given two days to submit this proof of payment 
@@ -300,7 +288,7 @@ const indexFunctions = {
 			//handle error: order not found
 		} else {
 			if (order.modeOfPay === 'bank transfer' || order.modeOfPay === 'GCash'){ //values of MOP to be verified 
-				var updateProof = await db.insertOne(PaymentProofDB, new PaymentProof(order.buyOrdNo, payProof, referNo));
+				var updateProof = await db.insertOne(PaymentProofDB, new constructors.PaymentProof(order.buyOrdNo, payProof, referNo));
 				
 				if (updateProof){
 					// res.render/ redirect
@@ -383,7 +371,7 @@ const indexFunctions = {
 
 			// how to deal with updating prod quantity?
 			let {productID, name, price, size, color, categName, photoLink} = req.body;
-			var updateProd = new Product(productID, name, price, size, color);
+			var updateProd = new constructors.Product(productID, name, price, size, color);
 			
 			var prodFind = await db.findOne(ProductDB, {productID: productID});
 
