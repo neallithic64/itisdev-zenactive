@@ -1,4 +1,9 @@
 const objConstructors = {
+	Admin: function (email, password) {
+		this.email = email;
+		this.password = password;
+	},
+	
 	Product: function (productID, name, price, size, color) {
 		this.productID = productID;
 		this.name = name;

@@ -61,6 +61,28 @@ function genBuyOrdNo() {
 	return Number.parseInt((new Date()).toISOString().substr(2, 8).split('-').join('') + Math.round(Math.random()*100000).toString().padStart(5, '0'));
 }
 
+function forceJSON(e) {
+	return JSON.parse(JSON.stringify(e));
+}
+
+async function getJoinedQuery(prodID) {
+	return await db.aggregate(ProductDB, [
+		{'$match': {productID: prodID}},
+		{'$lookup': {
+			'from': 'ProdCategory',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'prodCateg'
+		}},
+		{'$lookup': {
+			'from': 'ProdPhoto',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'prodPhoto'
+		}}
+	]);
+}
+
 /* Index Functions
  */
 const indexFunctions = {
@@ -77,7 +99,15 @@ const indexFunctions = {
 		if (req.session.admin) {
 			res.redirect('/'); // or whichever path for admin homepage
 		} else {
-			res.render('login', {});
+			res.render('login');
+		}
+	},
+	
+	getRegister: function(req, res) {
+		if (req.session.admin) {
+			res.redirect('/'); // or whichever path for admin homepage
+		} else {
+			res.render('register');
 		}
 	},
 	
@@ -89,11 +119,13 @@ const indexFunctions = {
 
 			if (!admin) {
 				// credentials not found error handling-- res.send({status: 401});
+				res.send('wrong creds');
 			} else {
 				var match = await bcrypt.compare(password, admin.password);	
 				
 				if (match) {
 					req.session.admin = admin;
+					console.log(req.session);
 					res.redirect('/');
 					// res.send({status: 200});
 				} else {
@@ -113,8 +145,8 @@ const indexFunctions = {
 	postRegister: async function(req, res) {
 		let {email, password} = req.body;
 		
-		var adminPass = await bcrypt.hash(password, saltRounds);	
-		var adminInsert = await db.insertOne(AdminDB, {email: email, password: adminPass});
+		var adminPass = await bcrypt.hash(password, saltRounds);
+		var adminInsert = await db.insertOne(AdminDB, new constructors.Admin(email, adminPass));
 			
 		if (!adminInsert) {
 			// error handling
@@ -130,47 +162,33 @@ const indexFunctions = {
  * [..] View All Products
  * [] View One Product
  * 
- */	
-	getSearchProducts: async function(req, res){
-		// use customer sessions w/ server error checking here
-		
+ */
+	getSearchProducts: async function(req, res) {
+		// use server error checking here
 		let prodQuery = new RegExp(req.query.searchProducts, 'gi'); // still convert input string to regex?
-		
 		var searchProd = await db.findMany(ProductDB, {name: prodQuery}, ''); //search through 'productName'?
 		
-		if (!searchProd){
-			// error handling: no products found
-			
-		} else {
-			res.render('search-products', {
-				products: searchProd
-			});
-		}
+		res.render('search-products', {
+			products: forceJSON(searchProd)
+		});
 	},
 	
 	getAllProducts: async function(req, res){
-		// use customer sessions w/ server error checking here
-
+		// use server error checking here
 		var products = await db.findMany(ProductDB, {}, '');
 		
-		if (!products){
-			// error handling: no products
-		} else {
-			res.render('view-allproducts', {
-				allProducts: products
-			});
-		}
+		res.render('view-allproducts', {
+			allProducts: products
+		});
 	},
 
 	getProduct: async function(req, res){
-		// use customer sessions w/ server error checking here
+		// use server error checking here
 		
-		let {prodNo} = req.query;
+		// view through productID
+		var prodMatch = await db.findOne(ProductDB, {productID: req.query.prodNo}, '');
 		
-		//view through productID
-		var prodMatch = await db.findOne(ProductDB, {productID: prodNo}, '');
-		
-		if (!prodMatch){
+		if (!prodMatch) {
 			// error handling: no product found
 		} else {
 			res.render('view-product', {
@@ -320,39 +338,11 @@ const indexFunctions = {
  * WHERE p.productID = req.query.text
  */
 
-	getJoinedQuery: async function(req, res){
-		var query = await db.aggregate(Product, [
-			{'$match': {productID: req.query.text}},
-			{'$lookup': {
-				'from': 'ProdCategory',
-				'localField': 'productID',
-				'foreignField': 'productID',
-				'as': 'prodCateg'
-			}},
-			{'$lookup': {
-				'from': 'ProdPhoto',
-				'localField': 'productID',
-				'foreignField': 'productID',
-				'as': 'prodPhoto'
-			}}
-		]);
-		
-		if (!query) {
-			// handle error
-		} else {
-			return query;
-		}
-	},
-	
-	addProduct: async function(req, res) {
+	postAddProduct: async function(req, res) {
 		try {
-			var product = await getJoinedQuery();
-
-			// how to deal with adding quantity?
 			let {productID, name, price, size, color, categName, photoLink} = req.body;
-
-			var prodFind = await db.findOne(ProductDB, {productID: productID});
-
+			var prodFind = await getJoinedQuery(productID);
+			
 			if (prodFind) {
 				// handle error: product exists in db
 			} else {
@@ -365,22 +355,19 @@ const indexFunctions = {
 		}
 	},
 	
-	editProduct: async function(req, res) {
+	postEditProduct: async function(req, res) {
 		try {
-//			var product = await getJoinedQuery();
-
 			// how to deal with updating prod quantity?
 			let {productID, name, price, size, color, categName, photoLink} = req.body;
+			var prodFind = await getJoinedQuery(productID);
 			var updateProd = new constructors.Product(productID, name, price, size, color);
 			
-			var prodFind = await db.findOne(ProductDB, {productID: productID});
-
 			if (!prodFind) {
 				// handle error: cannot edit product that does not exist
 			} else {
 				await db.updateOne(ProductDB, {productID: productID}, updateProd);
-//				await db.updateOne(ProdCategoryDB, {productID: productID}, {categName: categName});
-//				await db.updateOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink});
+				await db.updateOne(ProdCategoryDB, {productID: productID}, {categName: categName});
+				await db.updateOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink});
 			}	
 		} catch (e) {
 			// error handling
@@ -390,15 +377,14 @@ const indexFunctions = {
 	
 /* The admin may choose to create a new category that products may be labelled under.
  */
-	addProductCateg: async function(req, res) {
+	postAddProductCateg: async function(req, res) {
 		let {categName} = req.body;
-		
 		var categFind = await db.findOne(CategoryDB, {categName: categName});
 		
 		if (categFind) {
 			// handle error: category exists in db
 		} else {
-			var categInsert = await db.insertOne(CategoryDB, {categName: categFind});
+			var categInsert = await db.insertOne(CategoryDB, {categName: categName});
 			
 			if (!categInsert) {
 				// handle error
