@@ -158,9 +158,9 @@ const indexFunctions = {
 	
 /* Buying Process functions
  * 
- * [..] Search Products
- * [..] View All Products
- * [] View One Product
+ * [/] Search Products
+ * [/] View All Products
+ * [/] View One Product
  * 
  */
 	getSearchProducts: async function(req, res) {
@@ -319,6 +319,45 @@ const indexFunctions = {
 			}
 		}
 		
+	},
+	
+/* Validate Payment
+ * 
+ * The seller receives the proof of payment from the buyer and 
+ * updates the status of the order.
+ * 
+ */
+	getValidPayment: async function(req, res){
+		// seller inputs orderNo to search in the db
+		var buyOrder = await db.aggregate(CustomerOrderDB, [
+			{'$match': {buyOrdNo: req.query.text}},
+			{'$lookup': {
+				'from': 'PaymentProof',
+				'localField': 'buyOrdNo',
+				'foreignField': 'buyOrdNo',
+				'as': 'paymentProof'
+			}}
+		]);
+		
+		// retrieve payProof (url/pic) & reference order, for seller to check
+		res.render('', {
+			ordNo: buyOrder.buyOrdNo,
+			payProof: buyOrder.paymentProof
+		});		
+	},
+
+	postValidPayment: async function(req, res){
+		// possibly AJAX: update order status depending on what seller chooses in front end (dropdown?)
+		let {orderNo, orderStatus} = req.body;
+
+		var updateStatus = await db.updateOne(CustomerOrderDB, {buyOrdNo: orderNo}, {status: orderStatus});
+
+		if (!updateStatus){
+			// handle error
+		} else {
+			// possiblly AJAX instead idk
+		}
+
 	},
 
 /* Manage Inventory --
