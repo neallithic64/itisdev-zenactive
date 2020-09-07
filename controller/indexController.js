@@ -260,9 +260,23 @@ const indexFunctions = {
 		// details will be displayed in the view order status page
 		
 		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: req.query.orderNo}, '');
-		res.render('view-orderStatus', {
-			buyOrder: orderMatch
-		});
+		
+		if (orderMatch.status === 'CANCELLED'){
+			var cancelMatch = await db.findOne(CancelReasonDB, {buyOrdNo: req.query.orderNo}, '');
+
+			if (cancelMatch){
+				res.render('', {
+					buyOrder: orderMatch,
+					cancelReason: cancelMatch
+				});
+			}
+
+		} else {
+			res.render('view-orderStatus', {
+				buyOrder: orderMatch
+			});
+		}
+
 	},
 
 /* Update Order Status --
@@ -273,17 +287,22 @@ const indexFunctions = {
  * are cancelled, the reason for cancelling will also be displayed.
  */
 	postOrderStatus: async function(req, res) {
-		// details regarding their delivery will be sent through the buyer’s email
-		// what details to send? 
-		// how to use helper function 'sendEmail'?
-		// sendEmail(orderMatch.email);
-		// depends sa front end ano fields doon
+
+		let {orderNo, cancelRsn} = req.body;
+		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
+
+		if (orderMatch.status === 'SHIPPED'){
+			// details regarding their delivery will be sent through the buyer’s email
+			// what details to send? 
+			// how to use helper function 'sendEmail'?
+			// sendEmail(orderMatch.email);        
 		
-		
-		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: req.query.orderNo}, '');
-		res.render('view-orderStatus', {
-			buyOrder: orderMatch
-		});
+		} else if (orderMatch.status === 'CANCELLED'){
+			await db.insertOne(CancelReasonDB, {buyOrdNo: orderNo, cancelReason: cancelRsn});
+			
+		} else {
+			// render smthn
+		}
 	},
 
 /* Send Proof of Payment 
