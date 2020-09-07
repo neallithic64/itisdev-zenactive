@@ -116,13 +116,11 @@ const indexFunctions = {
 		
 		try {
 			var admin = await db.findOne(AdminDB, {email: email}, '');
-
 			if (!admin) {
 				// credentials not found error handling-- res.send({status: 401});
 				res.send('wrong creds');
 			} else {
-				var match = await bcrypt.compare(password, admin.password);	
-				
+				var match = await bcrypt.compare(password, admin.password);
 				if (match) {
 					req.session.admin = admin;
 					console.log(req.session);
@@ -144,7 +142,6 @@ const indexFunctions = {
 	
 	postRegister: async function(req, res) {
 		let {email, password} = req.body;
-		
 		var adminPass = await bcrypt.hash(password, saltRounds);
 		var adminInsert = await db.insertOne(AdminDB, new constructors.Admin(email, adminPass));
 			
@@ -173,7 +170,7 @@ const indexFunctions = {
 		});
 	},
 	
-	getAllProducts: async function(req, res){
+	getAllProducts: async function(req, res) {
 		// use server error checking here
 		var products = await db.findMany(ProductDB, {}, '');
 		
@@ -182,9 +179,8 @@ const indexFunctions = {
 		});
 	},
 
-	getProduct: async function(req, res){
+	getProduct: async function(req, res) {
 		// use server error checking here
-		
 		// view through productID
 		var prodMatch = await db.findOne(ProductDB, {productID: req.query.prodNo}, '');
 		
@@ -204,12 +200,11 @@ const indexFunctions = {
  * 
  */
 
-	getBuyOrder: async function(req, res){
+	getBuyOrder: async function(req, res) {
 		let {orderNo} = req.query;
-		
 		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
 		
-		if (!orderMatch){
+		if (!orderMatch) {
 			//error handling
 		} else {
 			res.render('view-buyOrder', {
@@ -218,12 +213,11 @@ const indexFunctions = {
 		}
 	},
 
-	getSuppOrder: async function(req, res){
+	getSuppOrder: async function(req, res) {
 		let {orderNo} = req.query;
-		
 		var orderMatch = await db.findOne(SupplierOrderDB, {batchID: orderNo}, '');
 		
-		if (!orderMatch){
+		if (!orderMatch) {
 			//error handling
 		} else {
 			res.render('view-suppOrder', {
@@ -258,32 +252,28 @@ const indexFunctions = {
 
 /* Update Order Status --
  * 
- * When items are shipped, details regarding their delivery will be sent 
- * through the buyer’s email and displayed in the view order status page, 
- * by utilizing the tracking details from the partner courier. When items 
+ * When items are shipped, details regarding their delivery will be sent
+ * through the buyer’s email and displayed in the view order status page,
+ * by utilizing the tracking details from the partner courier. When items
  * are cancelled, the reason for cancelling will also be displayed.
  */
-	getOrderStatus: async function(req, res){
+	getOrderStatus: async function(req, res) {
 		// details will be displayed in the view order status page
 		let {orderNo} = req.query; //depends sa front end ano fields doon
 		
 		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
 		
-		if (!orderMatch){
+		if (!orderMatch) {
 			// error handling
 		} else {
-			if (orderMatch.status === 'SHIPPED'){
-				
-          res.render('view-orderStatus', {
-            buyOrder: orderMatch
-          });	
-				
-			// details regarding their delivery will be sent through the buyer’s email	
-			// what details to send? 
-			// how to use helper function 'sendEmail'?
-			 
-			// sendEmail(orderMatch.email);
-			
+			if (orderMatch.status === 'SHIPPED') {
+				res.render('view-orderStatus', {
+					buyOrder: orderMatch
+				});
+				// details regarding their delivery will be sent through the buyer’s email
+				// what details to send? 
+				// how to use helper function 'sendEmail'?
+				// sendEmail(orderMatch.email);
 			} else {
 				// res.render('', {}); which page?
 			}
@@ -297,23 +287,21 @@ const indexFunctions = {
  * before the order is automatically cancelled from dormancy.
  * 
  */
-	postProofPayment: async function(req, res){
+	postProofPayment: async function(req, res) {
 		let {ordNo, payProof, referNo} = req.body;
-		
 		var order = await db.findOne(CustomerOrderDB, {buyOrdNo: ordNo}, '');
 		
-		if (!order){
+		if (!order) {
 			//handle error: order not found
 		} else {
-			if (order.modeOfPay === 'bank transfer' || order.modeOfPay === 'GCash'){ //values of MOP to be verified 
+			if (order.modeOfPay === 'bank transfer' || order.modeOfPay === 'GCash') { //values of MOP to be verified 
 				var updateProof = await db.insertOne(PaymentProofDB, new constructors.PaymentProof(order.buyOrdNo, payProof, referNo));
 				
-				if (updateProof){
+				if (updateProof) {
 					// res.render/ redirect
 				} else {
 					// handle error: server error or idk amp
 				}
-				
 			} else {
 				// handle error: MOP is cash or...
 			}
@@ -327,7 +315,7 @@ const indexFunctions = {
  * updates the status of the order.
  * 
  */
-	getValidPayment: async function(req, res){
+	getValidPayment: async function(req, res) {
 		// seller inputs orderNo to search in the db
 		var buyOrder = await db.aggregate(CustomerOrderDB, [
 			{'$match': {buyOrdNo: req.query.text}},
@@ -343,16 +331,15 @@ const indexFunctions = {
 		res.render('', {
 			ordNo: buyOrder.buyOrdNo,
 			payProof: buyOrder.paymentProof
-		});		
+		});
 	},
 
-	postValidPayment: async function(req, res){
+	postValidPayment: async function(req, res) {
 		// possibly AJAX: update order status depending on what seller chooses in front end (dropdown?)
 		let {orderNo, orderStatus} = req.body;
-
 		var updateStatus = await db.updateOne(CustomerOrderDB, {buyOrdNo: orderNo}, {status: orderStatus});
 
-		if (!updateStatus){
+		if (!updateStatus) {
 			// handle error
 		} else {
 			// possiblly AJAX instead idk
@@ -385,9 +372,9 @@ const indexFunctions = {
 			if (prodFind) {
 				// handle error: product exists in db
 			} else {
-				var prodInsert = await db.insertOne(ProductDB, {productID: productID});
-				var categInsert = await db.insertOne(ProdCategoryDB, {productID: productID});
-				var photoInsert = await db.insertOne(ProdPhotoDB, {productID: productID});
+				await db.insertOne(ProductDB, {productID: productID});
+				await db.insertOne(ProdCategoryDB, {productID: productID});
+				await db.insertOne(ProdPhotoDB, {productID: productID});
 			}
 		} catch (e) {
 			// error handling
@@ -407,7 +394,7 @@ const indexFunctions = {
 				await db.updateOne(ProductDB, {productID: productID}, updateProd);
 				await db.updateOne(ProdCategoryDB, {productID: productID}, {categName: categName});
 				await db.updateOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink});
-			}	
+			}
 		} catch (e) {
 			// error handling
 		}
@@ -424,7 +411,6 @@ const indexFunctions = {
 			// handle error: category exists in db
 		} else {
 			var categInsert = await db.insertOne(CategoryDB, {categName: categName});
-			
 			if (!categInsert) {
 				// handle error
 			} else {
@@ -436,7 +422,6 @@ const indexFunctions = {
 		// retrieve list of products
 		// ask admin to choose which to put in categ
 	}
-	
 };
 
 module.exports = indexFunctions;
