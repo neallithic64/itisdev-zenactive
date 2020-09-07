@@ -250,6 +250,21 @@ const indexFunctions = {
 		}
 	},
 
+/* View Order Status
+ * 
+ * Buyers may choose to view their order’s status to track where
+ * it is currently (PENDING, CONFIRMED, IN TRANSIT (supplier to
+ * seller), SHIPPED (seller to buyer), CANCELLED (by the seller)).
+ */
+	getOrderStatus: async function(req, res) {
+		// details will be displayed in the view order status page
+		
+		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: req.query.orderNo}, '');
+		res.render('view-orderStatus', {
+			buyOrder: orderMatch
+		});
+	},
+
 /* Update Order Status --
  * 
  * When items are shipped, details regarding their delivery will be sent
@@ -257,27 +272,18 @@ const indexFunctions = {
  * by utilizing the tracking details from the partner courier. When items
  * are cancelled, the reason for cancelling will also be displayed.
  */
-	getOrderStatus: async function(req, res) {
-		// details will be displayed in the view order status page
-		let {orderNo} = req.query; //depends sa front end ano fields doon
+	postOrderStatus: async function(req, res) {
+		// details regarding their delivery will be sent through the buyer’s email
+		// what details to send? 
+		// how to use helper function 'sendEmail'?
+		// sendEmail(orderMatch.email);
+		// depends sa front end ano fields doon
 		
-		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
 		
-		if (!orderMatch) {
-			// error handling
-		} else {
-			if (orderMatch.status === 'SHIPPED') {
-				res.render('view-orderStatus', {
-					buyOrder: orderMatch
-				});
-				// details regarding their delivery will be sent through the buyer’s email
-				// what details to send? 
-				// how to use helper function 'sendEmail'?
-				// sendEmail(orderMatch.email);
-			} else {
-				// res.render('', {}); which page?
-			}
-		}
+		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: req.query.orderNo}, '');
+		res.render('view-orderStatus', {
+			buyOrder: orderMatch
+		});
 	},
 
 /* Send Proof of Payment 
