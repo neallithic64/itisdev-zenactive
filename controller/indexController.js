@@ -294,14 +294,14 @@ const indexFunctions = {
  * 
  */
 	postProofPayment: async function(req, res) {
-		let {ordNo, payProof, referNo} = req.body;
+		let {ordNo, payProof, referNo, amtPaid} = req.body;
 		var order = await db.findOne(CustomerOrderDB, {buyOrdNo: ordNo}, '');
 		
 		if (!order) {
 			//handle error: order not found
 		} else {
 			if (order.modeOfPay === 'bank transfer' || order.modeOfPay === 'GCash') { //values of MOP to be verified 
-				var updateProof = await db.insertOne(PaymentProofDB, new constructors.PaymentProof(order.buyOrdNo, payProof, referNo));
+				var updateProof = await db.insertOne(PaymentProofDB, new constructors.PaymentProof(order.buyOrdNo, payProof, referNo, amtPaid));
 				
 				if (updateProof) {
 					// res.render/ redirect

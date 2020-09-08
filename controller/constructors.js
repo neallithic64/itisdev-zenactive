@@ -12,10 +12,11 @@ const objConstructors = {
 		this.color = color;
 	},
 	
-	PaymentProof: function (buyOrdNo, paymentProof, referenceNo) {
+	PaymentProof: function (buyOrdNo, paymentProof, referenceNo, amountPaid) {
 		this.buyOrdNo = buyOrdNo;
 		this.paymentProof = paymentProof;
 		this.referenceNo = referenceNo;
+		this.amountPaid = amountPaid;
 	}
 };
 

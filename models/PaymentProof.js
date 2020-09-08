@@ -12,6 +12,10 @@ var payProofSchema = new mongoose.Schema({
 	referenceNo: {
 		type: String,
 		required: true
+	},
+	amountPaid: {
+		type: Number,
+		required: true
 	}
 }, {collection: "PaymentProof"});
 
