@@ -1,0 +1,168 @@
+.badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.label-warning[href], .badge-warning[href] {
+  background-color: #c67605;
+}
+
+#lblCartCount {
+  font-size: 12px;
+  background: #b48668;
+  color: #fff;
+  padding: 0 5px;
+  vertical-align: top;
+  margin-left: -10px;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #f2d8be;
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: 0s;
+  font-family: Helvetica neue, sans-serif;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #ccb494;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 23px;
+  right: 15px;
+  font-size: 20px;
+  margin-left: 50px;
+}
+
+.sidenav .searchbtn {
+  position: absolute;
+  top: 90px;
+  right: 15px;
+  font-size: 15px;
+}
+
+.sidenav input[type=text] {
+  padding: 8px 8px 8px 32px;
+  border: none;
+  margin-top: 30px;
+  width: 220px;
+  font-family: Helvetica neue, sans-serif;
+  margin-left: 30px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: stretch;
+  min-height: 105vh;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 100vh;
+  max-height: 1000vh;
+}
+
+#sidebar.active {
+  background-color: rgb(242,216,190);
+}
+
+a[data-toggle="collapse"] {
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -250px;
+  }
+}
+
+@media (max-width: 768px) {
+  #sidebar.active {
+    margin-left: 0;
+  }
+}
+
+body {
+  font-family: Helvetica Neue, sans-serif;
+  background: white;
+}
+
+p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1em;
+  font-weight: 300;
+  line-height: 1.7em;
+  color: #999;
+}
+
+a, a:hover, a:focus {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+#sidebar {
+  background: #f2d8be;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+#sidebar .sidebar-header {
+  padding: 20px;
+  background: #f2d8be;
+}
+
+#sidebar ul.components {
+  padding: 20px 0;
+  border-bottom: #ccb494;
+}
+
+#sidebar ul p {
+  color: #fff;
+  padding: 10px;
+}
+
+#sidebar ul li a {
+  padding: 10px;
+  font-size: 1.1em;
+  display: block;
+}
+
+#sidebar ul li a:hover {
+  color: #93623c;
+  background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+  color: #93623c;
+}
+
+ul ul a {
+  font-size: 0.9em !important;
+  padding-left: 30px !important;
+}
+
+body {
+}
+
