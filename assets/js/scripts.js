@@ -43,12 +43,12 @@ $(document).ready(function() {
 	
 	$("#lblCartCount").text(getSessionCart().length);
 	
-	$("addToCart").click(() => {
+	$("addToCart").click(function() {
 		// addToCart($("productID").text());
 	});
 	
 	// creating post request to checkout cart
-	$("submitCart idk what to put here").click(() => {
+	$("submitCart idk what to put here").click(function() {
 		var cart = getSessionCart();
 		$.post('/checkout', cart, result => {
 			// idk
@@ -80,20 +80,20 @@ $(document).ready(function() {
 		$(window).on("scroll load resize", () => checkScroll());
 	}
 
-	$('.dropdown').on('show.bs.dropdown', () =>
-		$(this).find('.dropdown-menu').first().stop(true, true).slideDown(300)
-	);
+	$('.dropdown').on('show.bs.dropdown', function() {
+		$(this).find('.dropdown-menu').first().stop(true, true).slideDown(300);
+	});
 
-	$('.dropdown').on('hide.bs.dropdown', () =>
-		$(this).find('.dropdown-menu').first().stop(true, true).slideUp(300)
-	);
+	$('.dropdown').on('hide.bs.dropdown', function() {
+		$(this).find('.dropdown-menu').first().stop(true, true).slideUp(300);
+	});
 	
 	$('[data-bs-hover-animate]')
-		.mouseenter(() => {
+		.mouseenter(function() {
 			var elem = $(this);
 			elem.addClass('animated ' + elem.attr('data-bs-hover-animate'));
 		})
-		.mouseleave(() => {
+		.mouseleave(function() {
 			var elem = $(this);
 			elem.removeClass('animated ' + elem.attr('data-bs-hover-animate'));
 		});
