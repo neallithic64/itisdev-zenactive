@@ -25,7 +25,11 @@ var custOrdSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	shipTrackID: String
+	shipTrackID: String,
+	address: {
+		type: String,
+		required: true
+	}
 }, {collection: "CustomerOrder"});
 
 module.exports = mongoose.model('CustomerOrder', custOrdSchema);
