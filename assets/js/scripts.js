@@ -77,25 +77,23 @@ $(document).ready(function() {
 	}
 	
 	if ($('.navbar').length > 0) {
-		$(window).on("scroll load resize", function() {
-			checkScroll();
-		});
+		$(window).on("scroll load resize", () => checkScroll());
 	}
 
-	$('.dropdown').on('show.bs.dropdown', function() {
-		$(this).find('.dropdown-menu').first().stop(true, true).slideDown(300);
-	});
+	$('.dropdown').on('show.bs.dropdown', () =>
+		$(this).find('.dropdown-menu').first().stop(true, true).slideDown(300)
+	);
 
-	$('.dropdown').on('hide.bs.dropdown', function() {
-		$(this).find('.dropdown-menu').first().stop(true, true).slideUp(300);
-	});
+	$('.dropdown').on('hide.bs.dropdown', () =>
+		$(this).find('.dropdown-menu').first().stop(true, true).slideUp(300)
+	);
 	
 	$('[data-bs-hover-animate]')
-		.mouseenter( function() {
+		.mouseenter(() => {
 			var elem = $(this);
 			elem.addClass('animated ' + elem.attr('data-bs-hover-animate'));
 		})
-		.mouseleave( function() {
+		.mouseleave(() => {
 			var elem = $(this);
 			elem.removeClass('animated ' + elem.attr('data-bs-hover-animate'));
 		});
