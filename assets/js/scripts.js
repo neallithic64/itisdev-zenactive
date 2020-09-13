@@ -66,7 +66,7 @@ $(document).ready(function() {
 	
 	
 	
-	
+	/* FRONTEND STYLE SCRIPTS */
 	function checkScroll() {
 		var opacity = 150; // start point navbar fixed to top changes in px
 		if ($(window).scrollTop() > opacity) {

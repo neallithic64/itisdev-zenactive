@@ -1,8 +1,8 @@
 <div style="height: auto;">
-    <div class="row no-gutters">
+	<div class="row no-gutters">
 	
 		{{! SIDEBAR }}
-        <div class="col-xl-2" style="max-width: 267px;"><div><div class="wrapper">
+		<div class="col-xl-2" style="max-width: 267px;"><div><div class="wrapper">
 			<nav id="sidebar" style="font-weight: 600">
 				<div class="sidebar-header">
 					<img src="assets/img/zen-logo.png" style="width: 210px;"/>
@@ -77,29 +77,29 @@
 		<div class="col" style="max-height: 100vh;">
 		
 			{{! HEADER }}
-            <div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;">
+			<div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;">
 				<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Purchase Orders</span>
-                {{! SEARCH BAR }}
+				{{! SEARCH BAR }}
 					<div class="d-flex">
 						<input type="search" id="psearch" placeholder="Search Batch Number" autocomplete="on" style="margin-right: 7px;">
 						<div>
 							<a href="#" class="searchbtn" onclick="search()"> <i class="fa fa-search"></i> </a>
-						</div>               
-                    </div>
+						</div>
+					</div>
 					
 				{{! DATE PICKER }}	
-                    <div class="d-flex justify-content-between align-items-center align-content-center">
+					<div class="d-flex justify-content-between align-items-center align-content-center">
 						<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Cut-off:&nbsp;</span>
 						<input id="pdate" type="date" style="font-weight: 600;color: #93623c;border-width: 0px;">
 					</div>
 					
 				{{! SHOW BY DROPDOWNS }}
-                    <div class="d-flex align-items-center align-content-center">
+					<div class="d-flex align-items-center align-content-center">
 						<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Show by:</span>
 						{{! BY CATEGORY }}
-                        <div class="dropdown">
+						<div class="dropdown">
 							<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="sortpcateg" type="button" style="background: rgba(255,255,255,0.4);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Category</button>
-                            <div class="dropdown-menu" style="min-width: 118px;width: 120px;margin-top: 0px;">
+							<div class="dropdown-menu" style="min-width: 118px;width: 120px;margin-top: 0px;">
 								<a class="dropdown-item" id="sorttops" href="#" style="padding-left: 14px;font-size: 12px;">Tops</a>
 								<a class="dropdown-item" id="sortbots" href="#" style="padding-left: 14px;font-size: 12px;">Bottoms</a>
 								<a class="dropdown-item" id="sortsets" href="#" style="padding-left: 14px;font-size: 12px;">Sets</a>
@@ -260,5 +260,5 @@
 				</div>
 			</div>
 		</div>
-    </div>
+	</div>
 </div>
