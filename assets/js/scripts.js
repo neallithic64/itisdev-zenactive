@@ -41,6 +41,8 @@ $(document).ready(function() {
 		window.sessionStorage.setItem('cart', JSON.stringify([]));
 	}
 	
+	$("#lblCartCount").text(getSessionCart().length);
+	
 	$("addToCart").click(() => {
 		// addToCart($("productID").text());
 	});
@@ -73,7 +75,7 @@ $(document).ready(function() {
 			$('.navbar.navbar-fixed-top').removeClass("navchange");
 		}
 	}
-
+	
 	if ($('.navbar').length > 0) {
 		$(window).on("scroll load resize", function() {
 			checkScroll();
