@@ -95,19 +95,13 @@ const indexFunctions = {
 	},
 	
 	getLogin: function(req, res) {
-		if (req.session.admin) {
-			res.redirect('/'); // or whichever path for admin homepage
-		} else {
-			res.render('login');
-		}
+		if (req.session.admin) res.redirect('/');
+		else res.render('login', {title: 'Login'});
 	},
 	
 	getRegister: function(req, res) {
-		if (req.session.admin) {
-			res.redirect('/'); // or whichever path for admin homepage
-		} else {
-			res.render('register');
-		}
+		if (req.session.admin) res.redirect('/');
+		else res.render('register');
 	},
 	
 	postLogin: async function(req, res) {
@@ -116,21 +110,20 @@ const indexFunctions = {
 		try {
 			var admin = await db.findOne(AdminDB, {email: email}, '');
 			if (!admin) {
-				// credentials not found error handling-- res.send({status: 401});
-				res.send('wrong creds');
+				res.status(401).send('Incorrect credentials.');
 			} else {
 				var match = await bcrypt.compare(password, admin.password);
 				if (match) {
 					req.session.admin = admin;
 					console.log(req.session);
 					res.redirect('/');
-					// res.send({status: 200});
+					res.status(200);
 				} else {
-					// error handling-- res.send({status: 401});
+					res.status(401).send('Incorrect credentials.');
 				}
 			}
 		} catch (e) {
-			// server error handling-- res.send({status: 500});
+			res.status(500).send('Server error.');
 		}
 	},
 	
@@ -142,13 +135,7 @@ const indexFunctions = {
 	postRegister: async function(req, res) {
 		let {email, password} = req.body;
 		var adminPass = await bcrypt.hash(password, saltRounds);
-		var adminInsert = await db.insertOne(AdminDB, new constructors.Admin(email, adminPass));
-			
-		if (!adminInsert) {
-			// error handling
-		} else {
-			// send success status or render or redirect to page
-		}
+		await db.insertOne(AdminDB, new constructors.Admin(email, adminPass));
 		res.redirect('/');
 	},
 	
@@ -206,10 +193,10 @@ const indexFunctions = {
 		if (!orderMatch) {
 			//error handling
 		} else {
-			res.render('view-buyOrder', {
-				buyOrder: orderMatch
-			});
 		}
+		res.render('salestracker', {
+			// buyOrder: orderMatch
+		});
 	},
 
 	getSuppOrder: async function(req, res) {
@@ -219,10 +206,10 @@ const indexFunctions = {
 		if (!orderMatch) {
 			//error handling
 		} else {
-			res.render('view-suppOrder', {
-				suppOrder: orderMatch
-			});
 		}
+		res.render('purchtracker', {
+			// suppOrder: orderMatch
+		});
 	},
 
 	getBuyerOrders: async function (req, res) {
