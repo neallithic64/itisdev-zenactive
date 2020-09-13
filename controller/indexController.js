@@ -88,11 +88,10 @@ async function getJoinedQuery(prodID) {
 const indexFunctions = {
 	getHome: function(req, res) {
 		if (req.session.admin) {
-			res.render('home', {
-				title: '',
-				message: 'henlo'
-			});
 		}
+		res.render('home', {
+			title: 'ZenActivePH'
+		});
 	},
 	
 	getLogin: function(req, res) {
