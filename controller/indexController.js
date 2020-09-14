@@ -398,7 +398,7 @@ const indexFunctions = {
 	postEditProduct: async function(req, res) {
 		try {
 			// how to deal with updating prod quantity?
-			let {productID, name, price, size, color, categName, photoLink} = req.body;
+			let {productID, name, price, size, color} = req.body;
 			var prodFind = await getJoinedQuery(productID);
 			var updateProd = new constructors.Product(productID, name, price, size, color);
 			
@@ -406,8 +406,8 @@ const indexFunctions = {
 				// handle error: cannot edit product that does not exist
 			} else {
 				await db.updateOne(ProductDB, {productID: productID}, updateProd);
-				await db.updateOne(ProdCategoryDB, {productID: productID}, {categName: categName});
-				await db.updateOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink});
+//				await db.updateOne(ProdCategoryDB, {productID: productID}, {categName: categName}); // MOVE TO SEPARATE EDIT FUNCTION
+//				await db.updateOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink}); // MOVE TO SEPARATE EDIT FUNCTION
 			}
 		} catch (e) {
 			// error handling
