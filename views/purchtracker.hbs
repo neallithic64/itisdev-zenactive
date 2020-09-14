@@ -1,83 +1,9 @@
-<!DOCTYPE html>
-
 <div style="height: auto;">
 	<div class="row no-gutters">
-		
-		{{! SIDEBAR }}
-		<div class="col-xl-2" style="max-width: 267px;">
-			<div class="wrapper">
-				<nav id="sidebar" style="font-weight: 600">
-					<div class="sidebar-header">
-						<img src="assets/img/zen-logo.png" style="width: 210px;"/>
-					</div>
-
-					<ul class="list-unstyled components">
-					
-					{{! Dashboard }}
-						<li>
-							<a href="admin.html">Dashboard</a>
-						</li>
-						
-					{{! Active Tab Trackers }}	
-						<li class="active">
-							<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Trackers</a>
-							<ul class="collapse list-unstyled" id="homeSubmenu">
-								<li>
-									<a href="salestracker.html">Sales Orders</a>
-								</li>
-								<li>
-									<a href="#">Payments</a>
-								</li>
-								<li class="active">
-									<a href="purchtracker.html">Purchase Orders</a>
-								</li>
-							</ul>
-						</li>
-						
-					{{! Reports }}	
-						<li>
-							<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Reports</a>
-							<ul class="collapse list-unstyled" id="pageSubmenu">
-								<li>
-									<a href="#">Sales</a>
-								</li>
-								<li>
-									<a href="#">Customer</a>
-								</li>
-								<li>
-									<a href="#">Website</a>
-								</li>
-							</ul>
-						</li>
-						
-					{{! Manage Inventory }}
-						<li>
-							<a href="#manSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Manage Inventory</a>
-							<ul class="collapse list-unstyled" id="manSubmenu">
-								<li>
-									<a href="#">Products</a>
-								</li>
-								<li>
-									<a href="#">Categories</a>
-								</li>
-							</ul>
-						</li>
-						
-					{{! Set Threshold }}
-						<li>
-							<a href="#">Set Threshold</a>
-						</li>
-						
-					{{! Logout }}
-						<li>
-							<a href="#">Log Out</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
-		</div>
-		
-		{{! CONTENT }}
+	
+		{{> tracker-sidebar }}
+	
+	{{! CONTENT }}
 		<div class="col" style="max-height: 100vh;">
 		
 			{{! HEADER }}
@@ -130,37 +56,36 @@
 						<button class="btn btn-primary" id="completeall" type="button" style="font-size: 12px;background: rgba(0,0,0,0);font-weight: 600;color: #93623c;border-width: 0px;" disabled="">Complete All</button>
 					</div>
 				</div>
-				
-				{{! TABLE }}
-				{{! If status is complete/refunded/cancelled: action dropdown is disabled }}
-				{{! If status is pending: actions are: complete, incomplete, cancelled }}
-				{{! If status is incomplete: actions are: complete, refunded, cancelled }}
-				
-				<div>
-					<div class="table-responsive" style="max-height: 100vh;min-height: 100vh;margin-bottom: -15px;">
-						<table class="table">
-							{{! TABLE HEADER }}
-							<thead style="font-size: 10px;">
-								<tr style="background-color: rgba(242,216,190,0.2);">
-									<th style="width: 155px;">Batch No.</th>
-									<th style="width: 165px;">Product Name</th>
-									<th style="width: 143px;">Category</th>
-									<th style="width: 61px;">Size</th>
-									<th class="text-left" style="width: 111px;">Color</th>
-									<th class="text-right" style="width: 71px;">Quantity</th>
-									<th class="text-right" style="width: 98px;">Unit Price</th>
-									<th class="text-right" style="width: 105px;">Total</th>
-									<th>Status</th>
-									<th class="text-center">Action</th>
-								</tr>
-							</thead>
-							
-							{{! TABLE BODY }}
-							<tbody>
-								{{> purchrow}}
-							</tbody>
-						</table>
-					</div>
+			</div>
+			{{! TABLE }}
+			{{! If status is complete/refunded/cancelled: action dropdown is disabled }}
+			{{! If status is pending: actions are: complete, incomplete, cancelled }}
+			{{! If status is incomplete: actions are: complete, refunded, cancelled }}
+			
+			<div>
+				<div class="table-responsive" style="max-height: 100vh;min-height: 100vh;margin-bottom: -15px;">
+					<table class="table">
+						{{! TABLE HEADER }}
+						<thead style="font-size: 10px;">
+							<tr style="background-color: rgba(242,216,190,0.2);">
+								<th style="width: 155px;">Batch No.</th>
+								<th style="width: 165px;">Product Name</th>
+								<th style="width: 143px;">Category</th>
+								<th style="width: 61px;">Size</th>
+								<th class="text-left" style="width: 111px;">Color</th>
+								<th class="text-right" style="width: 71px;">Quantity</th>
+								<th class="text-right" style="width: 98px;">Unit Price</th>
+								<th class="text-right" style="width: 105px;">Total</th>
+								<th>Status</th>
+								<th class="text-center">Action</th>
+							</tr>
+						</thead>
+						
+						{{! TABLE BODY }}
+						<tbody>
+							{{> purchrow}}
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

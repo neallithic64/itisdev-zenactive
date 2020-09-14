@@ -195,6 +195,7 @@ const indexFunctions = {
 		} else {
 		}
 		res.render('salestracker', {
+			title: 'Sales Tracker'
 			// buyOrder: orderMatch
 		});
 	},
@@ -208,6 +209,7 @@ const indexFunctions = {
 		} else {
 		}
 		res.render('purchtracker', {
+			title: 'Purchases Tracker'
 			// suppOrder: orderMatch
 		});
 	},
@@ -218,10 +220,11 @@ const indexFunctions = {
 		if (!buyOrders) {
 			// error handling
 		} else {
-			res.render('buyerOrders', {
-				buyerOrders: buyOrders
-			});
 		}
+		res.render('salestracker', {
+			title: 'Sales Tracker',
+			buyerOrders: buyOrders
+		});
 	}, 
 	
 	getSupplierOrders: async function (req, res) {
@@ -230,10 +233,11 @@ const indexFunctions = {
 		if (!suppOrders) {
 			// error handling
 		} else {
-			res.render('supplierOrders', {
-				supplierOrders: suppOrders
-			});
 		}
+		res.render('purchtracker', {
+			title: 'Purchases Tracker',
+			supplierOrders: suppOrders
+		});
 	},
 
 /* View Order Status
