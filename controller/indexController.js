@@ -11,7 +11,6 @@ const db = require('../models/db');
 const AdminDB = require('../models/Admin');
 const CancelReasonDB = require('../models/CancelReason');
 const CategoryDB = require('../models/Category');
-const CustomerDB = require('../models/Customer');
 const CustomerCartDB = require('../models/CustomerCart');
 const CustomerOrderDB = require('../models/CustomerOrder');
 const PaymentProofDB = require('../models/PaymentProof');

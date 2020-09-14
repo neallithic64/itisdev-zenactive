@@ -29,6 +29,22 @@ var custOrdSchema = new mongoose.Schema({
 	address: {
 		type: String,
 		required: true
+	},
+	city: {
+		type: String,
+		required: true
+	},
+	area: {
+		type: String,
+		required: true
+	},
+	completeName: {
+		type: String,
+		required: true
+	},
+	contactNumber: {
+		type: Number,
+		required: true
 	}
 }, {collection: "CustomerOrder"});
 
