@@ -20,6 +20,7 @@ function incDate(date) {
 const indexTest = {
 	getHome: function(req, res) {
 		res.render('testpage', {
+			layout: false,
 			title: 'Test Test Test'
 		});
 	},
@@ -80,6 +81,12 @@ const indexTest = {
 		await db.insertMany(Test, docs);
 		
 		res.redirect('/');
+	},
+	
+	postDoubles: async function(req, res) {
+		let {a} = req.body;
+		await db.insertOne(Test, {mainVal: new Date(), otherVal: Number.parseFloat(a)});
+		res.redirect('/test');
 	}
 };
 

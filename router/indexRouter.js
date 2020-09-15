@@ -4,8 +4,8 @@ const test = require('../controller/indexTest');
 const controller = require('../controller/indexController');
 
 // Testing Routes
-// router.get('/test', test.getHomeQuery);
-// router.post('/', test.postDoublePK);
+router.get('/test', test.getHome);
+router.post('/test', test.postDoubles);
 
 
 
