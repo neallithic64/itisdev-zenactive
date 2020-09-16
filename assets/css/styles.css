@@ -73,18 +73,20 @@
 .wrapper {
   display: flex;
   align-items: stretch;
-  min-height: 105vh;
+  min-height: 100vh;
+  height: 100%;
 }
 
 #sidebar {
   min-width: 250px;
   max-width: 250px;
   min-height: 100vh;
-  max-height: 1000vh;
+  height: 100%;
 }
 
 #sidebar.active {
   background-color: rgb(242,216,190);
+  height: 100%;
 }
 
 a[data-toggle="collapse"] {
@@ -126,6 +128,7 @@ a, a:hover, a:focus {
   background: #f2d8be;
   color: #fff;
   transition: all 0.3s;
+  height: 100%;
 }
 
 #sidebar .sidebar-header {
