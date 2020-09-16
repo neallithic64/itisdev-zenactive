@@ -121,7 +121,7 @@ const indexFunctions = {
 				var match = await bcrypt.compare(password, admin.password);
 				if (match) {
 					req.session.admin = admin;
-					res.status(200);
+					res.status(200).send();
 				} else {
 					res.status(401).send('Incorrect credentials.');
 				}

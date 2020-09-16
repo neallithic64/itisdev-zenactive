@@ -1,79 +1,7 @@
 <div style="height: auto;">
 	<div class="row no-gutters">
 	
-		{{! SIDEBAR }}
-		<div class="col-xl-2" style="max-width: 267px;"><div><div class="wrapper">
-			<nav id="sidebar" style="font-weight: 600">
-				<div class="sidebar-header">
-					<img src="assets/img/zen-logo.png" style="width: 210px;"/>
-				</div>
-
-				<ul class="list-unstyled components">
-				
-				{{! Active Tab Dashboard }}
-					<li class="active">
-						<a href="#">Dashboard</a>
-					</li>
-					
-				{{! Trackers }}	
-					<li>
-						<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Trackers</a>
-						<ul class="collapse list-unstyled" id="homeSubmenu">
-							<li>
-								<a href="salestracker.html">Sales Orders</a>
-							</li>
-							<li>
-								<a href="#">Payments</a>
-							</li>
-							<li>
-								<a href="purchtracker.html">Purchase Orders</a>
-							</li>
-						</ul>
-					</li>
-					
-				{{! Reports }}	
-					<li>
-						<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Reports</a>
-						<ul class="collapse list-unstyled" id="pageSubmenu">
-							<li>
-								<a href="#">Sales</a>
-							</li>
-							<li>
-								<a href="#">Customer</a>
-							</li>
-							<li>
-								<a href="#">Website</a>
-							</li>
-						</ul>
-					</li>
-					
-				{{! Manage Inventory }}
-					<li>
-						<a href="#manSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Manage Inventory</a>
-						<ul class="collapse list-unstyled" id="manSubmenu">
-							<li>
-								<a href="#">Products</a>
-							</li>
-							<li>
-								<a href="#">Categories</a>
-							</li>
-						</ul>
-					</li>
-					
-				{{! Set Threshold }}
-					<li>
-						<a href="#">Set Threshold</a>
-					</li>
-					
-				{{! Logout }}
-					<li>
-						<a href="#">Log Out</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	
-
+		{{> admin-sidebar}}
 
 		{{! CONTENT COLUMN (RIGHT SIDE) }}
 		<div class="col">
@@ -364,7 +292,7 @@
 									<h4 id="rank2Num" class="text-center">10</h4><span>pieces</span></div>
 								</div>
 						</div>
-							
+						
 						{{! RANK 3 CARD }}
 						<div class="card" style="height: 261px;min-height: 261px;"><img class="card-img-top w-100 d-block" src="assets/img/best-dummy3.jpg">
 							<div class="card-body">
