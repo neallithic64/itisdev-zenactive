@@ -21,27 +21,27 @@
 						{{! PRODUCT ID }}
                         <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
 							<label style="width: 167px;color: rgb(238,19,19);">Product ID *</label>
-							<input id="editProdID" type="text" style="margin-left: 0px;" placeholder="TO-000001">
+							<input id="editProdID" type="text" style="margin-left: 0px;" placeholder="TO-000001" required>
 						</div>
 						{{! PRODUCT NAME }}
                         <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
 							<label style="width: 167px;color: rgb(238,19,19);">Product Name *</label>
-							<input id="editProdName" type="text" style="margin-left: 0px;" placeholder="Passionate">
+							<input id="editProdName" type="text" style="margin-left: 0px;" placeholder="Passionate" required>
 						</div>
 						{{! PRODUCT SIZE }}
                         <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
 							<label style="width: 167px;color: rgb(238,19,19);">Size *</label>
-							<input id="editProdSize" type="text" style="margin-left: 0px;" placeholder="M">
+							<input id="editProdSize" type="text" style="margin-left: 0px;" placeholder="M" required>
 						</div>
 						{{! PRODUCT COLOR }}
                         <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
 							<label style="width: 167px;color: rgb(238,19,19);">Color *</label>
-							<input id="editProdColor" type="text" style="margin-left: 0px;" placeholder="Gray">
+							<input id="editProdColor" type="text" style="margin-left: 0px;" placeholder="Gray" required >
 						</div>
 						{{! PRODUCT PRICE }}
                         <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
 							<label style="width: 167px;color: rgb(238,19,19);">Price *</label>
-							<input id="editProdPrice" type="text" style="margin-left: 0px;" required="" placeholder="580.00">
+							<input id="editProdPrice" type="text" style="margin-left: 0px;" required="" placeholder="580.00" required inputmode="numeric">
 						</div>
                     </div>
 					
@@ -111,7 +111,7 @@
 						{{! ADD IMAGE }}
 						<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
 							<label style="width: 167px;color: rgb(238,19,19);">Add Image:</label>
-							<input type="text" placeholder="Input Image Link" style="width: 310px;">
+							<input type="text" placeholder="Input Image Link" style="width: 310px;" inputmode="url">
 							<button class="btn btn-primary" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 10px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 0px;margin-left: 24px;">Add Image</button>
 						</div>
 						
