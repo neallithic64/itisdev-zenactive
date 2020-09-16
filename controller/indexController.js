@@ -103,6 +103,14 @@ const indexFunctions = {
 		else res.render('register');
 	},
 	
+	getAdmin: function(req, res) {
+		if (req.session.admin)
+			res.render('admin', {
+				title: 'Admin Page - ZenActivePH'
+			});
+		else res.redirect('/');
+	},
+	
 	postLogin: async function(req, res) {
 		let {email, password} = req.body;
 		try {
@@ -113,8 +121,6 @@ const indexFunctions = {
 				var match = await bcrypt.compare(password, admin.password);
 				if (match) {
 					req.session.admin = admin;
-					console.log(req.session);
-					res.redirect('/');
 					res.status(200);
 				} else {
 					res.status(401).send('Incorrect credentials.');

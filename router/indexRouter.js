@@ -13,10 +13,11 @@ router.post('/test', test.postDoubles);
 router.get('/', controller.getHome);
 router.get('/login', controller.getLogin);
 router.get('/register', controller.getRegister);
+router.get('/admin', controller.getAdmin);
+
 router.get('/search-products', controller.getSearchProducts);
 router.get('/view-allproducts', controller.getAllProducts);
 router.get('/view-product', controller.getProduct);
-
 router.get('/view-orderStatus', controller.getOrderStatus);
 
 router.get('/view-buyorder', controller.getBuyOrder);
