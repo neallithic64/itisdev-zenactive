@@ -104,8 +104,7 @@ const indexFunctions = {
 	},
 	
 	postLogin: async function(req, res) {
-		let {email, password} =  req.body;
-		
+		let {email, password} = req.body;
 		try {
 			var admin = await db.findOne(AdminDB, {email: email}, '');
 			if (!admin) {

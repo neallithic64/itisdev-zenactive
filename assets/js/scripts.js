@@ -47,6 +47,27 @@ $(document).ready(function() {
 		// addToCart($("productID").text());
 	});
 	
+	$("#submitLogin").click(function() {
+		var form = $("#loginForm").serializeArray();
+		form.forEach(e => e.value = validator.trim(e.value));
+		if (!validator.isEmpty(form[0].value) && !validator.isEmpty(form[1].value) && validator.isEmail(form[0].value)){
+			$.ajax({
+				method: 'POST',
+				url: '/login',
+				data: form,
+				success: function() {
+					alert("Login successful!");
+					window.location.href = '/admin';
+				},
+				error: function(str) {
+					alert(str.responseText);
+				}
+			});
+		} else if (!validator.isEmail(form[0].value)) {
+			alert('Please input a valid email format.');
+		} else alert('Please fill in all fields!');
+	});
+	
 	// creating post request to checkout cart
 	$("submitCart idk what to put here").click(function() {
 		var cart = getSessionCart();
