@@ -1,66 +1,66 @@
 <div style="height: auto;">
         <div class="row no-gutters" style="height: auto;">
             
-			{{> admin-sidebar }}
+		{{> admin-sidebar }}
 			
-            <div class="col" style="height: auto;">
-                <div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-bottom: 6px;margin-top: 6px;">
-					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;font-size: 20px;">Edit Product</span>
+            	<div class="col" style="height: auto;">
+                	<div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-bottom: 6px;margin-top: 6px;">
+				<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;font-size: 20px;">Edit Product</span>
+			</div>
+				
+			{{! EDIT PRODUCT DESC }}
+              		<div style="margin-top: 29px;padding-left: 15px;">
+                   		<div class="d-flex flex-column">
+					<span style="font-weight: 600;color: #93623c;">Edit Product Description</span>
+					<span style="font-size: 14px;color: rgb(238,19,19);">Fields with * are required.</span>
 				</div>
-				
-				{{! EDIT PRODUCT DESC }}
-                <div style="margin-top: 29px;padding-left: 15px;">
-                    <div class="d-flex flex-column">
-						<span style="font-weight: 600;color: #93623c;">Edit Product Description</span>
-						<span style="font-size: 14px;color: rgb(238,19,19);">Fields with * are required.</span>
-					</div>
 					
-					{{! THE PLACEHOLDERS SHOULD BE SET TO THE ORIGINAL DETAILS FOR REFERENCE }}
+			{{! THE PLACEHOLDERS SHOULD BE SET TO THE ORIGINAL DETAILS FOR REFERENCE }}
 					
-                    <div style="margin-top: 23px;">
-						{{! PRODUCT ID }}
-                        <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-							<label style="width: 167px;color: rgb(238,19,19);">Product ID *</label>
-							<input id="editProdID" type="text" style="margin-left: 0px;" placeholder="TO-000001" required>
-						</div>
-						{{! PRODUCT NAME }}
-                        <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-							<label style="width: 167px;color: rgb(238,19,19);">Product Name *</label>
-							<input id="editProdName" type="text" style="margin-left: 0px;" placeholder="Passionate" required>
-						</div>
-						{{! PRODUCT SIZE }}
-                        <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-							<label style="width: 167px;color: rgb(238,19,19);">Size *</label>
-							<input id="editProdSize" type="text" style="margin-left: 0px;" placeholder="M" required>
-						</div>
-						{{! PRODUCT COLOR }}
-                        <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-							<label style="width: 167px;color: rgb(238,19,19);">Color *</label>
-							<input id="editProdColor" type="text" style="margin-left: 0px;" placeholder="Gray" required >
-						</div>
-						{{! PRODUCT PRICE }}
-                        <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-							<label style="width: 167px;color: rgb(238,19,19);">Price *</label>
-							<input id="editProdPrice" type="text" style="margin-left: 0px;" required="" placeholder="580.00" required inputmode="numeric">
-						</div>
-                    </div>
-					
-					{{! SAVE BUTTON }}
-					<button class="btn btn-primary" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 16px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 31px;margin-left: 306px;">Save</button>
+                   	<div style="margin-top: 23px;">
+				{{! PRODUCT ID }}
+                       		<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+					<label style="width: 167px;color: rgb(238,19,19);">Product ID *</label>
+					<input id="editProdID" type="text" style="margin-left: 0px;" placeholder="TO-000001" required>
 				</div>
-				
-				
-				{{! EDIT PRODUCT CATEGORY }}
-				
-                		<div style="margin-top: 29px;padding-left: 15px;">
-                    			<div class="d-flex flex-column">
-						<span style="font-weight: 600;color: #93623c;">Edit Product Category</span>
-					</div>
+				{{! PRODUCT NAME }}
+                        	<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+					<label style="width: 167px;color: rgb(238,19,19);">Product Name *</label>
+					<input id="editProdName" type="text" style="margin-left: 0px;" placeholder="Passionate" required>
+				</div>
+				{{! PRODUCT SIZE }}
+                        	<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+					<label style="width: 167px;color: rgb(238,19,19);">Size *</label>
+					<input id="editProdSize" type="text" style="margin-left: 0px;" placeholder="M" required>
+				</div>
+				{{! PRODUCT COLOR }}
+                        	<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+					<label style="width: 167px;color: rgb(238,19,19);">Color *</label>
+					<input id="editProdColor" type="text" style="margin-left: 0px;" placeholder="Gray" required >
+				</div>
+				{{! PRODUCT PRICE }}
+                        	<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+					<label style="width: 167px;color: rgb(238,19,19);">Price *</label>
+					<input id="editProdPrice" type="text" style="margin-left: 0px;" required="" placeholder="580.00" required inputmode="numeric">
+				</div>
+                    	</div>
 					
-					{{! REMOVE CATEG }}
-                    			<div style="margin-top: 23px;">
-                        			<div class="form-group d-flex" style="margin-bottom: 0px;margin-top: 10px;">
-							<label style="width: 167px;color: rgb(238,19,19);">Remove Category:</label>
+			{{! SAVE BUTTON }}
+			<button class="btn btn-primary" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 16px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 31px;margin-left: 306px;">Save</button>
+		</div>
+				
+				
+			{{! EDIT PRODUCT CATEGORY }}
+				
+                	<div style="margin-top: 29px;padding-left: 15px;">
+                    		<div class="d-flex flex-column">
+					<span style="font-weight: 600;color: #93623c;">Edit Product Category</span>
+				</div>
+					
+			{{! REMOVE CATEG }}
+                    	<div style="margin-top: 23px;">
+                        	<div class="form-group d-flex" style="margin-bottom: 0px;margin-top: 10px;">
+					<label style="width: 167px;color: rgb(238,19,19);">Remove Category:</label>
 							
 							<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 12px;width: 252px;">
 								<option value="0">Choose Category to Remove</option>
