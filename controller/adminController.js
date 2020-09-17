@@ -64,8 +64,8 @@ async function genProdCode(category) {
 	// {TOP|BOT|SET|ACC}00000
 	var catCode = category.substr(0, 3).toUpperCase(),
 		prod = await db.aggregate(ProductDB, [
-			{ $match: {'productID': new RegExp('^(' + catCode + ')\\d{5}', 'g')} },
-			{ $sort: {'productID': -1} }
+			{ '$match': {'productID': new RegExp('^(' + catCode + ')\\d{5}', 'g')} },
+			{ '$sort': {'productID': -1} }
 		]),
 		count = Number.parseInt(prod[0].productID.substr(3)) + 1;
 	return catCode + count.toString().padStart(5, '0');
@@ -84,12 +84,14 @@ async function getJoinedQuery(prodID) {
 			'foreignField': 'productID',
 			'as': 'prodCateg'
 		}},
+		{'$unwind': "$prodCateg"},
 		{'$lookup': {
 			'from': 'ProdPhoto',
 			'localField': 'productID',
 			'foreignField': 'productID',
 			'as': 'prodPhoto'
-		}}
+		}},
+		{'$unwind': "$prodPhoto"}
 	]);
 }
 
