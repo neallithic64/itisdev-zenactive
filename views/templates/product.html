@@ -162,19 +162,17 @@
 						<div class="col">
 							<div>
 								<div class="row d-inline-flex d-xl-flex flex-nowrap justify-content-xl-center align-items-xl-center" style="position: static;">
-									<div class="col" style="max-width: 50%;min-width: 50%;">
+									<div class="col-xl-6 form-group" style="max-width: 50%;min-width: 50%;">
 										<!-- SIZE DROPDOWN-->
-										<div class="form-group">
-											<select class="form-control" style="background-color: rgb(235,233,229);color: rgb(0,0,0);padding: 10px;height: 100%;width: 100%;text-align: center;border-color: rgb(232,231,236);min-width: 50%;">
-												<option>SMALL</option>
-												<option>MEDIUM</option>
-												<option>LARGE</option>
-											</select>
-										</div>
+										<select id="prodSize" class="form-control" style="background-color: rgb(235,233,229);color: rgb(0,0,0);padding: 10px;width: 100%;text-align: center;border-color: rgb(232,231,236);">
+											<option value="small">SMALL</option>
+											<option value="medium">MEDIUM</option>
+											<option value="large">LARGE</option>
+										</select>
 									</div>
-									<div class="col-xl-6">
+									<div class="col-xl-6 form-group">
 										<!-- INPUT QUANTITY -->
-										<input id="prodQty" type="number" style="width: 100%;background-color: rgb(235,233,229);color: rgb(0,0,0);padding: 10px;height: 100%;text-align: center;border-width: 0;min-width: 50%;">
+										<input id="prodQty" class="form-control" type="number" style="background-color: rgb(235,233,229);color: rgb(0,0,0);padding: 10px;width: 100%;text-align: center;border-width: 0;">
 									</div>
 								</div>
 								<div class="row">

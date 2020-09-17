@@ -60,6 +60,15 @@ function genBuyOrdNo() {
 	return Number.parseInt((new Date()).toISOString().substr(2, 8).split('-').join('') + Math.round(Math.random()*100000).toString().padStart(5, '0'));
 }
 
+function genProdCode(name, size, colour) {
+	// NNNNN-TY-S-COL
+	var type;
+	switch (name) {
+//		case 
+	}
+	return name.split(' ').join('').substr(0, 5) + '-' + size.split(' ').join('').substr(0, 1) + '-' + colour.split(' ').join('').substr(0, 3);
+}
+
 function forceJSON(e) {
 	return JSON.parse(JSON.stringify(e));
 }
@@ -336,6 +345,12 @@ const adminFunctions = {
 	
 	getAddCategory: async function(req, res) {
 		
+	},
+	
+	getEditProduct: async function(req, res) {
+		res.render('editproduct', {
+			title: 'Edit Product - ZenActivePH'
+		});
 	},
 	
 	postAddProduct: async function(req, res) {

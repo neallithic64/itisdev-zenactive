@@ -46,7 +46,7 @@ $(document).ready(function() {
 	
 	$("button#addCartButton").click(function() {
 		var code;
-		var size;
+		var size = $("select#prodSize").val();
 		var qty = $("input#prodQty").val();
 		addToCart(qty);
 	});
