@@ -13,12 +13,13 @@ function getSessionCart() {
 /* Function to add the product ID of the added-to product
  * {
  *		code: Product Code
+ *		size: Size to Buy
  *		qty: Quantity Bought
  * }
 */
-function addToCart(s) {
+function addToCart(code, size, qty) {
 	var cart = getSessionCart();
-	cart.push({code: s, qty: 1});
+	cart.push({code: code, size: size, qty: qty});
 	window.sessionStorage.setItem('cart', JSON.stringify(cart));
 }
 
@@ -43,8 +44,11 @@ $(document).ready(function() {
 	
 	$("#lblCartCount").text(getSessionCart().length);
 	
-	$("addToCart").click(function() {
-		// addToCart($("productID").text());
+	$("button#addCartButton").click(function() {
+		var code;
+		var size;
+		var qty = $("input#prodQty").val();
+		addToCart(qty);
 	});
 	
 	$("#submitLogin").click(function() {

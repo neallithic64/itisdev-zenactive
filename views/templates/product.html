@@ -90,10 +90,6 @@
 								</p>
 								<p style="margin: 0px;">Color - Pink</p>
 							</div>
-							<div style="margin-left: 10px;margin-top: 10px;">
-								<p style="font-size: 20px;margin: 0px 5px;">•&nbsp;desc 1</p>
-								<p style="font-size: 20px;margin: 0px 5px;">•&nbsp;desc 2</p>
-							</div>
 						</div>
 					</div>
 					
@@ -168,26 +164,25 @@
 								<div class="row d-inline-flex d-xl-flex flex-nowrap justify-content-xl-center align-items-xl-center" style="position: static;">
 									<div class="col" style="max-width: 50%;min-width: 50%;">
 										<!-- SIZE DROPDOWN-->
-										<div class="dropdown">
-											<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" style="background-color: rgb(235,233,229);color: rgb(0,0,0);padding: 10px;height: 100%;width: 100%;text-align: center;border-color: rgb(232,231,236);min-width: 50%;">SIZE&nbsp;</button>
-											<div class="dropdown-menu" style="width: 100%;">
-												<a class="dropdown-item" href="#" style="text-align: center;">SMALL</a>
-												<a class="dropdown-item" href="#" style="text-align: center;">MEDIUM</a>
-												<a class="dropdown-item" href="#" style="text-align: center;">LARGE</a>
-											</div>
+										<div class="form-group">
+											<select class="form-control" style="background-color: rgb(235,233,229);color: rgb(0,0,0);padding: 10px;height: 100%;width: 100%;text-align: center;border-color: rgb(232,231,236);min-width: 50%;">
+												<option>SMALL</option>
+												<option>MEDIUM</option>
+												<option>LARGE</option>
+											</select>
 										</div>
 									</div>
 									<div class="col-xl-6">
 										<!-- INPUT QUANTITY -->
-										<input type="number" style="width: 100%;background-color: rgb(235,233,229);color: rgb(0,0,0);padding: 10px;height: 100%;text-align: center;border-width: 0;min-width: 50%;">
+										<input id="prodQty" type="number" style="width: 100%;background-color: rgb(235,233,229);color: rgb(0,0,0);padding: 10px;height: 100%;text-align: center;border-width: 0;min-width: 50%;">
 									</div>
 								</div>
 								<div class="row">
 									<div class="col" style="margin-top: 10px;">
 										<!-- LINK TO ADD TO CART-->
-										<h1 class="border rounded" style="background-color: #94603b;text-align: center;filter: saturate(96%);color: rgb(238,211,185);margin: 10px;font-size: 30px;padding: 10px;">
+										<button class="btn btn-primary" id="addCartButton" type="button" style="color: rgb(237,211,186);background: rgb(146,96,60);font-size: 30px;width: 100%;padding: 10px;margin-top: 10px;border-color: rgb(255,255,255);">
 											<strong>ADD TO CART</strong>
-										</h1>
+										</button>
 									</div>
 								</div>
 							</div>
