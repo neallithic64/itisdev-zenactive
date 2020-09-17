@@ -1,88 +1,87 @@
 <div style="height: auto;">
-        <div class="row no-gutters" style="height: auto;">
-            <div class="col-xl-2" style="max-width: 267px;height: auto;"><div style="height: 100%">
-			
-				{{> admin-sidebar}}
+	<div class="row no-gutters" style="height: auto;">
+		<div class="col-xl-2" style="max-width: 267px;height: auto;"><div style="height: 100%">
 
-   
-				<div class="col" style="height: auto;">
-					<div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-bottom: 6px;margin-top: 6px;">
-						<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;font-size: 20px;">Add New Product</span>
+			{{> admin-sidebar}}
+
+			<div class="col" style="height: auto;">
+				<div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-bottom: 6px;margin-top: 6px;">
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;font-size: 20px;">Add New Product</span>
+				</div>
+
+				{{! PRODUCT DESCRIPTION }}
+				<div style="margin-top: 29px;padding-left: 15px;">
+					<div class="d-flex flex-column">
+						<span style="font-weight: 600;color: #93623c;">Product Description</span>
+						<span style="font-size: 14px;color: rgb(238,19,19);">Fields with * are required.</span>
 					</div>
-					
-					{{! PRODUCT DESCRIPTION }}
-					<div style="margin-top: 29px;padding-left: 15px;">
-						<div class="d-flex flex-column">
-							<span style="font-weight: 600;color: #93623c;">Product Description</span>
-							<span style="font-size: 14px;color: rgb(238,19,19);">Fields with * are required.</span>
+
+					{{! FORM }}
+					<div style="margin-top: 23px;">
+						{{! PRODUCT ID }}
+						<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+							<label style="width: 167px;color: rgb(238,19,19);">Product ID *</label>
+							<input id="addProdID" name="addProdID" type="text" style="margin-left: 0px;" placeholder="Product ID" required>
 						</div>
-						
-						{{! FORM }}
-						<div style="margin-top: 23px;">
-							{{! PRODUCT ID }}
-							<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-								<label style="width: 167px;color: rgb(238,19,19);">Product ID *</label>
-								<input id="addProdID" name="addProdID" type="text" style="margin-left: 0px;" placeholder="Product ID" required>
-							</div>
-							{{! PRODUCT NAME }}
-							<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-								<label style="width: 167px;color: rgb(238,19,19);">Product Name *</label>
-								<input id="addProdName" name="addProdName" type="text" style="margin-left: 0px;" placeholder="Product Name" required>
-							</div>
-							{{! PRODUCT CATEGORY }}
-							<div class="form-group d-flex" style="margin-bottom: 0px;margin-top: 10px;">
-								<label style="width: 167px;color: rgb(238,19,19);">Category *</label>
-								<div id="addCateg" class="dropdown">
-									<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="intranactions" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Choose Category</button>
-									<div class="dropdown-menu" style="min-width: 62px;width: 205px;margin-top: 0px;">
-										<a class="dropdown-item" id="addTop" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Tops</a>
-										<a class="dropdown-item" id="addBot" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Bottoms</a>
-										<a class="dropdown-item" id="addSet" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Sets</a>
-										<a class="dropdown-item" id="addAcc" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Accessories</a>
-									</div>
+						{{! PRODUCT NAME }}
+						<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+							<label style="width: 167px;color: rgb(238,19,19);">Product Name *</label>
+							<input id="addProdName" name="addProdName" type="text" style="margin-left: 0px;" placeholder="Product Name" required>
+						</div>
+						{{! PRODUCT CATEGORY }}
+						<div class="form-group d-flex" style="margin-bottom: 0px;margin-top: 10px;">
+							<label style="width: 167px;color: rgb(238,19,19);">Category *</label>
+							<div id="addCateg" class="dropdown">
+								<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="intranactions" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Choose Category</button>
+								<div class="dropdown-menu" style="min-width: 62px;width: 205px;margin-top: 0px;">
+									<a class="dropdown-item" id="addTop" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Tops</a>
+									<a class="dropdown-item" id="addBot" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Bottoms</a>
+									<a class="dropdown-item" id="addSet" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Sets</a>
+									<a class="dropdown-item" id="addAcc" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Accessories</a>
 								</div>
 							</div>
-							{{! PRODUCT SIZE }}
-							<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-								<label style="width: 167px;color: rgb(238,19,19);">Size *</label>
-								<input id="addSize" name="addSize" type="text" style="margin-left: 0px;" placeholder="Size" required>
-							</div>
-							{{! PRODUCT COLOR }}
-							div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-								<label style="width: 167px;color: rgb(238,19,19);">Color *</label>
-								<input id="addColor" name="addColor" type="text" style="margin-left: 0px;" placeholder="Color" required>
-							</div>
-							{{! PRODUCT PRICE }}
-							<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-								<label style="width: 167px;color: rgb(238,19,19);">Price *</label>
-								<input id="addPrice" name="addPrice" type="text" style="margin-left: 0px;" placeholder="Price" required inputmode="numeric">
-							</div>
 						</div>
-					</div>
-					
-					{{! PRODUCT IMAGE }}
-					<div style="margin-top: 29px;padding-left: 15px;">
-						<div class="d-flex flex-column">
-							<span style="font-weight: 600;color: #93623c;">Product Image</span>
-						</div>
-					<div style="margin-top: 23px;">
+						{{! PRODUCT SIZE }}
 						<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-							<label style="width: 167px;color: rgb(238,19,19);">Upload Image *</label>
-							<input id="addImgLink1" name="addImgLink1" type="text" placeholder="Input Image Link" style="width: 310px;" required inputmode="url">
+							<label style="width: 167px;color: rgb(238,19,19);">Size *</label>
+							<input id="addSize" name="addSize" type="text" style="margin-left: 0px;" placeholder="Size" required>
 						</div>
-						<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-							<label style="width: 167px;color: rgb(238,19,19);">Upload Image </label>
-							<input id="addImgLink2" name="addImgLink2" type="text" placeholder="Input Image Link" style="width: 310px;" inputmode"url">
+						{{! PRODUCT COLOR }}
+						div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+							<label style="width: 167px;color: rgb(238,19,19);">Color *</label>
+							<input id="addColor" name="addColor" type="text" style="margin-left: 0px;" placeholder="Color" required>
 						</div>
+						{{! PRODUCT PRICE }}
 						<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-							<label style="width: 167px;color: rgb(238,19,19);">Upload Image </label>
-							<input id="addImgLink3" name="addImgLink3" type="text" placeholder="Input Image Link" style="width: 310px;" inputmode"url">
+							<label style="width: 167px;color: rgb(238,19,19);">Price *</label>
+							<input id="addPrice" name="addPrice" type="text" style="margin-left: 0px;" placeholder="Price" required inputmode="numeric">
 						</div>
 					</div>
 				</div>
-				
-				{{! ADD BUTTON }}
-				<button class="btn btn-primary" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 16px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 31px;margin-left: 15px;">Add New Product</button>
+
+				{{! PRODUCT IMAGE }}
+				<div style="margin-top: 29px;padding-left: 15px;">
+					<div class="d-flex flex-column">
+						<span style="font-weight: 600;color: #93623c;">Product Image</span>
+					</div>
+				<div style="margin-top: 23px;">
+					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+						<label style="width: 167px;color: rgb(238,19,19);">Upload Image *</label>
+						<input id="addImgLink1" name="addImgLink1" type="text" placeholder="Input Image Link" style="width: 310px;" required inputmode="url">
+					</div>
+					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+						<label style="width: 167px;color: rgb(238,19,19);">Upload Image </label>
+						<input id="addImgLink2" name="addImgLink2" type="text" placeholder="Input Image Link" style="width: 310px;" inputmode"url">
+					</div>
+					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+						<label style="width: 167px;color: rgb(238,19,19);">Upload Image </label>
+						<input id="addImgLink3" name="addImgLink3" type="text" placeholder="Input Image Link" style="width: 310px;" inputmode"url">
+					</div>
+				</div>
 			</div>
+
+			{{! ADD BUTTON }}
+			<button class="btn btn-primary" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 16px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 31px;margin-left: 15px;">Add New Product</button>
 		</div>
+	</div>
 </div>

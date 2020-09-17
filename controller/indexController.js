@@ -183,6 +183,26 @@ const indexFunctions = {
 		}
 	},
 
+	getInvProds: async function(req, res) {
+		var prods = await db.findMany(ProductDB, {});
+		if (req.session.admin) {
+			res.render('productlist', {
+				title: '',
+				products: prods
+			});
+		} else res.redirect('/');
+	},
+	
+	getInvCats: async function(req, res, next) {
+		var categs = await db.findMany(CategoryDB, {});
+		if (req.session.admin) {
+			res.render('categorylist', {
+				title: '',
+				categories: categs
+			});
+		} else res.redirect('/');
+	},
+
 /* View Orders Report --
  * 
  * The seller may view all orders submitted to see what orders were submitted 

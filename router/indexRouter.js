@@ -25,7 +25,8 @@ router.get('/view-suppOrder', controller.getSuppOrder);
 router.get('/buyerOrders', controller.getBuyerOrders);
 router.get('/supplierOrders', controller.getSupplierOrders);
 
-
+router.get('/invProds', controller.getInvProds);
+router.get('/invCats', controller.getInvCats);
 
 // POST Routes
 router.post('/login', controller.postLogin);

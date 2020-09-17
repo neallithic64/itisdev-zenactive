@@ -56,7 +56,6 @@ $(document).ready(function() {
 				url: '/login',
 				data: form,
 				success: function() {
-					alert("Login successful!");
 					window.location.href = '/admin';
 				},
 				error: function(str) {
