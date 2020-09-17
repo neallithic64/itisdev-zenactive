@@ -151,11 +151,20 @@ const adminFunctions = {
 	},
 
 	getInvProds: async function(req, res) {
-		var prods = await db.findMany(ProductDB, {});
+		// var prods = await db.findMany(ProductDB, {});
 		if (req.session.admin) {
+			var prods = await db.aggregate(ProductDB, [
+				{'$lookup': {
+					'from': 'ProdCategory',
+					'localField': 'productID',
+					'foreignField': 'productID',
+					'as': 'prodCateg'
+				}},
+				{'$unwind': "$prodCateg"}
+			]);
 			res.render('productlist', {
 				title: 'Manage Products - ZenActivePH',
-				products: prods
+				products: forceJSON(prods)
 			});
 		} else res.redirect('/');
 	},

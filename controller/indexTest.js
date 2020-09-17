@@ -1,5 +1,18 @@
 const db = require('../models/db');
 const Test = require('../models/Test');
+const CancelReason = require('../models/CancelReason');
+const Category = require('../models/Category');
+const CustomerCart = require('../models/CustomerCart');
+const CustomerOrder = require('../models/CustomerOrder');
+const PaymentProof = require('../models/PaymentProof');
+const PageView = require('../models/PageView');
+const ProdCategory = require('../models/ProdCategory');
+const ProdPhoto = require('../models/ProdPhoto');
+const Product = require('../models/Product');
+const SupplierCart = require('../models/SupplierCart');
+const SupplierOrder = require('../models/SupplierOrder');
+const Threshold = require('../models/Threshold');
+
 // const algo = require('algoSet');
 
 function forceJSON(e) {
@@ -84,8 +97,30 @@ const indexTest = {
 	},
 	
 	postDoubles: async function(req, res) {
-		let {a} = req.body;
-		await db.insertOne(Test, {mainVal: new Date(), otherVal: Number.parseFloat(a)});
+//		let {a} = req.body;
+//		await db.insertOne(Test, {mainVal: new Date(), otherVal: Number.parseFloat(a)});
+		res.redirect('/test');
+	},
+	
+	postMkFirstProds: async function(req, res) {
+//		let arr = [
+//			{productID: 'TOP00000', name: 'TOP', price: 0.0, size: 'SIZE', color: 'COLOUR'},
+//			{productID: 'BOT00000', name: 'BOT', price: 0.0, size: 'SIZE', color: 'COLOUR'},
+//			{productID: 'SET00000', name: 'SET', price: 0.0, size: 'SIZE', color: 'COLOUR'},
+//			{productID: 'ACC00000', name: 'ACC', price: 0.0, size: 'SIZE', color: 'COLOUR'}
+//		];
+		await db.insertMany(Category, [
+			{categName: 'Tops'},
+			{categName: 'Bottoms'},
+			{categName: 'Sets'},
+			{categName: 'Accessories'}
+		]);
+		await db.insertMany(ProdCategory, [
+			{productID: 'TOP00000', categName: 'Tops'},
+			{productID: 'BOT00000', categName: 'Bottoms'},
+			{productID: 'SET00000', categName: 'Sets'},
+			{productID: 'ACC00000', categName: 'Accessories'}
+		]);
 		res.redirect('/test');
 	}
 };

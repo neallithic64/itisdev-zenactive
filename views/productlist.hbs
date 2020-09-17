@@ -53,7 +53,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{{> productrow }}
+							{{#each products}} {{> productrow this}} {{/each}}
 						</tbody>
 					</table>
 				</div>

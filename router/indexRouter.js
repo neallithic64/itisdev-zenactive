@@ -8,7 +8,7 @@ const buyerCont = require('../controller/buyerController');
 
 // Testing Routes
 router.get('/test', test.getHome);
-router.post('/test', test.postDoubles);
+router.post('/test', test.postGenDocs);
 
 
 
