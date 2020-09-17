@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express();
 const test = require('../controller/indexTest');
-const controller = require('../controller/indexController');
+const adminCont = require('../controller/adminController');
+const buyerCont = require('../controller/buyerController');
+
+
 
 // Testing Routes
 router.get('/test', test.getHome);
@@ -9,28 +12,35 @@ router.post('/test', test.postDoubles);
 
 
 
-// GET Routes
-router.get('/', controller.getHome);
-router.get('/login', controller.getLogin);
-router.get('/register', controller.getRegister);
-router.get('/admin', controller.getAdmin);
+// Buyer GET Routes
+router.get('/', buyerCont.getHome);
+router.get('/search-products', buyerCont.getSearchProducts);
+router.get('/view-allproducts', buyerCont.getAllProducts);
+router.get('/view-product', buyerCont.getProduct);
+router.get('/view-orderStatus', buyerCont.getOrderStatus);
 
-router.get('/search-products', controller.getSearchProducts);
-router.get('/view-allproducts', controller.getAllProducts);
-router.get('/view-product', controller.getProduct);
-router.get('/view-orderStatus', controller.getOrderStatus);
 
-router.get('/view-buyorder', controller.getBuyOrder);
-router.get('/view-suppOrder', controller.getSuppOrder);
-router.get('/buyerOrders', controller.getBuyerOrders);
-router.get('/supplierOrders', controller.getSupplierOrders);
 
-router.get('/invProds', controller.getInvProds);
-router.get('/invCats', controller.getInvCats);
+// Buyer POST Routes
 
-// POST Routes
-router.post('/login', controller.postLogin);
-router.post('/logout', controller.postLogout);
-router.post('/register', controller.postRegister);
+
+
+
+// Admin GET Routes
+router.get('/login', adminCont.getLogin);
+router.get('/register', adminCont.getRegister);
+router.get('/admin', adminCont.getAdmin);
+router.get('/invProds', adminCont.getInvProds);
+router.get('/invCateg', adminCont.getInvCateg);
+router.get('/view-buyorder', adminCont.getBuyOrder);
+router.get('/view-suppOrder', adminCont.getSuppOrder);
+router.get('/buyerOrders', adminCont.getBuyerOrders);
+router.get('/supplierOrders', adminCont.getSupplierOrders);
+
+
+// Admin POST Routes
+router.post('/login', adminCont.postLogin);
+router.post('/logout', adminCont.postLogout);
+router.post('/register', adminCont.postRegister);
 
 module.exports = router;

@@ -56,10 +56,6 @@ function sendEmail(email) {
 	});
 }
 
-function genBuyOrdNo() {
-	return Number.parseInt((new Date()).toISOString().substr(2, 8).split('-').join('') + Math.round(Math.random()*100000).toString().padStart(5, '0'));
-}
-
 function forceJSON(e) {
 	return JSON.parse(JSON.stringify(e));
 }
@@ -84,63 +80,11 @@ async function getJoinedQuery(prodID) {
 
 /* Index Functions
  */
-const indexFunctions = {
+const buyerFunctions = {
 	getHome: function(req, res) {
-		if (req.session.admin) {
-		}
 		res.render('home', {
 			title: 'ZenActivePH'
 		});
-	},
-	
-	getLogin: function(req, res) {
-		if (req.session.admin) res.redirect('/');
-		else res.render('login', {title: 'Login'});
-	},
-	
-	getRegister: function(req, res) {
-		if (req.session.admin) res.redirect('/');
-		else res.render('register');
-	},
-	
-	getAdmin: function(req, res) {
-		if (req.session.admin)
-			res.render('admin', {
-				title: 'Admin Page - ZenActivePH'
-			});
-		else res.redirect('/');
-	},
-	
-	postLogin: async function(req, res) {
-		let {email, password} = req.body;
-		try {
-			var admin = await db.findOne(AdminDB, {email: email}, '');
-			if (!admin) {
-				res.status(401).send('Incorrect credentials.');
-			} else {
-				var match = await bcrypt.compare(password, admin.password);
-				if (match) {
-					req.session.admin = admin;
-					res.status(200).send();
-				} else {
-					res.status(401).send('Incorrect credentials.');
-				}
-			}
-		} catch (e) {
-			res.status(500).send('Server error.');
-		}
-	},
-	
-	postLogout: function(req, res) {
-		req.session.destroy();
-		res.status(200).send();
-	},
-	
-	postRegister: async function(req, res) {
-		let {email, password} = req.body;
-		var adminPass = await bcrypt.hash(password, saltRounds);
-		await db.insertOne(AdminDB, new constructors.Admin(email, adminPass));
-		res.redirect('/');
 	},
 	
 /* Buying Process functions
@@ -183,87 +127,6 @@ const indexFunctions = {
 		}
 	},
 
-	getInvProds: async function(req, res) {
-		var prods = await db.findMany(ProductDB, {});
-		if (req.session.admin) {
-			res.render('productlist', {
-				title: '',
-				products: prods
-			});
-		} else res.redirect('/');
-	},
-	
-	getInvCats: async function(req, res, next) {
-		var categs = await db.findMany(CategoryDB, {});
-		if (req.session.admin) {
-			res.render('categorylist', {
-				title: '',
-				categories: categs
-			});
-		} else res.redirect('/');
-	},
-
-/* View Orders Report --
- * 
- * The seller may view all orders submitted to see what orders were submitted 
- * by the buyers. The seller may also view the orders they have made to the supplier.
- * 
- */
-
-	getBuyOrder: async function(req, res) {
-		let {orderNo} = req.query;
-		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
-		
-		if (!orderMatch) {
-			//error handling
-		} else {
-		}
-		res.render('salestracker', {
-			title: 'Sales Tracker'
-			// buyOrder: orderMatch
-		});
-	},
-
-	getSuppOrder: async function(req, res) {
-		let {orderNo} = req.query;
-		var orderMatch = await db.findOne(SupplierOrderDB, {batchID: orderNo}, '');
-		
-		if (!orderMatch) {
-			//error handling
-		} else {
-		}
-		res.render('purchtracker', {
-			title: 'Purchases Tracker'
-			// suppOrder: orderMatch
-		});
-	},
-
-	getBuyerOrders: async function (req, res) {
-		var buyOrders = await db.findMany(CustomerOrderDB, {}, '');
-		
-		if (!buyOrders) {
-			// error handling
-		} else {
-		}
-		res.render('salestracker', {
-			title: 'Sales Tracker',
-			buyerOrders: buyOrders
-		});
-	}, 
-	
-	getSupplierOrders: async function (req, res) {
-		var suppOrders = await db.findMany(SupplierOrderDB, {}, '');
-		
-		if (!suppOrders) {
-			// error handling
-		} else {
-		}
-		res.render('purchtracker', {
-			title: 'Purchases Tracker',
-			supplierOrders: suppOrders
-		});
-	},
-
 /* View Order Status
  * 
  * Buyers may choose to view their order’s status to track where
@@ -291,32 +154,6 @@ const indexFunctions = {
 			});
 		}
 
-	},
-
-/* Update Order Status --
- * 
- * When items are shipped, details regarding their delivery will be sent
- * through the buyer’s email and displayed in the view order status page,
- * by utilizing the tracking details from the partner courier. When items
- * are cancelled, the reason for cancelling will also be displayed.
- */
-	postOrderStatus: async function(req, res) {
-
-		let {orderNo, cancelRsn} = req.body;
-		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
-
-		if (orderMatch.status === 'SHIPPED'){
-			// details regarding their delivery will be sent through the buyer’s email
-			// what details to send? 
-			// how to use helper function 'sendEmail'?
-			// sendEmail(orderMatch.email);        
-		
-		} else if (orderMatch.status === 'CANCELLED'){
-			await db.insertOne(CancelReasonDB, {buyOrdNo: orderNo, cancelReason: cancelRsn});
-			
-		} else {
-			// render smthn
-		}
 	},
 
 /* Send Proof of Payment 
@@ -348,44 +185,6 @@ const indexFunctions = {
 		
 	},
 	
-/* Validate Payment
- * 
- * The seller receives the proof of payment from the buyer and 
- * updates the status of the order.
- * 
- */
-	getValidPayment: async function(req, res) {
-		// seller inputs orderNo to search in the db
-		var buyOrder = await db.aggregate(CustomerOrderDB, [
-			{'$match': {buyOrdNo: req.query.text}},
-			{'$lookup': {
-				'from': 'PaymentProof',
-				'localField': 'buyOrdNo',
-				'foreignField': 'buyOrdNo',
-				'as': 'paymentProof'
-			}}
-		]);
-		
-		// retrieve payProof (url/pic) & reference order, for seller to check
-		res.render('', {
-			ordNo: buyOrder.buyOrdNo,
-			payProof: buyOrder.paymentProof
-		});
-	},
-
-	postValidPayment: async function(req, res) {
-		// possibly AJAX: update order status depending on what seller chooses in front end (dropdown?)
-		let {orderNo, orderStatus} = req.body;
-		var updateStatus = await db.updateOne(CustomerOrderDB, {buyOrdNo: orderNo}, {status: orderStatus});
-
-		if (!updateStatus) {
-			// handle error
-		} else {
-			// possiblly AJAX instead idk
-		}
-
-	},
-
 /* Manage Inventory --
  * 
  * The admin/seller can add products or edit existing products 
@@ -463,4 +262,4 @@ const indexFunctions = {
 	}
 };
 
-module.exports = indexFunctions;
+module.exports = buyerFunctions;
