@@ -12,15 +12,13 @@
 				{{! FILTER DROPDOWN }}
 				<div class="d-flex align-items-center align-content-center">
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Show by:</span>
-					<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="sortcateg" type="button" style="background: rgba(255,255,255,0.4);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Category</button>
-						<div class="dropdown-menu" style="min-width: 118px;width: 120px;margin-top: 0px;">
-							<a class="dropdown-item" id="sorttops" href="#" style="padding-left: 14px;font-size: 12px;">Tops</a>
-							<a class="dropdown-item" id="sortbots" href="#" style="padding-left: 14px;font-size: 12px;">Bottoms</a>
-							<a class="dropdown-item" id="sortsets" href="#" style="padding-left: 14px;font-size: 12px;">Sets</a>
-							<a class="dropdown-item" id="sortaccs" href="#" style="padding-left: 14px;font-size: 12px;">Accessories</a>
-						</div>
-					</div>
+					<select style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 104px;">
+						<option value="0">Category</option>
+						<option value="1">Tops</option>
+						<option value="2">Bottoms</option>
+						<option value="3">Sets</option>
+						<option value="4">Accessories</option>
+					</select>
 				</div>
 
 				{{! SEARCH BAR }}
