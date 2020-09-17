@@ -37,11 +37,17 @@ router.get('/view-suppOrder', adminCont.getSuppOrder);
 router.get('/buyerOrders', adminCont.getBuyerOrders);
 router.get('/supplierOrders', adminCont.getSupplierOrders);
 
+router.get('/addProduct', adminCont.getAddProduct);
+router.get('/addCategory', adminCont.getAddCategory);
+
+
 
 // Admin POST Routes
 router.post('/login', adminCont.postLogin);
 router.post('/logout', adminCont.postLogout);
 router.post('/register', adminCont.postRegister);
+router.post('/addProduct', adminCont.postAddProduct);
+router.post('/addCategory', adminCont.postAddCateg);
 
 
 // Error Page

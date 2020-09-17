@@ -326,6 +326,14 @@ const adminFunctions = {
  * WHERE p.productID = req.query.text
  */
 
+	getAddProduct: async function(req, res) {
+		res.render('addproduct');
+	},
+	
+	getAddCategory: async function(req, res) {
+		
+	},
+	
 	postAddProduct: async function(req, res) {
 		try {
 			let {productID, name, price, size, color, categName, photoLink} = req.body;
@@ -365,7 +373,7 @@ const adminFunctions = {
 	
 /* The admin may choose to create a new category that products may be labelled under.
  */
-	postAddProductCateg: async function(req, res) {
+	postAddCateg: async function(req, res) {
 		let {categName} = req.body;
 		var categFind = await db.findOne(CategoryDB, {categName: categName});
 		
