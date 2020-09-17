@@ -27,27 +27,23 @@
 				<div class="d-flex align-items-center align-content-center">
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Show by:</span>
 					{{! BY CATEGORY }}
-					<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="sortpcateg" type="button" style="background: rgba(255,255,255,0.4);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Category</button>
-						<div class="dropdown-menu" style="min-width: 118px;width: 120px;margin-top: 0px;">
-							<a class="dropdown-item" id="sorttops" href="#" style="padding-left: 14px;font-size: 12px;">Tops</a>
-							<a class="dropdown-item" id="sortbots" href="#" style="padding-left: 14px;font-size: 12px;">Bottoms</a>
-							<a class="dropdown-item" id="sortsets" href="#" style="padding-left: 14px;font-size: 12px;">Sets</a>
-							<a class="dropdown-item" id="sortaccs" href="#" style="padding-left: 14px;font-size: 12px;">Accessories</a>
-						</div>
-					</div>
+					<select id="sortPurchCateg" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 104px;">
+						<option value="0">Category</option>
+						<option value="1">Tops</option>
+						<option value="2">Bottoms</option>
+						<option value="3">Sets</option>
+						<option value="4">Accessories</option>
+					</select>
 							
 					{{! BY STATUS }}
-					<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="sortpstat" type="button" style="background: rgba(255,255,255,0.4);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Status</button>
-						<div class="dropdown-menu" style="min-width: 118px;width: 120px;margin-top: 0px;">
-							<a class="dropdown-item" id="sortppend" href="#" style="padding-left: 14px;font-size: 12px;">Pending</a>
-							<a class="dropdown-item" id="sortpcomp" href="#" style="padding-left: 14px;font-size: 12px;">Complete</a>
-							<a class="dropdown-item" id="sortpinc" href="#" style="padding-left: 14px;font-size: 12px;">Incomplete</a>
-							<a class="dropdown-item" id="sortprefund" href="#" style="padding-left: 14px;font-size: 12px;">Refunded</a>
-							<a class="dropdown-item" id="sortpcancel" href="#" style="padding-left: 14px;font-size: 12px;">Cancelled</a>
-						</div>
-					</div>
+					<select id="sortPurchStatus" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 104px;">
+					    <option value="0">Status</option>
+					    <option value="1">Pending</option>
+					    <option value="2">Complete</option>
+					    <option value="3">Incomplete</option>
+					    <option value="4">Refunded</option>
+					    <option value="5">Cancelled</option>
+                           		</select>
 					
 					{{! BUTTONS }}
 					{{! Without show status, complete all should be disabled }}
