@@ -60,13 +60,15 @@ function genBuyOrdNo() {
 	return Number.parseInt((new Date()).toISOString().substr(2, 8).split('-').join('') + Math.round(Math.random()*100000).toString().padStart(5, '0'));
 }
 
-function genProdCode(name, size, colour) {
-	// NNNNN-TY-S-COL
-	var type;
-	switch (name) {
-//		case 
-	}
-	return name.split(' ').join('').substr(0, 5) + '-' + size.split(' ').join('').substr(0, 1) + '-' + colour.split(' ').join('').substr(0, 3);
+async function genProdCode(category) {
+	// {TOP|BOT|SET|ACC}00000
+	var catCode = category.substr(0, 3).toUpperCase(),
+		prod = await db.aggregate(ProductDB, [
+			{ $match: {'productID': new RegExp('^(' + catCode + ')\\d{5}', 'g')} },
+			{ $sort: {'productID': -1} }
+		]),
+		count = Number.parseInt(prod[0].productID.substr(3)) + 1;
+	return catCode + count.toString().padStart(5, '0');
 }
 
 function forceJSON(e) {
