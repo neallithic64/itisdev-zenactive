@@ -43,4 +43,14 @@ router.post('/login', adminCont.postLogin);
 router.post('/logout', adminCont.postLogout);
 router.post('/register', adminCont.postRegister);
 
+
+// Error Page
+router.get('*', function(req, res) {
+	res.send('404 error what are you doing');
+//	res.render('error', {
+//		// idk
+//	});
+});
+
+
 module.exports = router;
