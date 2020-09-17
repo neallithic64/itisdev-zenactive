@@ -32,10 +32,10 @@ router.get('/register', adminCont.getRegister);
 router.get('/admin', adminCont.getAdmin);
 router.get('/invProds', adminCont.getInvProds);
 router.get('/invCateg', adminCont.getInvCateg);
-router.get('/view-buyorder', adminCont.getBuyOrder);
-router.get('/view-suppOrder', adminCont.getSuppOrder);
-router.get('/buyerOrders', adminCont.getBuyerOrders);
-router.get('/supplierOrders', adminCont.getSupplierOrders);
+router.get('/view-buyorder', adminCont.getSalesOrder);
+router.get('/view-suppOrder', adminCont.getPurchaseOrder);
+router.get('/salesOrders', adminCont.getSalesOrders);
+router.get('/purchaseOrders', adminCont.getPurchaseOrders);
 
 router.get('/addProduct', adminCont.getAddProduct);
 router.get('/addCategory', adminCont.getAddCategory);

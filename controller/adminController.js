@@ -87,12 +87,14 @@ async function getJoinedQuery(prodID) {
 const adminFunctions = {
 	getLogin: function(req, res) {
 		if (req.session.admin) res.redirect('/');
-		else res.render('login', {title: 'Login'});
+		else res.render('login', {title: 'Login - ZenActivePH'});
 	},
 	
 	getRegister: function(req, res) {
 		if (req.session.admin) res.redirect('/');
-		else res.render('register');
+		else res.render('register', {
+			title: 'Register - ZenactivePH'
+		});
 	},
 	
 	getAdmin: function(req, res) {
@@ -139,7 +141,7 @@ const adminFunctions = {
 		var prods = await db.findMany(ProductDB, {});
 		if (req.session.admin) {
 			res.render('productlist', {
-				title: '',
+				title: 'Manage Products - ZenActivePH',
 				products: prods
 			});
 		} else res.redirect('/');
@@ -149,7 +151,7 @@ const adminFunctions = {
 		var categs = await db.findMany(CategoryDB, {});
 		if (req.session.admin) {
 			res.render('categorylist', {
-				title: '',
+				title: 'Manage Categories - ZenActivePH',
 				categories: categs
 			});
 		} else res.redirect('/');
@@ -162,7 +164,7 @@ const adminFunctions = {
  * 
  */
 
-	getBuyOrder: async function(req, res) {
+	getSalesOrder: async function(req, res) {
 		let {orderNo} = req.query;
 		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
 		
@@ -176,7 +178,7 @@ const adminFunctions = {
 		});
 	},
 
-	getSuppOrder: async function(req, res) {
+	getPurchaseOrder: async function(req, res) {
 		let {orderNo} = req.query;
 		var orderMatch = await db.findOne(SupplierOrderDB, {batchID: orderNo}, '');
 		
@@ -190,29 +192,29 @@ const adminFunctions = {
 		});
 	},
 
-	getBuyerOrders: async function (req, res) {
-		var buyOrders = await db.findMany(CustomerOrderDB, {}, '');
+	getSalesOrders: async function (req, res) {
+		var orders = await db.findMany(CustomerOrderDB, {}, '');
 		
-		if (!buyOrders) {
+		if (!orders) {
 			// error handling
 		} else {
 		}
 		res.render('salestracker', {
 			title: 'Sales Tracker',
-			buyerOrders: buyOrders
+			orders: orders
 		});
 	}, 
 	
-	getSupplierOrders: async function (req, res) {
-		var suppOrders = await db.findMany(SupplierOrderDB, {}, '');
+	getPurchaseOrders: async function (req, res) {
+		var orders = await db.findMany(SupplierOrderDB, {}, '');
 		
-		if (!suppOrders) {
+		if (!orders) {
 			// error handling
 		} else {
 		}
 		res.render('purchtracker', {
 			title: 'Purchases Tracker',
-			supplierOrders: suppOrders
+			orders: orders
 		});
 	},
 
@@ -327,7 +329,9 @@ const adminFunctions = {
  */
 
 	getAddProduct: async function(req, res) {
-		res.render('addproduct');
+		res.render('addproduct', {
+			title: 'Add New Product - ZenActivePH'
+		});
 	},
 	
 	getAddCategory: async function(req, res) {
