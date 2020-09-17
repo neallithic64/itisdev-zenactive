@@ -133,7 +133,7 @@ const indexFunctions = {
 	
 	postLogout: function(req, res) {
 		req.session.destroy();
-		res.redirect("/");
+		res.status(200).send();
 	},
 	
 	postRegister: async function(req, res) {

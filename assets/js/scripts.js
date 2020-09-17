@@ -119,3 +119,14 @@ $(document).ready(function() {
 			elem.removeClass('animated ' + elem.attr('data-bs-hover-animate'));
 		});
 });
+
+function callLogout() {
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "/logout", true);
+	xhr.onreadystatechange = function() {
+		if (xhr.status === 200 && xhr.readyState === 4) {
+			window.location.href = '/';
+		}
+	};
+	xhr.send();
+}

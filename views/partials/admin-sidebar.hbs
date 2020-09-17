@@ -1,69 +1,69 @@
 <div class="col-xl-2" style="max-width: 267px; height: auto;">
-			<div style="height: 100%" class="wrapper">
-				<nav id="sidebar" style="font-weight: 600">
-					<div class="sidebar-header">
-						<img src="assets/img/zen-logo.png" style="width: 210px;"/>
-					</div>
+	<div style="height: 100%" class="wrapper">
+		<nav id="sidebar" style="font-weight: 600">
+			<div class="sidebar-header">
+				<img src="assets/img/zen-logo.png" style="width: 210px;"/>
+			</div>
 
-					<ul class="list-unstyled components">
+			<ul class="list-unstyled components">
 
-					{{! Dashboard }}
-						<li>
-							<a href="admin.html">Dashboard</a>
-						</li>
+			{{! Dashboard }}
+				<li>
+					<a href="/admin">Dashboard</a>
+				</li>
 
-					{{! Active Tab Trackers }}	
+			{{! Active Tab Trackers }}	
+				<li class="active">
+					<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Trackers</a>
+					<ul class="collapse list-unstyled" id="homeSubmenu">
 						<li class="active">
-							<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Trackers</a>
-							<ul class="collapse list-unstyled" id="homeSubmenu">
-								<li class="active">
-									<a href="/buyerOrders">Sales Orders</a>
-								</li>
-								<li>
-									<a href="/supplierOrders">Purchase Orders</a>
-								</li>
-							</ul>
+							<a href="/buyerOrders">Sales Orders</a>
 						</li>
-
-					{{! Reports }}	
 						<li>
-							<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Reports</a>
-							<ul class="collapse list-unstyled" id="pageSubmenu">
-								<li>
-									<a href="#">Sales</a>
-								</li>
-								<li>
-									<a href="#">Customer</a>
-								</li>
-								<li>
-									<a href="#">Website</a>
-								</li>
-							</ul>
-						</li>
-
-					{{! Manage Inventory }}
-						<li>
-							<a href="#manSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Manage Inventory</a>
-							<ul class="collapse list-unstyled" id="manSubmenu">
-								<li>
-									<a href="#">Products</a>
-								</li>
-								<li>
-									<a href="#">Categories</a>
-								</li>
-							</ul>
-						</li>
-
-					{{! Set Threshold }}
-						<li>
-							<a href="#">Set Threshold</a>
-						</li>
-
-					{{! Logout }}
-						<li>
-							<a href="#">Log Out</a>
+							<a href="/supplierOrders">Purchase Orders</a>
 						</li>
 					</ul>
-				</nav>
-			</div>
-		</div>
+				</li>
+
+			{{! Reports }}	
+				<li>
+					<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Reports</a>
+					<ul class="collapse list-unstyled" id="pageSubmenu">
+						<li>
+							<a href="#">Sales</a>
+						</li>
+						<li>
+							<a href="#">Customer</a>
+						</li>
+						<li>
+							<a href="#">Website</a>
+						</li>
+					</ul>
+				</li>
+
+			{{! Manage Inventory }}
+				<li>
+					<a href="#manSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Manage Inventory</a>
+					<ul class="collapse list-unstyled" id="manSubmenu">
+						<li>
+							<a href="#">Products</a>
+						</li>
+						<li>
+							<a href="#">Categories</a>
+						</li>
+					</ul>
+				</li>
+
+			{{! Set Threshold }}
+				<li>
+					<a href="#">Set Threshold</a>
+				</li>
+
+			{{! Logout }}
+				<li>
+					<a href="#" onclick="callLogout();">Log Out</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>
