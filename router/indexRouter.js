@@ -10,7 +10,9 @@ const buyerCont = require('../controller/buyerController');
 router.get('/test', test.getHome);
 router.post('/test', test.postGenDocs);
 
-
+router.get('/aaaaa', function(req, res) {
+    res.render('bag');
+});
 
 // Buyer GET Routes
 router.get('/', buyerCont.getHome);
