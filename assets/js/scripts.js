@@ -9,6 +9,9 @@ function closeNav() {
 function getSessionCart() {
 	return JSON.parse(window.sessionStorage.getItem('cart'));
 }
+function setSessionCart(cart) {
+	window.sessionStorage.setItem('cart', JSON.stringify(cart));
+}
 
 /* Function to add the product ID of the added-to product
  * {
@@ -19,14 +22,18 @@ function getSessionCart() {
 */
 function addToCart(code, size, qty) {
 	var cart = getSessionCart();
-	cart.push({code: code, size: size, qty: qty});
-	window.sessionStorage.setItem('cart', JSON.stringify(cart));
+	if (cart.some(e => e.code === code)) alert('Item already exists in cart!');
+	else if (isNaN(qty)) alert('Quantity is not a number!');
+	else {
+		cart.push({code: code, size: size, qty: Number.parseInt(qty)});
+		setSessionCart(cart);
+	}
 }
 
 function removeFromCart(s) {
 	var cart = getSessionCart();
 	cart = cart.filter(e => e.code !== s);
-	window.sessionStorage.setItem('cart', JSON.stringify(cart));
+	setSessionCart(cart);
 }
 
 /* Returns a boolean on the capacity of a cart. If cart still
@@ -42,17 +49,16 @@ function trimArr(arr) {
 
 $(document).ready(function() {
 	// creating a new cart if it doesn't exist yet
-	if (!getSessionCart()) {
-		window.sessionStorage.setItem('cart', JSON.stringify([]));
-	}
+	if (!getSessionCart()) setSessionCart([]);
 	
+	// updating cart count in navbar
 	$("#lblCartCount").text(getSessionCart().length);
 	
 	$("button#addCartButton").click(function() {
-		var code;
+		var code = $("strong#prodNameID").text().match(/ - /i)[1];
 		var size = $("select#prodSize").val();
 		var qty = $("input#prodQty").val();
-		addToCart(qty);
+		addToCart(code, size, qty);
 	});
 	
 	// creating post request to checkout cart

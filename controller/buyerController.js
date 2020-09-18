@@ -116,7 +116,7 @@ const buyerFunctions = {
 	getProduct: async function(req, res) {
 		// use server error checking here
 		// view through productID
-		var prodMatch = await db.findOne(ProductDB, {productID: req.query.prodNo}, '');
+		var prodMatch = await db.findOne(ProductDB, {productID: req.params.prodID}, '');
 		
 		if (!prodMatch) {
 			// error handling: no product found
