@@ -68,22 +68,22 @@ const indexTest = {
 			refID1: '1',
 			refID2: '2'
 		};
-		var result = await db.insertOne(Test, obj);
-		console.log(result ? 'inserted' : 'failed');
+//		var result = await db.insertOne(Test, obj);
+//		console.log(result ? 'inserted' : 'failed');
 		
 		// make the query
-		var a = await db.findOne(Test, {refID1: '1', refID2: '2'});
-		
-		if (a) {
-			// ID generation system
-			var str = (a._id+"");
-			// making use of _id (ObjectId)
-			a.refID1 = str.substr(0, 12);
-			a.refID2 = str.substr(12);
-			
-			// save the update/s and redirect
-			await a.save();
-		}
+//		var a = await db.findOne(Test, {refID1: '1', refID2: '2'});
+//		
+//		if (a) {
+//			// ID generation system
+//			var str = (a._id+"");
+//			// making use of _id (ObjectId)
+//			a.refID1 = str.substr(0, 12);
+//			a.refID2 = str.substr(12);
+//			
+//			// save the update/s and redirect
+//			await a.save();
+//		}
 		res.redirect('/');
 	},
 	
