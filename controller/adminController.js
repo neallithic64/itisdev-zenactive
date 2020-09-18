@@ -368,15 +368,19 @@ const adminFunctions = {
 	
 	postAddProduct: async function(req, res) {
 		try {
-			let {productID, name, price, size, color, categName, photoLink} = req.body;
+			let {pname, pprice, psize, pcolor, categName, photoLink} = req.body;
+			let productID = genProdCode(categName);
 			var prodFind = await getJoinedQuery(productID);
 			
 			if (prodFind) {
 				// handle error: product exists in db
+				res.status(400).send();
 			} else {
-				await db.insertOne(ProductDB, {productID: productID});
-				await db.insertOne(ProdCategoryDB, {productID: productID});
-				await db.insertOne(ProdPhotoDB, {productID: productID});
+				var newProd = new constructors.Product(productID, pname, pprice, psize, pcolor);
+				await db.insertOne(ProductDB, newProd);
+				await db.insertOne(ProdCategoryDB, {productID: productID, categName: categName});
+				await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: photoLink});
+				res.status(200).send();
 			}
 		} catch (e) {
 			// error handling
