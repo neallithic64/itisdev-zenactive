@@ -55,6 +55,27 @@ $(document).ready(function() {
 		addToCart(qty);
 	});
 	
+	// creating post request to checkout cart
+	$("submitCart idk what to put here").click(function() {
+		var cart = getSessionCart();
+		$.post('/checkout', cart, result => {
+			// idk
+		});
+	});
+	
+	if (location.href === "viewCart idk exactly yet") {
+		getSessionCart().forEach(e => {
+			$("select something here idk yet").append(e);
+		});
+	}
+});
+
+
+
+
+
+/* FRONTEND VALIDATION SCRIPTS */
+$(document).ready(function() {
 	$("#submitLogin").click(function() {
 		var form = $("#loginForm").serializeArray();
 		trimArr(form);
@@ -74,20 +95,6 @@ $(document).ready(function() {
 			alert('Please input a valid email format.');
 		} else alert('Please fill in all fields!');
 	});
-	
-	// creating post request to checkout cart
-	$("submitCart idk what to put here").click(function() {
-		var cart = getSessionCart();
-		$.post('/checkout', cart, result => {
-			// idk
-		});
-	});
-	
-	if (location.href === "viewCart idk exactly yet") {
-		getSessionCart().forEach(e => {
-			$("select something here idk yet").append(e);
-		});
-	}
 	
 	$("button#addProdBtn").click(function() {
 		var addProd = $("form#addProdForm").serializeArray();
@@ -110,11 +117,11 @@ $(document).ready(function() {
 			alert('ding dong');
 		}
 	});
-	
-	
-	
-	
-	/* FRONTEND STYLE SCRIPTS */
+});
+
+
+/* FRONTEND STYLE SCRIPTS */
+$(document).ready(function() {
 	function checkScroll() {
 		var opacity = 150; // start point navbar fixed to top changes in px
 		if ($(window).scrollTop() > opacity) {
