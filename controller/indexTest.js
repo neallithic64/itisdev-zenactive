@@ -89,9 +89,9 @@ const indexTest = {
 	
 	postGenDocs: async function(req, res) {
 		// generating docs
-		var docs = [];
-		for (var i = 0; i < 20; i++) docs.push({mainVal: genDate(), otherVal: Math.round(Math.random()*1000)});
-		await db.insertMany(Test, docs);
+//		var docs = [];
+//		for (var i = 0; i < 20; i++) docs.push({mainVal: genDate(), otherVal: Math.round(Math.random()*1000)});
+//		await db.insertMany(Test, docs);
 		
 		res.redirect('/');
 	},
