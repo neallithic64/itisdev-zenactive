@@ -398,11 +398,76 @@ const adminFunctions = {
 				// handle error: cannot edit product that does not exist
 			} else {
 				await db.updateOne(ProductDB, {productID: productID}, updateProd);
-//				await db.updateOne(ProdCategoryDB, {productID: productID}, {categName: categName}); // MOVE TO SEPARATE EDIT FUNCTION
-//				await db.updateOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink}); // MOVE TO SEPARATE EDIT FUNCTION
 			}
 		} catch (e) {
 			// error handling
+		}
+	},
+	
+/* Edit Product Category
+ * 
+ */	
+	postAddProdCateg: async function(req, res){
+		try {
+			let {productID, category} = req.body;
+			var prodFind = await getJoinedQuery(productID);
+			
+			if (!prodFind) {
+			// handle error: cannot edit product that does not exist
+			} else {
+				await db.insertOne(ProdCategoryDB, {productID: productID}, {categName: category}); 
+			}		
+		} catch (e){
+			console.log(e);
+		}		
+	},
+	
+	postDelProdCateg: async function(req, res){
+		try {
+			let {productID, category} = req.body;
+			var prodFind = await getJoinedQuery(productID);
+			
+			if (!prodFind) {
+			// handle error: cannot edit product that does not exist
+			} else {
+				await db.deleteOne(ProdCategoryDB, {productID: productID}, {categName: category}); 
+			}		
+		} catch (e){
+			console.log(e);
+		}		
+	},
+
+
+/* Edit Product Photo(s)
+ * 
+ */	
+	postAddProdPhoto: async function(req, res){
+		try {
+			let {productID, photoLink} = req.body;
+			var prodFind = await getJoinedQuery(productID);
+			
+			if (!prodFind) {
+			// handle error: cannot edit product that does not exist
+			} else {
+				await db.insertOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink}); // MOVE TO SEPARATE EDIT FUNCTION		
+			}		
+		} catch (e){
+			console.log(e);
+		}
+	},
+	
+	postDelProdPhoto: async function(req, res){
+		try {
+			let {productID, photoLink} = req.body;
+			var prodFind = await getJoinedQuery(productID);
+			
+			if (!prodFind) {
+			// handle error: cannot edit product that does not exist
+			} else {
+				await db.deleteOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink}); // MOVE TO SEPARATE EDIT FUNCTION		
+			}		
+		} catch (e){
+			console.log(e);
 		}
 	},
 	
