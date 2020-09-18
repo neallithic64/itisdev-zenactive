@@ -36,6 +36,10 @@ function getCartLimit() {
 	return getSessionCart().reduce((t, n) => t + n.qty, 0) < 30;
 }
 
+function trimArr(arr) {
+	arr.forEach(e => e.value = validator.trim(e.value));
+}
+
 $(document).ready(function() {
 	// creating a new cart if it doesn't exist yet
 	if (!getSessionCart()) {
@@ -53,8 +57,8 @@ $(document).ready(function() {
 	
 	$("#submitLogin").click(function() {
 		var form = $("#loginForm").serializeArray();
-		form.forEach(e => e.value = validator.trim(e.value));
-		if (!validator.isEmpty(form[0].value) && !validator.isEmpty(form[1].value) && validator.isEmail(form[0].value)){
+		trimArr(form);
+		if (!validator.isEmpty(form[0].value) && !validator.isEmpty(form[1].value) && validator.isEmail(form[0].value)) {
 			$.ajax({
 				method: 'POST',
 				url: '/login',
@@ -85,7 +89,27 @@ $(document).ready(function() {
 		});
 	}
 	
-	
+	$("button#addProdBtn").click(function() {
+		var addProd = $("form#addProdForm").serializeArray();
+		console.log(addProd);
+		trimArr(addProd);
+		
+		if (false) {
+			$.ajax({
+				method: 'POST',
+				url: '/addProduct',
+				data: addProd,
+				success: function() {
+					window.location.href = '/admin';
+				},
+				error: function(str) {
+					alert(str.responseText);
+				}
+			});
+		} else {
+			alert('ding dong');
+		}
+	});
 	
 	
 	
