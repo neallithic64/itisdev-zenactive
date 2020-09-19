@@ -94,25 +94,42 @@ const buyerFunctions = {
  * [/] View One Product
  * 
  */
-	getSearchProducts: async function(req, res) {
-		// use server error checking here
-		let prodQuery = new RegExp(req.query.searchProducts, 'gi'); // still convert input string to regex?
-		var searchProd = await db.findMany(ProductDB, {name: prodQuery}, ''); //search through 'productName'?
-		
-		res.render('search-products', {
-			products: forceJSON(searchProd)
-		});
-	},
-	
 	getAllProducts: async function(req, res) {
 		// use server error checking here
 		var products = await db.findMany(ProductDB, {}, '');
 		
-		res.render('view-allproducts', {
+		res.render('products', {
 			allProducts: products
 		});
 	},
-
+	
+	getSearchProducts: async function(req, res) {
+		// use server error checking here
+		let prodQuery = new RegExp(req.query.searchProducts, 'gi');
+		var searchProd = await db.findMany(ProductDB, {name: prodQuery}, '');
+		
+		res.render('products', {
+			products: forceJSON(searchProd)
+		});
+	},
+	
+	getCategoryProds: async function(req, res) {
+		var searchProd = await db.aggregate(ProdCategoryDB, [
+			{'$match': {categName: req.params.category}},
+			{'$lookup': {
+				'from': 'Product',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'product'
+			}},
+			{'$unwind': '$product'}
+		]);
+		console.table(forceJSON(searchProd));
+		res.render('products', {
+			products: forceJSON(searchProd)
+		});
+	},
+	
 	getProduct: async function(req, res) {
 		// use server error checking here
 		// view through productID

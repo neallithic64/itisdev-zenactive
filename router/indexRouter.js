@@ -12,13 +12,15 @@ router.post('/test', test.postGenDocs);
 
 router.get('/aaaaa', (req, res) => res.render('product', {title: 'testing AAAAA'}));
 
+
+
 // Buyer GET Routes
 router.get('/', buyerCont.getHome);
 router.get('/search-products', buyerCont.getSearchProducts);
-router.get('/view-allproducts', buyerCont.getAllProducts);
-router.get('/view-product', buyerCont.getProduct);
-router.get('/view-orderStatus', buyerCont.getOrderStatus);
+router.get('/category/:category', buyerCont.getCategoryProds);
 router.get('/product/:prodID', buyerCont.getProduct);
+router.get('/view-allproducts', buyerCont.getAllProducts);
+router.get('/view-orderStatus', buyerCont.getOrderStatus);
 
 
 // Buyer POST Routes
