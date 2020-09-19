@@ -1,0 +1,76 @@
+<div style="height: auto;">
+    <div class="row no-gutters" style="height: auto;">
+        
+		{{> admin-sidebar }}
+		
+        <div class="col" style="height: auto;">
+            <div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-bottom: 6px;margin-top: 6px;">
+				<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;font-size: 20px;">Choose Cut-Off Threshold</span>
+			</div>
+			
+            <div style="margin-top: 29px;padding-left: 15px;">
+                <div class="d-flex flex-column">
+					<span style="font-weight: 600;color: #93623c;">Choose Category</span>
+					<span style="font-size: 14px;color: rgb(238,19,19);">Choose a specific category to set a cut-off threshold.</span>
+				</div>
+				
+                <div style="margin-top: 23px;">
+                    <div class="form-group d-flex justify-content-start align-items-center align-content-center" style="margin-bottom: 0px;margin-top: 10px;">
+						<label style="width: 167px;color: rgb(238,19,19);padding-top: 10px;">Category *</label>
+						<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 12px;width: 252px;height: 32px;">
+							<option value="0">Choose Category</option>
+							<option value="1">Tops</option>
+							<option value="2">Bottoms</option>
+							<option value="3">Sets</option>
+							<option value="4">Accessories</option>
+						</select>
+					</div>
+                </div>
+            </div>
+			
+            <div style="margin-top: 29px;padding-left: 15px;">
+                <div class="d-flex flex-column">
+					<span style="font-weight: 600;color: #93623c;">Select Threshold</span>
+				</div>
+				
+                <div class="d-flex" style="margin-top: 23px;">
+                    <div>
+						<label style="width: 167px;color: rgb(238,19,19);padding-top: 0px;">Threshold *</label>
+					</div>
+					
+                    <div>
+					
+						{{! THRESHOLDS }}
+                        <div style="margin-bottom: 10px;width: 675px;max-width: 675px;">
+                            <div class="form-check">
+								<input class="form-check-input" type="radio" id="thresh1" name="thresh">
+								<label class="form-check-label" for="formCheck-1">Threshold 1</label>
+							</div>
+							<span class="text-truncate text-break" id="threshdesc1" style="margin-left: 20px;">Threshold Description</span>
+						</div>
+                            
+						<div style="margin-bottom: 10px;">
+                            <div class="form-check">
+								<input class="form-check-input" type="radio" id="thresh2" name="thresh">
+								<label class="form-check-label" for="formCheck-1">Threshold 2</label>
+							</div>
+							
+							<span id="threshdesc2" style="margin-left: 20px;">Threshold Description</span>
+						</div>
+						
+                        <div style="margin-bottom: 10px;">
+                            <div class="form-check">
+								<input class="form-check-input" type="radio" id="thresh3" name="thresh">
+								<label class="form-check-label" for="formCheck-1">Threshold 3</label>
+							</div>
+							
+							<span id="threshdesc3" style="margin-left: 20px;">Threshold Description</span>
+						</div>
+					</div>
+				</div>
+				
+				<button id="saveThresh" class="btn btn-primary" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 16px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 31px;margin-left: 165px;">Save Threshold</button>
+			</div>
+		</div>
+    </div>
+</div>
