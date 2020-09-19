@@ -12,7 +12,7 @@ Status: [![Heroku App Status](http://heroku-shields.herokuapp.com/???)]()
 - [cookie-parser](https://www.npmjs.com/package/cookie-parser)
 - [dotenv](https://www.npmjs.com/package/dotenv)
 - [mongoose](https://www.npmjs.com/package/mongoose)
-- [bcryptjs](https://www.npmjs.com/package/bcrypt)
+- [bcrypt](https://www.npmjs.com/package/bcrypt)
 - [nodemailer](https://www.npmjs.com/package/nodemailer)
 - [nodemon](https://www.npmjs.com/package/nodemon) (for developmental purposes)
 
