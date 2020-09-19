@@ -27,7 +27,25 @@ app.engine('hbs', exphbs.create({
 	partialsDir: 'views/partials',
 	layoutsDir: 'views/layouts',
 	helpers: {
-		// hello
+		getPrice: function(price) {
+			return price.toFixed(2);
+		},
+		getSizeChart: function(categs) {
+			return categs.includes('Bottoms');
+		},
+		getPriceTotal: function(cart) {
+			return cart.reduce(function(total, item) {
+				return total + item.price * item.qty;
+			}, 0.00).toFixed(2);
+		},
+		getOrdHeadClass: function(ordStatus) {
+			switch(ordStatus) {
+				case 'CANCELLED': return "order-header-cancelled";
+			}
+		},
+		categToString: function(cats) {
+			return cats.join(', ');
+		}
 	}
 }).engine);
 app.set('view engine', 'hbs');
