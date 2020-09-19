@@ -76,58 +76,81 @@
 						<span id= "shipfee">100.00</span>
 					</div>
 					
-					{{! TOTAL AMOUNG DIV }}
+					{{! TOTAL AMOUNT DIV }}
 					<div class="d-flex justify-content-end align-items-end align-content-end">
 						<span>Total Amount Receivable:&nbsp;</span>
 						<span id="totalamt">6,800.00</span>
 					</div>
 				</div>
 				
-				{{! CUSTOMER DETAILS }}
-				
-				<div class="d-flex flex-column justify-content-center align-items-center align-self-center" style="margin: 7px;">
-					<span style="font-weight: 600;color: #93623c;">Customer Details</span>
-					{{! CUSTOMER NAME DIV }}
-					<div>
-						<span>Customer Name:&nbsp;</span>
-						<span id="custName">Julia Estella</span>
+				{{! SHIPPING AND CUSTOMER DETAILS }}
+				<div class="d-flex">
+					<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;padding-right: 45px;border-right: 1px solid #cccccc ;">
+					
+						{{! SHIPPING DETAILS }}
+						<span style="font-weight: 600;color: #93623c;">Shipping Details</span>
+						
+						<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+							<label style="width: 167px;color: #93623c;">Courier</label>
+							<select id="addCourier" style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 14px;width: 252px;">
+								<option value="0">Choose Courier</option>
+								<option value="1">J&amp;T</option>
+								<option value="2">JRS</option>
+								<option value="3">LBC</option>
+							</select>
+						</div>
+						
+						<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+							<label style="width: 167px;color: #93623c;">Tracking ID</label>
+							<input type="text" id="addTrackID" style="margin-left: 0px;" placeholder="Tracking ID">
+						</div>
+						
+						{{! SAVE SHIPPING DETAILS }}
+						<button class="btn btn-primary" id="saveTracking" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 21px;margin-left: 364px;padding-right: 12px;margin-right: 0px;">Save</button>
 					</div>
-					{{! CUSTOMER ADDRESS DIV }}
-					<div>
-						<span>Address:&nbsp;</span>
-						<span id="custAddress">123 Shannon Village, Quezon City</span>
-					</div>
-					{{! CUSTOMER CITY DIV }}
-					<div>
-						<span>City:&nbsp;</span>
-						<span id="custCity">Quezon City</span>
-					</div>
-					{{! CUSTOMER AREA DIV }}
-					<div>
-						<span>Area:&nbsp;</span>
-						<span id="custArea">Metro Manila</span>
+					
+					{{! CUSTOMER DETAILS }}
+					<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;margin-left: 21px;max-width: 400px;">
+						<span style="font-weight: 600;color: #93623c;">Customer Details</span>
+						
+						<div>
+							<span>Customer Name:&nbsp;</span>
+							<span id="viewCustName">Julia Estella</span>
+						</div>
+						
+						<div>
+							<span>Address:&nbsp;</span>
+							<span id="viewCustAdd">123 Shannon Village, Quezon City</span>
+						</div>
+						
+						<div>
+							<span>City:&nbsp;</span>
+							<span id="viewCustCity">Quezon City</span>
+						</div>
+						
+						<div>
+							<span>Area:&nbsp;</span>
+							<span id="viewCustArea">Metro Manila</span>
+						</div>
 					</div>
 				</div>
 				
-				{{! PROOF OF PAYMENT DETAILS }}
-				
-				<div class="d-flex flex-column justify-content-center align-items-center align-self-center" style="margin: 7px;">
+				{{! PROOF OF PAYMENT }}
+				<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;">
 					<span style="font-weight: 600;color: #93623c;">Proof of Payment</span>
-					{{! REFERENCE NO. DIV }}
+					
 					<div>
 						<span>Reference No:&nbsp;</span>
-						<span id="proofRef">BD01828730-12993</span>
+						<span id="viewRefNo">BD01828730-12993</span>
 					</div>
-					{{! AMOUNT PAID DIV }}
+					
 					<div>
 						<span>Amount Paid:&nbsp;</span>
-						<span id="proofamt">6,800.00</span>
+						<span id="viewAmountPaid">6,800.00</span>
 					</div>
-				
-					{{! IMAGE DIV }}
+					
 					<img id="proofpayment" style="margin: 0px;margin-top: 11px;" src="assets/img/home-set.JPG">
 					
-					{{! VALIDATE PAYMENT BUTTON }}
 					<button class="btn btn-primary" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 14px;">Validate Payment</button>
 				</div>
 			</div>
