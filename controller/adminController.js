@@ -368,78 +368,60 @@ const adminFunctions = {
 	
 	postAddProduct: async function(req, res) {
 		try {
-			let {pname, pprice, psize, pcolor, categName, plink1, plink2, plink3} = req.body;
-			let productID = genProdCode(categName);
-			var prodFind = await getJoinedQuery(productID);
+			let {pname, pprice, psize, pcolor, pcateg, plink1, plink2, plink3} = req.body;
+			let productID = genProdCode(pcateg);
+		
+			var newProd = new constructors.Product(productID, pname, pprice, psize, pcolor);
+			await db.insertOne(ProductDB, newProd);
+			await db.insertOne(ProdCategoryDB, {productID: productID, categName: pcateg});
+			if (!!plink1) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink1});
+			if (!!plink2) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink2});
+			if (!!plink3) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink3});
 			
-			if (prodFind) {
-				// handle error: product exists in db
-				// should move this to middleware
-				res.status(400).send();
-			} else {
-				var newProd = new constructors.Product(productID, pname, pprice, psize, pcolor);
-				await db.insertOne(ProductDB, newProd);
-				await db.insertOne(ProdCategoryDB, {productID: productID, categName: categName});
-				if (!!plink1) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink1});
-				if (!!plink2) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink2});
-				if (!!plink3) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink3});
-				res.status(200).send();
-			}
+			res.status(200).send();
 		} catch (e) {
-			// error handling
+			res.status(500).send(e);
 		}
 	},
 	
 	postEditProduct: async function(req, res) {
 		try {
 			// how to deal with updating prod quantity?
-			let {productID, name, price, size, color} = req.body;
-			var prodFind = await getJoinedQuery(productID);
-			var updateProd = new constructors.Product(productID, name, price, size, color);
-			
-			if (!prodFind) {
-				// handle error: cannot edit product that does not exist
-				// should move this to middleware
-			} else {
-				await db.updateOne(ProductDB, {productID: productID}, updateProd);
-			}
+			let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
+			var updateProd = new constructors.Product(editProdID, editProdName, editProdPrice, editProdSize, editProdColor);
+
+			await db.updateOne(ProductDB, {productID: editProdID}, updateProd);
+
 		} catch (e) {
-			// error handling
+			res.status(500).send(e);
 		}
 	},
 	
 /* Edit Product Category
  * 
  */	
+
 	postAddProdCateg: async function(req, res){
 		try {
-			let {productID, category} = req.body;
-			var prodFind = await getJoinedQuery(productID);
-			
-			if (!prodFind) {
-				// handle error: cannot edit product that does not exist
-				// should move this to middleware
-			} else {
-				await db.insertOne(ProdCategoryDB, {productID: productID}, {categName: category}); 
-			}		
+			let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
+			let {remCateg, addCateg} = req.body;
+								
+			if (!!remCateg) await db.insertOne(ProdCategoryDB, {productID: editProdID, categName: addCateg});
+	
 		} catch (e){
-			console.log(e);
+			res.status(500).send(e);
 		}		
 	},
 	
 	postDelProdCateg: async function(req, res){
 		try {
-			let {productID, category} = req.body;
-			var prodFind = await getJoinedQuery(productID);
-			
-			if (!prodFind) {
-				// handle error: cannot edit product that does not exist
-				// should move this to middleware
-			} else {
-				await db.deleteOne(ProdCategoryDB, {productID: productID, categName: category}); 
-			}		
+			let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
+			let {remCateg, addCateg} = req.body;
+								
+			if (!!addCateg) await db.deleteOne(ProdCategoryDB, {productID: editProdID, categName: addCateg});
+	
 		} catch (e){
-			console.log(e);
+			res.status(500).send(e);
 		}		
 	},
 
@@ -449,33 +431,25 @@ const adminFunctions = {
  */	
 	postAddProdPhoto: async function(req, res){
 		try {
-			let {productID, photoLink} = req.body;
-			var prodFind = await getJoinedQuery(productID);
-			
-			if (!prodFind) {
-				// handle error: cannot edit product that does not exist
-				// should move this to middleware
-			} else {
-				await db.insertOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink});
-			}		
+			let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
+			let {addProdPhoto} = req.body;
+						
+			if (!!addProdPhoto) await db.insertOne(ProdPhotoDB, {productID: editProdID, photoLink: addProdPhoto});
+	
 		} catch (e){
-			console.log(e);
+			res.status(500).send(e);
 		}
 	},
 	
 	postDelProdPhoto: async function(req, res){
 		try {
-			let {productID, photoLink} = req.body;
-			var prodFind = await getJoinedQuery(productID);
-			
-			if (!prodFind) {
-				// handle error: cannot edit product that does not exist
-				// should move this to middleware
-			} else {
-				await db.deleteOne(ProdPhotoDB, {productID: productID, photoLink: photoLink});
-			}		
+			let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
+			let {remProdPhoto} = req.body;
+						
+			if (!!remProdPhoto) await db.deleteOne(ProdPhotoDB, {productID: editProdID, photoLink: remProdPhoto});
+	
 		} catch (e){
-			console.log(e);
+			res.status(500).send(e);
 		}
 	},
 	
