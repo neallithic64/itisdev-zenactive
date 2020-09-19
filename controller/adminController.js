@@ -368,18 +368,21 @@ const adminFunctions = {
 	
 	postAddProduct: async function(req, res) {
 		try {
-			let {pname, pprice, psize, pcolor, categName, photoLink} = req.body;
+			let {pname, pprice, psize, pcolor, categName, plink1, plink2, plink3} = req.body;
 			let productID = genProdCode(categName);
 			var prodFind = await getJoinedQuery(productID);
 			
 			if (prodFind) {
 				// handle error: product exists in db
+				// should move this to middleware
 				res.status(400).send();
 			} else {
 				var newProd = new constructors.Product(productID, pname, pprice, psize, pcolor);
 				await db.insertOne(ProductDB, newProd);
 				await db.insertOne(ProdCategoryDB, {productID: productID, categName: categName});
-				await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: photoLink});
+				if (!!plink1) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink1});
+				if (!!plink2) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink2});
+				if (!!plink3) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink3});
 				res.status(200).send();
 			}
 		} catch (e) {
@@ -396,6 +399,7 @@ const adminFunctions = {
 			
 			if (!prodFind) {
 				// handle error: cannot edit product that does not exist
+				// should move this to middleware
 			} else {
 				await db.updateOne(ProductDB, {productID: productID}, updateProd);
 			}
@@ -413,7 +417,8 @@ const adminFunctions = {
 			var prodFind = await getJoinedQuery(productID);
 			
 			if (!prodFind) {
-			// handle error: cannot edit product that does not exist
+				// handle error: cannot edit product that does not exist
+				// should move this to middleware
 			} else {
 				await db.insertOne(ProdCategoryDB, {productID: productID}, {categName: category}); 
 			}		
@@ -428,9 +433,10 @@ const adminFunctions = {
 			var prodFind = await getJoinedQuery(productID);
 			
 			if (!prodFind) {
-			// handle error: cannot edit product that does not exist
+				// handle error: cannot edit product that does not exist
+				// should move this to middleware
 			} else {
-				await db.deleteOne(ProdCategoryDB, {productID: productID}, {categName: category}); 
+				await db.deleteOne(ProdCategoryDB, {productID: productID, categName: category}); 
 			}		
 		} catch (e){
 			console.log(e);
@@ -447,9 +453,10 @@ const adminFunctions = {
 			var prodFind = await getJoinedQuery(productID);
 			
 			if (!prodFind) {
-			// handle error: cannot edit product that does not exist
+				// handle error: cannot edit product that does not exist
+				// should move this to middleware
 			} else {
-				await db.insertOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink}); // MOVE TO SEPARATE EDIT FUNCTION		
+				await db.insertOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink});
 			}		
 		} catch (e){
 			console.log(e);
@@ -462,9 +469,10 @@ const adminFunctions = {
 			var prodFind = await getJoinedQuery(productID);
 			
 			if (!prodFind) {
-			// handle error: cannot edit product that does not exist
+				// handle error: cannot edit product that does not exist
+				// should move this to middleware
 			} else {
-				await db.deleteOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink}); // MOVE TO SEPARATE EDIT FUNCTION		
+				await db.deleteOne(ProdPhotoDB, {productID: productID, photoLink: photoLink});
 			}		
 		} catch (e){
 			console.log(e);
@@ -480,6 +488,7 @@ const adminFunctions = {
 		
 		if (categFind) {
 			// handle error: category exists in db
+			// should move this to middleware
 		} else {
 			var categInsert = await db.insertOne(CategoryDB, {categName: categName});
 			if (!categInsert) {
@@ -488,10 +497,6 @@ const adminFunctions = {
 				// categ added; redirect to page
 			}
 		}
-		
-		// when and what is the flow to add products in this category? --make as separate function
-		// retrieve list of products
-		// ask admin to choose which to put in categ
 	}
 };
 
