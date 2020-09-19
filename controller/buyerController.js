@@ -87,6 +87,14 @@ const buyerFunctions = {
 		});
 	},
 	
+	getBag: function(req, res) {
+		var bag;
+		res.render('bag', {
+			title: 'My Bag - ZenActivePH',
+			bag: bag
+		});
+	},
+	
 /* Buying Process functions
  * 
  * [/] Search Products

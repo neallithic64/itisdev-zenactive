@@ -16,6 +16,7 @@ router.get('/aaaaa', (req, res) => res.render('product', {title: 'testing AAAAA'
 
 // Buyer GET Routes
 router.get('/', buyerCont.getHome);
+router.get('/bag', buyerCont.getBag);
 router.get('/search-products', buyerCont.getSearchProducts);
 router.get('/category/:category', buyerCont.getCategoryProds);
 router.get('/product/:prodID', buyerCont.getProduct);

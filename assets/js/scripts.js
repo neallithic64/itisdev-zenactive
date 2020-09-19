@@ -69,7 +69,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	if (location.href === "viewCart idk exactly yet") {
+	if (location.href === "/") {
 		getSessionCart().forEach(e => {
 			$("select something here idk yet").append(e);
 		});
