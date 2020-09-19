@@ -20,10 +20,14 @@ app.use(session({
 	saveUninitialized: true
 }));
 
-app.set('views', path.join(__dirname, 'views/'));
+app.set('views', path.join(__dirname, '/views/'));
 app.engine('hbs', exphbs.create({
 	extname: 'hbs',
 	defaultLayout: 'main',
+	runtimeOptions: {
+		allowProtoPropertiesByDefault: true,
+		allowProtoMethodsByDefault: true
+	},
 	partialsDir: 'views/partials',
 	layoutsDir: 'views/layouts',
 	helpers: {

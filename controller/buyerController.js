@@ -121,7 +121,8 @@ const buyerFunctions = {
 		if (!prodMatch) {
 			// error handling: no product found
 		} else {
-			res.render('view-product', {
+			res.render('product', {
+				title: prodMatch.productID + ' - ZenActivePH',
 				product: prodMatch
 			});
 		}
