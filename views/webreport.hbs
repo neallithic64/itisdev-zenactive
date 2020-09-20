@@ -1,0 +1,114 @@
+<div style="height: auto;">
+    <div class="row no-gutters" style="height: auto">
+         
+		{{> admin-sidebar }}
+		{{> filters }}
+		
+        <div class="col" style="height: auto;">
+            
+			{{! SUMMARY CARDS }}
+			<div class="d-flex justify-content-between" style="max-width: 969.333px;">
+			
+				{{! TOTAL VIEWS }}
+                <div class="card" style="height: 46px;width: 170px;font-size: 10px;">
+                    <div class="d-flex flex-row flex-fill justify-content-between align-items-center align-content-end">
+						<span style="max-width: 44px;color: #93623c;width: 44px;"><strong>Total Views</strong></span>
+						<span id="totalViews" style="width: 118px;max-width: 118px;text-align: right;font-size: 12px;">1,400,000.00</span>
+					</div>
+                </div>
+				
+				{{! AVE VIEWS }}
+                <div class="card" style="height: 46px;width: 170px;font-size: 10px;">
+                    <div class="d-flex flex-row flex-fill justify-content-between align-items-center align-content-end">
+						<span style="max-width: 59px;color: #93623c;"><strong>Average Views</strong></span>
+						<span id="aveViews" style="text-align: right;width: 106px;max-width: 106px;font-size: 12px;">1,400,000.00<br></span>
+					</div>
+                </div>
+				
+				{{ MINIMUM VIEWS }}
+                <div class="card" style="height: 46px;width: 170px;font-size: 10px;">
+                    <div class="d-flex flex-row flex-fill justify-content-between align-items-center align-content-end">
+						<span style="max-width: 77px;color: #93623c;"><strong>Minimum&nbsp; Views</strong></span>
+						<span id="minViews" style="width: 84px;max-width: 84px;text-align: right;font-size: 12px;">1,400,000.00<br></span>
+					</div>
+                </div>
+				
+				{{! MAXIMUM VIEWS }}
+                <div class="card" style="height: 46px;width: 170px;font-size: 10px;">
+                    <div class="d-flex flex-row flex-fill justify-content-between align-items-center align-content-end">
+						<span style="max-width: 77px;color: #93623c;"><strong>Maximum Views</strong></span>
+						<span id="maxViews" style="text-align: right;width: 84px;max-width: 84px;font-size: 12px;">1,400,000.00</span>
+					</div>
+				</div>
+            </div>
+			
+			{{! HEADER }}
+            <div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-top: 0px;padding-top: 13px;padding-bottom: 13px;">
+                
+				{{! TITLE AND DATE AND TIMESTAMP }}
+				<div>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Web Metrics Report</span>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;">09/19/2020 12:46:30</span>
+				</div>
+				
+				{{! SEARCH BAR }}
+                <div class="d-flex">
+					<input type="search" id="psearch" placeholder="Search Product" autocomplete="on" style="margin-right: 7px;">
+					<div><a href="#" class="searchbtn" onclick="search()"> <i class="fa fa-search"></i> </a></div>
+                </div>
+				
+				{{! FILTER }}
+                <div class="d-flex align-items-center align-content-center">
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Filter by:</span>
+					<select style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 114px;">
+						<option value="0">Category</option><option value="1">Tops</option>
+						<option value="2">Bottoms</option>
+						<option value="3">Sets</option>
+						<option value="4">Accessories</option>
+					</select>
+				</div>
+				
+				{{! SORT }}
+                <div class="d-flex align-items-center align-content-center">
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Sort by:</span>
+					<select style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 182px;">
+						<option value="0">Choose</option>
+						<option value="1">High to Low Views</option>
+						<option value="2">Low to High Views</option>
+						<option value="3">High to Low Rate</option>
+						<option value="4">Low to High Rate</option>
+					</select>
+				</div>
+            </div>
+			
+			{{! TABLE }}
+            <div style="height: auto;">
+                <div class="table-responsive" style="max-height: auto;margin-bottom: -15px;height: auto;min-height: auto;">
+                    <table class="table">
+                        <thead style="font-size: 10px;">
+                            <tr style="background-color: rgba(242,216,190,0.2);">
+                                <th style="width: 107px;">Image</th>
+                                <th style="width: 106px;">Product ID</th>
+                                <th style="width: 110px;">Product Name</th>
+                                <th style="width: 96px;">Category</th>
+                                <th style="width: 61px;">Color</th>
+                                <th class="text-left" style="width: 35px;">Size</th>
+                                <th class="text-right" style="width: 71px;">Price</th>
+                                <th class="text-right" style="width: 98px;">Page Views</th>
+                                <th class="text-right" style="width: 105px;">Sales Count</th>
+                                <th class="text-right" style="width: 105px;">Conversion Rate (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+							{{> webreprow }}
+							
+                        </tbody>
+                    </table>
+                </div>
+				
+				<span class="d-xl-flex justify-content-xl-center">END OF REPORT</span>
+			</div>
+        </div>
+    </div>
+</div>
