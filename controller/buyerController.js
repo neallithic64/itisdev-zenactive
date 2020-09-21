@@ -89,6 +89,7 @@ const buyerFunctions = {
 	
 	getBag: function(req, res) {
 		var bag;
+		console.log(JSON.parse(req.query.cart));
 		res.render('bag', {
 			title: 'My Bag - ZenActivePH',
 			bag: bag

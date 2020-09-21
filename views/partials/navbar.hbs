@@ -30,7 +30,15 @@
 			<!-- cart icon -->
 			<div>
 				<div>
-					<a href="/bag" class="btn"><i class="icon ion-bag"></i>
+					<!--<a href="/bag" class="btn">-->
+					<a class="btn" onclick="getBag()">
+						<!-- actually i'm considering changing the above anchor tag
+							probably something like
+							<a class="btn" onclick="getBag()">
+							then function will perform an XHR request, so that the
+							rendering will be done in the backend instead of front?
+						-->
+						<i class="icon ion-bag"></i>
 						<span class='badge badge-warning' id='lblCartCount'></span>
 					</a>
 				</div>

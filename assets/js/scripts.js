@@ -47,6 +47,17 @@ function trimArr(arr) {
 	arr.forEach(e => e.value = validator.trim(e.value));
 }
 
+// for rendering the customer cart; send XHR to server to match up all the deets
+function getBag() {
+	$.ajax({
+		method: 'GET',
+		url: '/bag',
+		data: {cart: JSON.stringify(getSessionCart())},
+		success: res => $('body').html(res.match(/<body>([\s\S]*)<\/body>/g)),
+		error: str => console.log(str)
+	});
+}
+
 $(document).ready(function() {
 	// creating a new cart if it doesn't exist yet
 	if (!getSessionCart()) setSessionCart([]);
@@ -54,15 +65,12 @@ $(document).ready(function() {
 	// updating cart count in navbar
 	$("#lblCartCount").text(getSessionCart().length);
 	
-	$("button#addCartButton").click(function() {
-		var code = $("strong#prodNameID").text().split(/ - /i)[1];
-		var size = $("select#prodSize").val();
-		var qty = $("input#prodQty").val();
-		
-		if (validator.isEmpty(qty)) alert('Please input a quantity!');
-		else if (isNaN(qty)) alert('Please input a valid number!');
-		else addToCart(code, size, qty);
-	});
+	// viewing bag/view cart
+	if (window.location.pathname === '/bag') {
+		// maybe do a get request or something??
+		// but the event trigger for this would be something like clicking the icon
+		// still thinking about how it'll work hmmm
+	}
 	
 	// creating post request to checkout cart
 	$("submitCart idk what to put here").click(function() {
@@ -79,6 +87,17 @@ $(document).ready(function() {
 
 /* FRONTEND VALIDATION SCRIPTS */
 $(document).ready(function() {
+	// buyer adding item to their bag
+	$("button#addCartButton").click(function() {
+		var code = $("strong#prodNameID").text().split(/ - /i)[1];
+		var size = $("select#prodSize").val();
+		var qty = $("input#prodQty").val();
+		
+		if (validator.isEmpty(qty)) alert('Please input a quantity!');
+		else if (isNaN(qty)) alert('Please input a valid number!');
+		else addToCart(code, size, qty);
+	});
+	
 	$("#submitLogin").click(function() {
 		var form = $("#loginForm").serializeArray();
 		trimArr(form);
