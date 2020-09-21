@@ -71,13 +71,6 @@ $(document).ready(function() {
 			// idk
 		});
 	});
-	
-	// wait what is this?
-	if (location.href === "/") {
-		getSessionCart().forEach(e => {
-			$("select something here idk yet").append(e);
-		});
-	}
 });
 
 
