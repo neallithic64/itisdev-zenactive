@@ -113,6 +113,20 @@ const adminMiddleware = {
 		if (!prodFind) {
 			res.status(400).send(); // photo not found under product!
 		} else return next();		
+	},
+	
+	validateAddCateg: async function (req, res, next) {
+		let {addCategName} = req.body;
+		
+		var categFind = await db.findOne(CategoryDB, {categName: addCategName}, '');
+		
+		if (categFind){
+			res.status(400).send(); //categ exists!
+		} else return next();
+	},
+	
+	validatePayment: async function (req, res, next) {
+		// which hbs view is this?
 	}
 	
 };
