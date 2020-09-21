@@ -457,19 +457,21 @@ const adminFunctions = {
 /* The admin may choose to create a new category that products may be labelled under.
  */
 	postAddCateg: async function(req, res) {
-		let {categName} = req.body;
-		var categFind = await db.findOne(CategoryDB, {categName: categName});
-		
-		if (categFind) {
-			// handle error: category exists in db
-			// should move this to middleware
-		} else {
-			var categInsert = await db.insertOne(CategoryDB, {categName: categName});
+		try {
+			let {addCategName} = req.body;
+
+			var categInsert = await db.insertOne(CategoryDB, {categName: addCategName});
 			if (!categInsert) {
 				// handle error
+				res.status(400).send();
 			} else {
 				// categ added; redirect to page
-			}
+				res.render('addcateg', {
+					title: 'Admin Page - ZenActivePH'
+				});
+			}			
+		} catch (e){
+			res.status(500).send(e);
 		}
 	}
 };
