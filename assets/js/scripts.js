@@ -55,10 +55,13 @@ $(document).ready(function() {
 	$("#lblCartCount").text(getSessionCart().length);
 	
 	$("button#addCartButton").click(function() {
-		var code = $("strong#prodNameID").text().match(/ - /i)[1];
+		var code = $("strong#prodNameID").text().split(/ - /i)[1];
 		var size = $("select#prodSize").val();
 		var qty = $("input#prodQty").val();
-		addToCart(code, size, qty);
+		
+		if (validator.isEmpty(qty)) alert('Please input a quantity!');
+		else if (isNaN(qty)) alert('Please input a valid number!');
+		else addToCart(code, size, qty);
 	});
 	
 	// creating post request to checkout cart
@@ -69,6 +72,7 @@ $(document).ready(function() {
 		});
 	});
 	
+	// wait what is this?
 	if (location.href === "/") {
 		getSessionCart().forEach(e => {
 			$("select something here idk yet").append(e);
