@@ -78,8 +78,8 @@ async function getJoinedQuery(prodID) {
 	]);
 }
 
-async function populateBag(bag) {
-	return await db.aggregate(ProductDB;
+async function lookupBag(bag) {
+	return (await db.findMany(ProductDB, {})).filter(e1 => bag.map(e2 => e2.code).includes(e1.productID));
 }
 
 /* Index Functions
@@ -93,18 +93,9 @@ const buyerFunctions = {
 	},
 	
 	getBag: async function(req, res) {
-		req.session.cart;
-		var bag = await db.aggregate(ProductDB, [
-			{'$lookup': {
-				'from': 'Product',
-				'localField': 'productID',
-				'foreignField': 'productID',
-				'as': 'product'
-			}}
-		]);
 		res.render('bag', {
 			title: 'My Bag - ZenActivePH',
-			bag: bag
+			bag: await lookupBag(req.session.cart)
 		});
 	},
 	
