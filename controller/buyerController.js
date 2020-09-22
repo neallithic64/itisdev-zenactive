@@ -193,15 +193,9 @@ const buyerFunctions = {
 	},
 	
 	postRemCart: function(req, res) {
-		let {item} = req.body;
-		req.session.cart.push(item);
+		let {code} = req.body;
+		req.session.cart = req.session.cart.filter(e => e.code !== code);
 		res.status(200).send();
-		
-		if (true) {
-			
-		} else {
-			
-		}
 	},
 
 /* Send Proof of Payment 
