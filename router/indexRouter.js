@@ -3,7 +3,8 @@ const router = express();
 const test = require('../controller/indexTest');
 const adminCont = require('../controller/adminController');
 const buyerCont = require('../controller/buyerController');
-const middleware = require('../middlewares/adminMiddleware');
+const adminMiddle = require('../middlewares/adminMiddleware');
+const buyerMiddle = require('../middlewares/buyerMiddleware');
 
 
 // Testing Routes
