@@ -92,6 +92,10 @@ const buyerFunctions = {
 		});
 	},
 	
+	getCartObj: function(req, res) {
+		res.status(200).send(req.session.cart);
+	},
+	
 	getBag: async function(req, res) {
 		res.render('bag', {
 			title: 'My Bag - ZenActivePH',

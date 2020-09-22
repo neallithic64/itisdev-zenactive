@@ -52,7 +52,7 @@ $(document).ready(function() {
 	$.ajax({
 		method: 'GET',
 		url: '/getCart',
-		data: {code: s},
+		// data: {code: s},
 		success: res => $("#lblCartCount").text(res.length),
 		error: res => console.log(res)
 	});

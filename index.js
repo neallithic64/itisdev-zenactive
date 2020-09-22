@@ -45,6 +45,9 @@ app.engine('hbs', exphbs.create({
 		getPrice: function(price) {
 			return price.toFixed(2);
 		},
+		getPURL: function(id) {
+			return '/product/' + id;
+		},
 		getSizeChart: function(categs) {
 			return categs.includes('Bottoms');
 		},
