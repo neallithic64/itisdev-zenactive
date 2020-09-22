@@ -21,13 +21,11 @@ function setSessionCart(cart) {
  * }
 */
 function addToCart(code, size, qty) {
-	var cart = getSessionCart();
-	if (cart.some(e => e.code === code)) alert('Item already exists in cart!');
-	else if (isNaN(qty)) alert('Quantity is not a number!');
-	else {
-		cart.push({code: code, size: size, qty: Number.parseInt(qty)});
-		setSessionCart(cart);
-	}
+	$.ajax({
+		method: 'POST',
+		url: '/addToCart',
+		data
+	});
 }
 
 function removeFromCart(s) {
@@ -49,13 +47,6 @@ function trimArr(arr) {
 
 // for rendering the customer cart; send XHR to server to match up all the deets
 function getBag() {
-	$.ajax({
-		method: 'GET',
-		url: '/bag',
-		data: {cart: JSON.stringify(getSessionCart())},
-		success: res => $('body').html(res.match(/<body>([\s\S]*)<\/body>/g)),
-		error: str => console.log(str)
-	});
 }
 
 $(document).ready(function() {
@@ -91,7 +82,7 @@ $(document).ready(function() {
 	$("button#addCartButton").click(function() {
 		var code = $("strong#prodNameID").text().split(/ - /i)[1];
 		var size = $("select#prodSize").val();
-		var qty = $("input#prodQty").val();
+		var qty = validator.trim($("input#prodQty").val());
 		
 		if (validator.isEmpty(qty)) alert('Please input a quantity!');
 		else if (isNaN(qty)) alert('Please input a valid number!');

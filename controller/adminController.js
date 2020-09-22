@@ -366,6 +366,22 @@ const adminFunctions = {
 		});
 	},
 	
+/* Manage Inventory --
+ * 
+ * The admin/seller can add products or edit existing products 
+ * with their corresponding pictures, details and colors. Since 
+ * pre-order takes place, every order made will show up in the 
+ * inventory system (like number of items per product needed) 
+ * on the admin’s side.
+ * 
+ * SELECT *
+ * FROM Product p
+ * JOIN ProdCategory pc
+ * ON p.productID = pc.productID
+ * JOIN ProdPhoto pp
+ * ON p.productID = pp.productID
+ * WHERE p.productID = req.query.text
+ */
 	postAddProduct: async function(req, res) {
 		try {
 			let {pname, pprice, psize, pcolor, pcateg, plink1, plink2, plink3} = req.body;

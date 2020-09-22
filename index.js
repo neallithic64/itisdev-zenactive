@@ -2,22 +2,37 @@ const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
 require('dotenv').config();
 
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.static(__dirname + '/'));
 
+const db = require('./models/db');
+db.connect();
+
 app.use(cookieParser());
 app.use(session({
-	secret: "hi mga ghorls",
-	name: "cookie",
-	resave: true,
-	saveUninitialized: true
+	secret: "s3cr3t4nds3cur3",
+	name: "sessionId",
+	resave: false,
+	saveUninitialized: true,
+	store: new MongoStore({
+		mongooseConnection: mongoose.connection,
+		ttl: 60*60*24,
+		autoRemove: 'native',
+		touchAfter: 3600
+	}),
+	cookie: {
+		secure: true,
+		samesite: 'lax'
+	}
 }));
 
 app.set('views', path.join(__dirname, '/views/'));
@@ -56,9 +71,6 @@ app.set('view engine', 'hbs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
-const db = require('./models/db');
-db.connect();
 
 const router = require('./router/indexRouter');
 app.use('/', router);

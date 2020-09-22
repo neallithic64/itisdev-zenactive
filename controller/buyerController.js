@@ -82,14 +82,20 @@ async function getJoinedQuery(prodID) {
  */
 const buyerFunctions = {
 	getHome: function(req, res) {
+		console.log(req.session);
+		if (!req.session.cart) req.session.cart = [];
+		console.log(req.session);
+		console.log(req.sessionID);
 		res.render('home', {
 			title: 'ZenActivePH'
 		});
 	},
 	
-	getBag: function(req, res) {
+	getBag: async function(req, res) {
 		var bag;
-		console.log(JSON.parse(req.query.cart));
+		console.log(req.session.cart);
+		req.session.cart;
+		// var bag = await db.aggregate(ProductDB, {'$lookup': 'aaaa'});
 		res.render('bag', {
 			title: 'My Bag - ZenActivePH',
 			bag: bag
@@ -210,82 +216,6 @@ const buyerFunctions = {
 			}
 		}
 		
-	},
-	
-/* Manage Inventory --
- * 
- * The admin/seller can add products or edit existing products 
- * with their corresponding pictures, details and colors. Since 
- * pre-order takes place, every order made will show up in the 
- * inventory system (like number of items per product needed) 
- * on the admin’s side.
- * 
- * SELECT *
- * FROM Product p
- * JOIN ProdCategory pc
- * ON p.productID = pc.productID
- * JOIN ProdPhoto pp
- * ON p.productID = pp.productID
- * WHERE p.productID = req.query.text
- */
-
-	postAddProduct: async function(req, res) {
-		try {
-			let {productID, name, price, size, color, categName, photoLink} = req.body;
-			var prodFind = await getJoinedQuery(productID);
-			
-			if (prodFind) {
-				// handle error: product exists in db
-			} else {
-				await db.insertOne(ProductDB, {productID: productID});
-				await db.insertOne(ProdCategoryDB, {productID: productID});
-				await db.insertOne(ProdPhotoDB, {productID: productID});
-			}
-		} catch (e) {
-			// error handling
-		}
-	},
-	
-	postEditProduct: async function(req, res) {
-		try {
-			// how to deal with updating prod quantity?
-			let {productID, name, price, size, color} = req.body;
-			var prodFind = await getJoinedQuery(productID);
-			var updateProd = new constructors.Product(productID, name, price, size, color);
-			
-			if (!prodFind) {
-				// handle error: cannot edit product that does not exist
-			} else {
-				await db.updateOne(ProductDB, {productID: productID}, updateProd);
-//				await db.updateOne(ProdCategoryDB, {productID: productID}, {categName: categName}); // MOVE TO SEPARATE EDIT FUNCTION
-//				await db.updateOne(ProdPhotoDB, {productID: productID}, {photoLink: photoLink}); // MOVE TO SEPARATE EDIT FUNCTION
-			}
-		} catch (e) {
-			// error handling
-		}
-	},
-	
-	
-/* The admin may choose to create a new category that products may be labelled under.
- */
-	postAddProductCateg: async function(req, res) {
-		let {categName} = req.body;
-		var categFind = await db.findOne(CategoryDB, {categName: categName});
-		
-		if (categFind) {
-			// handle error: category exists in db
-		} else {
-			var categInsert = await db.insertOne(CategoryDB, {categName: categName});
-			if (!categInsert) {
-				// handle error
-			} else {
-				// categ added; redirect to page
-			}
-		}
-		
-		// when and what is the flow to add products in this category? --make as separate function
-		// retrieve list of products
-		// ask admin to choose which to put in categ
 	}
 };
 
