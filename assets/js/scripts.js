@@ -25,49 +25,40 @@ function addToCart(code, size, qty) {
 		method: 'POST',
 		url: '/addToCart',
 		data: {item: {code: code, size: size, qty: qty}},
-		success: () => alert('yay'),
+		success: () => alert('Item added to cart'),
 		error: res => console.log(res)
 	});
 }
 
 function removeFromCart(s) {
-	var cart = getSessionCart();
-	cart = cart.filter(e => e.code !== s);
-	setSessionCart(cart);
+	$.ajax({
+		method: 'POST',
+		url: '/removeFromCart',
+		data: {code: s},
+		success: () => alert('Item removed from cart'),
+		error: res => console.log(res)
+	});
 }
 
 /* Returns a boolean on the capacity of a cart. If cart still
  * has space, function returns true.
  */
-function getCartLimit() {
-	return getSessionCart().reduce((t, n) => t + n.qty, 0) < 30;
-}
-
 function trimArr(arr) {
 	arr.forEach(e => e.value = validator.trim(e.value));
 }
 
-// for rendering the customer cart; send XHR to server to match up all the deets
-function getBag() {
-}
-
 $(document).ready(function() {
-	// creating a new cart if it doesn't exist yet
-	if (!getSessionCart()) setSessionCart([]);
-	
 	// updating cart count in navbar
-	$("#lblCartCount").text(getSessionCart().length);
-	
-	// viewing bag/view cart
-	if (window.location.pathname === '/bag') {
-		// maybe do a get request or something??
-		// but the event trigger for this would be something like clicking the icon
-		// still thinking about how it'll work hmmm
-	}
+	$.ajax({
+		method: 'GET',
+		url: '/getCart',
+		data: {code: s},
+		success: res => $("#lblCartCount").text(res.length),
+		error: res => console.log(res)
+	});
 	
 	// creating post request to checkout cart
 	$("submitCart idk what to put here").click(function() {
-		var cart = getSessionCart();
 		$.post('/checkout', cart, result => {
 			// idk
 		});

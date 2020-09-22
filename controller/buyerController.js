@@ -197,6 +197,18 @@ const buyerFunctions = {
 			res.status(403).send('cart no exist');
 		}
 	},
+	
+	postRemCart: function(req, res) {
+		let {item} = req.body;
+		if (req.session.cart) {
+			console.log('cart exists!');
+			req.session.cart.push(item);
+			res.status(200).send();
+		} else {
+			console.log('cart no exist');
+			res.status(403).send('cart no exist');
+		}
+	},
 
 /* Send Proof of Payment 
  * 

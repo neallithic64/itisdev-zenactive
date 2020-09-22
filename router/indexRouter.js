@@ -26,6 +26,7 @@ router.get('/view-orderStatus', buyerCont.getOrderStatus);
 
 // Buyer POST Routes
 router.post('/addToCart', buyerCont.postAddCart);
+router.post('/removeFromCart', buyerCont.postRemCart);
 
 
 
