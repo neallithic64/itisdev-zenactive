@@ -52,8 +52,7 @@ $(document).ready(function() {
 	$.ajax({
 		method: 'GET',
 		url: '/getCart',
-		// data: {code: s},
-		success: res => $("#lblCartCount").text(res.length),
+		success: res => $("#lblCartCount").text(res.reduce((a, e) => a + Number.parseInt(e.qty), 0)),
 		error: res => console.log(res)
 	});
 	
