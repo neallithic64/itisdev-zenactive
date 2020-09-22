@@ -24,7 +24,9 @@ function addToCart(code, size, qty) {
 	$.ajax({
 		method: 'POST',
 		url: '/addToCart',
-		data
+		data: {item: {code: code, size: size, qty: qty}},
+		success: () => alert('yay'),
+		error: res => console.log(res)
 	});
 }
 

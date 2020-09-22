@@ -78,24 +78,30 @@ async function getJoinedQuery(prodID) {
 	]);
 }
 
+async function populateBag(bag) {
+	return await db.aggregate(ProductDB;
+}
+
 /* Index Functions
  */
 const buyerFunctions = {
 	getHome: function(req, res) {
-		console.log(req.session);
-		if (!req.session.cart) req.session.cart = [];
-		console.log(req.session);
-		console.log(req.sessionID);
+		req.session.cart = !!req.session.cart ? req.session.cart : [];
 		res.render('home', {
 			title: 'ZenActivePH'
 		});
 	},
 	
 	getBag: async function(req, res) {
-		var bag;
-		console.log(req.session.cart);
 		req.session.cart;
-		// var bag = await db.aggregate(ProductDB, {'$lookup': 'aaaa'});
+		var bag = await db.aggregate(ProductDB, [
+			{'$lookup': {
+				'from': 'Product',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'product'
+			}}
+		]);
 		res.render('bag', {
 			title: 'My Bag - ZenActivePH',
 			bag: bag
@@ -187,6 +193,18 @@ const buyerFunctions = {
 			});
 		}
 
+	},
+	
+	postAddCart: function(req, res) {
+		let {item} = req.body;
+		if (req.session.cart) {
+			console.log('cart exists!');
+			req.session.cart.push(item);
+			res.status(200).send();
+		} else {
+			console.log('cart no exist');
+			res.status(403).send('cart no exist');
+		}
 	},
 
 /* Send Proof of Payment 
