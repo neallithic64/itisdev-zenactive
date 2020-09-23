@@ -1,7 +1,7 @@
 <div style="height: auto;">
 	<div class="row no-gutters">
 
-		{{> admin-sidebar}}
+		{{#if isAdmin}} {{> admin-sidebar}} {{/if}}
 		
 		{{! CONTENT }}
 		<div class="col" style="max-height: 100vh;">

@@ -113,7 +113,8 @@ const adminFunctions = {
 	getAdmin: function(req, res) {
 		if (req.session.admin)
 			res.render('admin', {
-				title: 'Admin Page - ZenActivePH'
+				title: 'Admin Page - ZenActivePH',
+				isAdmin: true
 			});
 		else res.redirect('/');
 	},

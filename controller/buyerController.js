@@ -88,7 +88,8 @@ const buyerFunctions = {
 	getHome: function(req, res) {
 		req.session.cart = !!req.session.cart ? req.session.cart : [];
 		res.render('home', {
-			title: 'ZenActivePH'
+			title: 'ZenActivePH',
+			isAdmin: false
 		});
 	},
 	
