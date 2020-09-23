@@ -34,7 +34,8 @@ const indexTest = {
 	getHome: function(req, res) {
 		res.render('testpage', {
 			layout: false,
-			title: 'Test Test Test'
+			title: 'Test Test Test',
+			picker: () => 'filters'
 		});
 	},
 	
