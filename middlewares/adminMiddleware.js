@@ -18,25 +18,58 @@ const SupplierOrderDB = require('../models/SupplierOrder');
 const ThresholdDB = require('../models/Threshold');
 
 
-async function getJoinedQuery(prodID) {
-	return await db.aggregate(ProductDB, [
-		{'$match': {productID: prodID}},
-		{'$lookup': {
-			'from': 'ProdCategory',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'prodCateg'
-		}},
-		{'$unwind': "$prodCateg"},
-		{'$lookup': {
-			'from': 'ProdPhoto',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'prodPhoto'
-		}},
-		{'$unwind': "$prodPhoto"}
-	]);
-}
+/** Query for joining the ff tables/collections:
+ *  - Product
+ *  - ProdCategory
+ *  - ProdPhoto
+ */
+	async function getJoinedQuery(prodID) {
+		return await db.aggregate(ProductDB, [
+			{'$match': {productID: prodID}},
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodCateg'
+			}},
+			{'$lookup': {
+				'from': 'ProdPhoto',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodPhoto'
+			}}
+		]);
+	}
+
+/** Query for joining the ff tables/collections:
+ *  - CustomerOrder
+ *  - CustomerCart
+ *  - Product
+ *  - ProdCategory
+ */
+	async function getJoinedCustOrder(ordNo) {
+		return await db.aggregate(CustomerOrderDB, [
+			{'$match': {buyOrdNo: ordNo}},
+			{'$lookup': {
+				'from': 'CustomerCart',
+				'localField': 'buyOrdNo',
+				'foreignField': 'buyOrdNo',
+				'as': 'Cart'
+			}},
+			{'$lookup': {
+				'from': 'Product',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Product'
+			}},
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Category'
+			}}
+		]);
+	}
 
 const adminMiddleware = {
 	validateRegister: async function (req, res, next) {
@@ -127,6 +160,16 @@ const adminMiddleware = {
 	
 	validatePayment: async function (req, res, next) {
 		// which hbs view is this?
+	},
+	
+	validateSalesOrder: async function (req, res, next) {
+		let {orderNo} = req.body;
+		
+		var orderFind = await getJoinedCustOrder(orderNo);
+		
+		if (!orderFind){
+			res.status(400).send(); //order not found!
+		} else return next();
 	}
 	
 };
