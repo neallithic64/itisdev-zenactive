@@ -12,6 +12,10 @@ var suppOrdSchema = new mongoose.Schema({
 	cutoffDate: {
 		type: Date,
 		required: true
+	},
+	status: {
+		type: String,
+		required: true
 	}
 }, {collection: "SupplierOrder"});
 

@@ -46,6 +46,7 @@ const ThresholdDB = require('../models/Threshold');
  *  - CustomerCart
  *  - Product
  *  - ProdCategory
+ *  - PaymentProof
  */
 	async function getJoinedCustOrder(ordNo) {
 		return await db.aggregate(CustomerOrderDB, [
@@ -55,6 +56,42 @@ const ThresholdDB = require('../models/Threshold');
 				'localField': 'buyOrdNo',
 				'foreignField': 'buyOrdNo',
 				'as': 'Cart'
+			}},
+			{'$lookup': {
+				'from': 'Product',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Product'
+			}},
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Category'
+			}},
+			{'$lookup': {
+				'from': 'PaymentProof',
+				'localField': 'buyOrdNo',
+				'foreignField': 'buyOrdNo',
+				'as': 'PaymentProof'
+			}}
+		]);
+	}
+
+/** Query for joining the ff tables/collections:
+ *  - SupplierOrder
+ *  - SupplierCart
+ *  - Product
+ *  - ProdCategory
+ */
+	async function getJoinedSuppOrder(ordNo) {
+		return await db.aggregate(SupplierOrderDB, [
+			{'match': {batchID: ordNo}},
+			{'$lookup': {
+				'from': 'SupplierCart',
+				'localField': 'batchID',
+				'foreignField': 'batchID',
+				'as': 'SuppCart'
 			}},
 			{'$lookup': {
 				'from': 'Product',
@@ -163,9 +200,19 @@ const adminMiddleware = {
 	},
 	
 	validateSalesOrder: async function (req, res, next) {
-		let {orderNo} = req.body;
+		let {salesInput} = req.body;
 		
-		var orderFind = await getJoinedCustOrder(orderNo);
+		var orderFind = await getJoinedCustOrder(salesInput);
+		
+		if (!orderFind){
+			res.status(400).send(); //order not found!
+		} else return next();
+	},
+
+	validatePurchOrder: async function (req, res, next) {
+		let {purchInput} = req.body;
+		
+		var orderFind = await getJoinedSuppOrder(purchInput);
 		
 		if (!orderFind){
 			res.status(400).send(); //order not found!

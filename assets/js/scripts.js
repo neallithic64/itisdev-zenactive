@@ -69,33 +69,20 @@ function searchSales() {
 		method: 'GET',
 		url: '/searchSales',
 		data: {ordNo: $("#salesInput")},
-		success: function(res) {
-			res.forEach( function(elem){
-				$("tbody").empty();
-				$("tbody").append(`<tr style="font-size: 11px;background: #b3ffb2;">
-									<td id="ordernumber">20200912345</td>
-									<td id="prodname">Yoga Mat<br></td>
-									<td id="categ">Accessories<br></td>
-									<td id="size">M</td>
-									<td class="text-left" id="color">Gray</td>
-									<td class="text-right" id="qty">2</td>
-									<td class="text-right" id="unitprice">585.00</td>
-									<td class="text-right" id="totalamt">1170.00<br></td>
-									<td id="mop">1</td>
-									<td id="proof">No</td>
-									<td id="status">Confirmed</td>
-									<td id="salesactions" style="padding: 0px;padding-top: 0px;text-align: center;">
-										{{! if status = confirmed: use dropdown in confirmactions.hbs }}
-										{{! if status = pending: use dropdown in pendingactions.hbs }}
-										{{! if status = in transit: use dropdown in transitactions.hbs }}
-										{{! if status = cancelled/shipped: use dropdown in disabledactions.hbs }}
-									</td>
-								<tr>`);
-			});
-		}
+		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
+		error: str => console.log(str)
 	});
 }
 
+function searchPurchases() {
+	$.ajax({
+		method: 'GET',
+		url: '/searchPurchases',
+		data: {ordNo: $("#purchInput")},
+		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
+		error: str => console.log(str)
+	});
+}
 
 /* FRONTEND VALIDATION SCRIPTS */
 $(document).ready(function() {

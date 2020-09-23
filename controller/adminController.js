@@ -103,6 +103,7 @@ function forceJSON(e) {
  *  - CustomerCart
  *  - Product
  *  - ProdCategory
+ *  - PaymentProof
  */
 	async function getJoinedCustOrder(ordNo) {
 		return await db.aggregate(CustomerOrderDB, [
@@ -112,6 +113,42 @@ function forceJSON(e) {
 				'localField': 'buyOrdNo',
 				'foreignField': 'buyOrdNo',
 				'as': 'Cart'
+			}},
+			{'$lookup': {
+				'from': 'Product',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Product'
+			}},
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Category'
+			}},
+			{'$lookup': {
+				'from': 'PaymentProof',
+				'localField': 'buyOrdNo',
+				'foreignField': 'buyOrdNo',
+				'as': 'PaymentProof'
+			}}
+		]);
+	}
+	
+/** Query for joining the ff tables/collections:
+ *  - SupplierOrder
+ *  - SupplierCart
+ *  - Product
+ *  - ProdCategory
+ */
+	async function getJoinedSuppOrder(ordNo) {
+		return await db.aggregate(SupplierOrderDB, [
+			{'match': {batchID: ordNo}},
+			{'$lookup': {
+				'from': 'SupplierCart',
+				'localField': 'batchID',
+				'foreignField': 'batchID',
+				'as': 'SuppCart'
 			}},
 			{'$lookup': {
 				'from': 'Product',
@@ -223,30 +260,37 @@ const adminFunctions = {
 	},
 
 	getSalesOrder: async function(req, res) {
-		var orderMatch = await getJoinedCustOrder('');
-		
-		if (!orderMatch) {
-			//error handling
-		} else {
+		try {
+			var orderMatch = await getJoinedCustOrder('');
+			
+			console.log(orderMatch);
+			
 			res.render('salestracker', {
 				title: 'Sales Tracker',
-				salesOrder: orderMatch
-			});
+				salesOrder: forceJSON(orderMatch)
+			});			
+		} catch(e){
+			res.status(500).send(e);
 		}
+	},
+	
+	getPurchQuery: async function(req, res, next) {
+		res.status(200).send(await getJoinedSuppOrder(req.query.ordNo));
 	},
 
 	getPurchaseOrder: async function(req, res) {
-		let {orderNo} = req.query;
-		var orderMatch = await db.findOne(SupplierOrderDB, {batchID: orderNo}, '');
-		
-		if (!orderMatch) {
-			//error handling
-		} else {
+		try {
+			var orderMatch = await getJoinedSuppOrder('');
+
+			console.log(orderMatch);
+
+			res.render('purchtracker', {
+				title: 'Purchases Tracker',
+				suppOrder: forceJSON(orderMatch)
+			});			
+		} catch(e){
+			res.status(500).send(e);			
 		}
-		res.render('purchtracker', {
-			title: 'Purchases Tracker'
-			// suppOrder: orderMatch
-		});
 	},
 
 /* View Order Status
