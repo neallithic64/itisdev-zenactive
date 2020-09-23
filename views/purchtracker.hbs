@@ -1,12 +1,11 @@
-<section> </section>
 <div style="height: auto;">
 	<div class="row no-gutters">
-	
+
 		{{> admin-sidebar}}
-	
+
 		{{! CONTENT }}
 		<div class="col" style="max-height: 100vh;">
-		
+
 			{{! HEADER }}
 			<div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;">
 				<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Purchase Orders</span>
@@ -17,13 +16,13 @@
 						<a href="#" class="searchbtn" onclick="searchPurchases()"> <i class="fa fa-search"></i> </a>
 					</div>
 				</div>
-						
+
 				{{! DATE PICKER }}	
 				<div class="d-flex justify-content-between align-items-center align-content-center">
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Cut-off:&nbsp;</span>
 					<input id="pdate" type="date" style="font-weight: 600;color: #93623c;border-width: 0px;">
 				</div>
-						
+
 				{{! SHOW BY DROPDOWNS }}
 				<div class="d-flex align-items-center align-content-center">
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Show by:</span>
@@ -35,17 +34,17 @@
 						<option value="3">Sets</option>
 						<option value="4">Accessories</option>
 					</select>
-							
+
 					{{! BY STATUS }}
 					<select id="sortPurchStatus" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 104px;">
-					    <option value="0">Status</option>
-					    <option value="1">Pending</option>
-					    <option value="2">Complete</option>
-					    <option value="3">Incomplete</option>
-					    <option value="4">Refunded</option>
-					    <option value="5">Cancelled</option>
-                           		</select>
-					
+						<option value="0">Status</option>
+						<option value="1">Pending</option>
+						<option value="2">Complete</option>
+						<option value="3">Incomplete</option>
+						<option value="4">Refunded</option>
+						<option value="5">Cancelled</option>
+								</select>
+
 					{{! BUTTONS }}
 					{{! Without show status, complete all should be disabled }}
 					{{! If show all pending/incomplete status: enable complete all button }}
@@ -58,7 +57,7 @@
 			{{! If status is complete/refunded/cancelled: action dropdown is disabled }}
 			{{! If status is pending: actions are: complete, incomplete, cancelled }}
 			{{! If status is incomplete: actions are: complete, refunded, cancelled }}
-			
+
 			<div>
 				<div class="table-responsive" style="max-height: 100vh;min-height: 100vh;margin-bottom: -15px;">
 					<table class="table">
@@ -77,7 +76,7 @@
 								<th class="text-center">Action</th>
 							</tr>
 						</thead>
-						
+
 						{{! TABLE BODY }}
 						<tbody>
 							{{#each suppOrder}}

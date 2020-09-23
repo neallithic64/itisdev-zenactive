@@ -1,158 +1,158 @@
 <div style="height: auto;">
-        <div class="row no-gutters" style="height: auto;">
-            
-			{{> tracker-sidebar }}
-			
-			{{! CONTENT }}
-            <div class="col" style="height: auto;">
-			
-				{{! HEADER }}
-                <div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;">
-                    
-					{{! ORDER NUMBER DIV }}
-					<div style="font-weight: 600;color: #93623c;">
-						<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Order#&nbsp;</span>
-						<span id="ordernum"><strong>20200912345</strong></span>
-					</div>
-					
-					{{! FILTER BY CATEGORY DIV }}
-                    			<div class="d-flex align-items-center align-content-center">
-						<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Show by:</span>
-                       				<select id="filterCart" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 104px;">
-							<option value="0">Category</option>
-							<option value="1">Tops</option>
-							<option value="2">Bottoms</option>
-							<option value="3">Sets</option>
-							<option value="4">Accessories</option>
-						</select>
-					</div>
-					
-					{{! PURCHASE AND SHIP ALL BUTTONS }}
-					<div>
-						<button class="btn btn-primary" id="purchall" type="button" style="font-size: 12px;background: rgba(0,0,0,0);font-weight: 600;color: #93623c;border-width: 0px;" disabled="">Purchase All</button>
-						<button class="btn btn-primary" id="shipall" type="button" style="font-size: 12px;background: rgba(0,0,0,0);font-weight: 600;color: #93623c;border-width: 0px;" disabled="">Ship All</button>
-					</div>
-				</div>
-				
-				{{! TABLE OF CART ITEMS }}
-				<div>
-					<div class="table-responsive" style="max-height: 500px;min-height: auto;margin-bottom: 0px;">
-						<table class="table">
+	<div class="row no-gutters" style="height: auto;">
 
-							{{! TABLE HEADER }}
-							<thead style="font-size: 10px;">
-								<tr style="background-color: rgba(242,216,190,0.2);">
-									<th style="width: 110px;">Order No.</th>
-									<th style="width: 111px;">Product Name</th>
-									<th style="width: 104px;">Category</th>
-									<th style="width: 61px;">Size</th>
-									<th class="text-left" style="width: 91px;">Color</th>
-									<th class="text-right" style="width: 61px;">Quantity</th>
-									<th class="text-right" style="width: 98px;">Unit Price</th>
-									<th class="text-right" style="width: 105px;">Total</th>
-									<th style="width: 69px;">MOP</th>
-									<th style="width: 80px;">Proof</th>
-									<th>Status</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							
-							{{! TABLE BODY }}
-							<tbody>
-								{{> salesrow}}
-							</tbody>
-							
-						</table>
-					</div>
+		{{> tracker-sidebar }}
+
+		{{! CONTENT }}
+		<div class="col" style="height: auto;">
+
+			{{! HEADER }}
+			<div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;">
+
+				{{! ORDER NUMBER DIV }}
+				<div style="font-weight: 600;color: #93623c;">
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Order#&nbsp;</span>
+					<span id="ordernum"><strong>20200912345</strong></span>
 				</div>
-				
-				{{! TOTAL AMOUNT SUMMARY }}
-				
-				<div style="background: #f2d8be33;border: 1px solid #cccccc ;">
-				
-					{{! SHIPPING FEE DIV }}
-					<div class="d-flex justify-content-end align-items-end align-content-end">
-						<span>Shipping Fee:&nbsp;</span>
-						<span id= "shipfee">100.00</span>
-					</div>
-					
-					{{! TOTAL AMOUNT DIV }}
-					<div class="d-flex justify-content-end align-items-end align-content-end">
-						<span>Total Amount Receivable:&nbsp;</span>
-						<span id="totalamt">6,800.00</span>
-					</div>
+
+				{{! FILTER BY CATEGORY DIV }}
+							<div class="d-flex align-items-center align-content-center">
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Show by:</span>
+								<select id="filterCart" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 104px;">
+						<option value="0">Category</option>
+						<option value="1">Tops</option>
+						<option value="2">Bottoms</option>
+						<option value="3">Sets</option>
+						<option value="4">Accessories</option>
+					</select>
 				</div>
-				
-				{{! SHIPPING AND CUSTOMER DETAILS }}
-				<div class="d-flex">
-					<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;padding-right: 45px;border-right: 1px solid #cccccc ;">
-					
-						{{! SHIPPING DETAILS }}
-						<span style="font-weight: 600;color: #93623c;">Shipping Details</span>
-						
-						<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-							<label style="width: 167px;color: #93623c;">Courier</label>
-							<select id="addCourier" style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 14px;width: 252px;">
-								<option value="0">Choose Courier</option>
-								<option value="1">J&amp;T</option>
-								<option value="2">JRS</option>
-								<option value="3">LBC</option>
-							</select>
-						</div>
-						
-						<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-							<label style="width: 167px;color: #93623c;">Tracking ID</label>
-							<input type="text" id="addTrackID" style="margin-left: 0px;" placeholder="Tracking ID">
-						</div>
-						
-						{{! SAVE SHIPPING DETAILS }}
-						<button class="btn btn-primary" id="saveTracking" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 21px;margin-left: 364px;padding-right: 12px;margin-right: 0px;">Save</button>
-					</div>
-					
-					{{! CUSTOMER DETAILS }}
-					<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;margin-left: 21px;max-width: 400px;">
-						<span style="font-weight: 600;color: #93623c;">Customer Details</span>
-						
-						<div>
-							<span>Customer Name:&nbsp;</span>
-							<span id="viewCustName">Julia Estella</span>
-						</div>
-						
-						<div>
-							<span>Address:&nbsp;</span>
-							<span id="viewCustAdd">123 Shannon Village, Quezon City</span>
-						</div>
-						
-						<div>
-							<span>City:&nbsp;</span>
-							<span id="viewCustCity">Quezon City</span>
-						</div>
-						
-						<div>
-							<span>Area:&nbsp;</span>
-							<span id="viewCustArea">Metro Manila</span>
-						</div>
-					</div>
-				</div>
-				
-				{{! PROOF OF PAYMENT }}
-				<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;">
-					<span style="font-weight: 600;color: #93623c;">Proof of Payment</span>
-					
-					<div>
-						<span>Reference No:&nbsp;</span>
-						<span id="viewRefNo">BD01828730-12993</span>
-					</div>
-					
-					<div>
-						<span>Amount Paid:&nbsp;</span>
-						<span id="viewAmountPaid">6,800.00</span>
-					</div>
-					
-					<img id="proofpayment" style="margin: 0px;margin-top: 11px;" src="assets/img/home-set.JPG">
-					
-					<button class="btn btn-primary" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 14px;">Validate Payment</button>
+
+				{{! PURCHASE AND SHIP ALL BUTTONS }}
+				<div>
+					<button class="btn btn-primary" id="purchall" type="button" style="font-size: 12px;background: rgba(0,0,0,0);font-weight: 600;color: #93623c;border-width: 0px;" disabled="">Purchase All</button>
+					<button class="btn btn-primary" id="shipall" type="button" style="font-size: 12px;background: rgba(0,0,0,0);font-weight: 600;color: #93623c;border-width: 0px;" disabled="">Ship All</button>
 				</div>
 			</div>
+
+			{{! TABLE OF CART ITEMS }}
+			<div>
+				<div class="table-responsive" style="max-height: 500px;min-height: auto;margin-bottom: 0px;">
+					<table class="table">
+
+						{{! TABLE HEADER }}
+						<thead style="font-size: 10px;">
+							<tr style="background-color: rgba(242,216,190,0.2);">
+								<th style="width: 110px;">Order No.</th>
+								<th style="width: 111px;">Product Name</th>
+								<th style="width: 104px;">Category</th>
+								<th style="width: 61px;">Size</th>
+								<th class="text-left" style="width: 91px;">Color</th>
+								<th class="text-right" style="width: 61px;">Quantity</th>
+								<th class="text-right" style="width: 98px;">Unit Price</th>
+								<th class="text-right" style="width: 105px;">Total</th>
+								<th style="width: 69px;">MOP</th>
+								<th style="width: 80px;">Proof</th>
+								<th>Status</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+
+						{{! TABLE BODY }}
+						<tbody>
+							{{> salesrow}}
+						</tbody>
+
+					</table>
+				</div>
+			</div>
+
+			{{! TOTAL AMOUNT SUMMARY }}
+
+			<div style="background: #f2d8be33;border: 1px solid #cccccc ;">
+
+				{{! SHIPPING FEE DIV }}
+				<div class="d-flex justify-content-end align-items-end align-content-end">
+					<span>Shipping Fee:&nbsp;</span>
+					<span id= "shipfee">100.00</span>
+				</div>
+
+				{{! TOTAL AMOUNT DIV }}
+				<div class="d-flex justify-content-end align-items-end align-content-end">
+					<span>Total Amount Receivable:&nbsp;</span>
+					<span id="totalamt">6,800.00</span>
+				</div>
+			</div>
+
+			{{! SHIPPING AND CUSTOMER DETAILS }}
+			<div class="d-flex">
+				<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;padding-right: 45px;border-right: 1px solid #cccccc ;">
+
+					{{! SHIPPING DETAILS }}
+					<span style="font-weight: 600;color: #93623c;">Shipping Details</span>
+
+					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+						<label style="width: 167px;color: #93623c;">Courier</label>
+						<select id="addCourier" style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 14px;width: 252px;">
+							<option value="0">Choose Courier</option>
+							<option value="1">J&amp;T</option>
+							<option value="2">JRS</option>
+							<option value="3">LBC</option>
+						</select>
+					</div>
+
+					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+						<label style="width: 167px;color: #93623c;">Tracking ID</label>
+						<input type="text" id="addTrackID" style="margin-left: 0px;" placeholder="Tracking ID">
+					</div>
+
+					{{! SAVE SHIPPING DETAILS }}
+					<button class="btn btn-primary" id="saveTracking" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 21px;margin-left: 364px;padding-right: 12px;margin-right: 0px;">Save</button>
+				</div>
+
+				{{! CUSTOMER DETAILS }}
+				<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;margin-left: 21px;max-width: 400px;">
+					<span style="font-weight: 600;color: #93623c;">Customer Details</span>
+
+					<div>
+						<span>Customer Name:&nbsp;</span>
+						<span id="viewCustName">Julia Estella</span>
+					</div>
+
+					<div>
+						<span>Address:&nbsp;</span>
+						<span id="viewCustAdd">123 Shannon Village, Quezon City</span>
+					</div>
+
+					<div>
+						<span>City:&nbsp;</span>
+						<span id="viewCustCity">Quezon City</span>
+					</div>
+
+					<div>
+						<span>Area:&nbsp;</span>
+						<span id="viewCustArea">Metro Manila</span>
+					</div>
+				</div>
+			</div>
+
+			{{! PROOF OF PAYMENT }}
+			<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;">
+				<span style="font-weight: 600;color: #93623c;">Proof of Payment</span>
+
+				<div>
+					<span>Reference No:&nbsp;</span>
+					<span id="viewRefNo">BD01828730-12993</span>
+				</div>
+
+				<div>
+					<span>Amount Paid:&nbsp;</span>
+					<span id="viewAmountPaid">6,800.00</span>
+				</div>
+
+				<img id="proofpayment" style="margin: 0px;margin-top: 11px;" src="assets/img/home-set.JPG">
+
+				<button class="btn btn-primary" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 14px;">Validate Payment</button>
+			</div>
 		</div>
+	</div>
 </div>

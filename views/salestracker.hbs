@@ -1,12 +1,11 @@
-<section> </section>
 <div style="height: auto;">
 	<div class="row no-gutters">
 
-		{{#if isAdmin}} {{> admin-sidebar}} {{/if}}
-		
+		{{> admin-sidebar }}
+
 		{{! CONTENT }}
 		<div class="col" style="max-height: 100vh;">
-		
+
 			{{! HEADER }}
 			<div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;">
 				<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Sales Orders</span>
@@ -17,10 +16,10 @@
 						<a href="#" class="searchbtn" onclick="searchSales()"><i class="fa fa-search"></i></a>
 					</div>
 				</div>
-				
+
 				{{! DATE PICKER }}
 				<input id="sdate" type="date" style="font-weight: 600;color: #93623c;border-width: 0px;">
-				
+
 				{{! SHOW BY DROPDOWNS }}
 				<div class="d-flex align-items-center align-content-center">
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Show by:</span>
@@ -32,16 +31,16 @@
 						<option value="3">Sets</option>
 						<option value="4">Accessories</option>
 					</select>
-					
+
 					{{! BY STATUS }}
 					<select id="sortSalesStatus" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 75px;">
-					    <option value="0">Status</option>
-					    <option value="1">Pending</option>
-					    <option value="2">In Transit</option>
-					    <option value="3">Confirmed</option>
-					    <option value="4">Cancelled</option>
-                            		</select>
-					
+						<option value="0">Status</option>
+						<option value="1">Pending</option>
+						<option value="2">In Transit</option>
+						<option value="3">Confirmed</option>
+						<option value="4">Cancelled</option>
+									</select>
+
 					{{! BY MOP }}
 					<select id="sortSalesMOP" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 69px;">
 						<option value="0">MOP</option>
@@ -50,7 +49,7 @@
 						<option value="3">GCash</option>
 					</select>
 				</div>
-				
+
 				{{! BUTTONS }}
 				{{! Without show status, purchase all and ship all button should be disabled }}
 				{{! If show all confirmed status: enable purchase all, disable ship all }}
@@ -62,7 +61,7 @@
 					<button class="btn btn-primary" id="shipall" type="button" style="font-size: 12px;background: rgba(0,0,0,0);font-weight: 600;color: #93623c;border-width: 0px;" disabled="">Ship All</button>
 				</div>
 			</div>
-			
+
 			{{! TABLE }}
 			{{! If status is cancelled/shipped: action dropdown is disabled }}
 			{{! If status is confirmed: actions are: purchase, cancel 1 }}
@@ -72,7 +71,7 @@
 			{{! cancel 1: out of stock sa supplier }}
 			{{! cancel 2: wrong payment details }}
 			{{! cancel 3: unable to deliver }}
-			
+
 			<div>
 				<div class="table-responsive" style="max-height: 100vh;min-height: 100vh;margin-bottom: -15px;">
 					<table class="table">
@@ -93,7 +92,7 @@
 								<th>Action</th>
 							</tr>
 						</thead>
-					
+
 					{{! TABLE BODY }}
 						<tbody>
 							{{#each salesOrder}}
