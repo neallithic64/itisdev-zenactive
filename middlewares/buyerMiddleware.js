@@ -18,8 +18,16 @@ const ThresholdDB = require('../models/Threshold');
 
 const buyerMiddleware = {
 	validateCartExist: function (req, res, next) {
-		if (req.session.cart) return next();
-		else res.status(403).send('cart no exist');
+		if (!req.session.cart) res.status(403).send('cart no exist');
+		else return next();
+	},
+	
+	validateAddCart: function(req, res, next) {
+		if (req.session.cart.some(e => e.code === req.body.item.code))
+			res.status(403).send('Item already exists in your bag!');
+		else if (req.session.cart.reduce((a, e) => a + e.qty, 0) + req.body.item.qty >= 30)
+			res.status(403).send('Bag is full! Try removing some items.');
+		else return next();
 	}
 };
 

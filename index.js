@@ -43,7 +43,7 @@ app.engine('hbs', exphbs.create({
 	layoutsDir: 'views/layouts',
 	helpers: {
 		getPrice: function(price) {
-			return price.toFixed(2);
+			return price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 		},
 		getPURL: function(id) {
 			return '/product/' + id;
