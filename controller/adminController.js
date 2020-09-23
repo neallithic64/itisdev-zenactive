@@ -75,25 +75,58 @@ function forceJSON(e) {
 	return JSON.parse(JSON.stringify(e));
 }
 
-async function getJoinedQuery(prodID) {
-	return await db.aggregate(ProductDB, [
-		{'$match': {productID: prodID}},
-		{'$lookup': {
-			'from': 'ProdCategory',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'prodCateg'
-		}},
-		{'$unwind': "$prodCateg"},
-		{'$lookup': {
-			'from': 'ProdPhoto',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'prodPhoto'
-		}},
-		{'$unwind': "$prodPhoto"}
-	]);
-}
+/** Query for joining the ff tables/collections:
+ *  - Product
+ *  - ProdCategory
+ *  - ProdPhoto
+ */
+	async function getJoinedQuery(prodID) {
+		return await db.aggregate(ProductDB, [
+			{'$match': {productID: prodID}},
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodCateg'
+			}},
+			{'$lookup': {
+				'from': 'ProdPhoto',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodPhoto'
+			}}
+		]);
+	}
+
+/** Query for joining the ff tables/collections:
+ *  - CustomerOrder
+ *  - CustomerCart
+ *  - Product
+ *  - ProdCategory
+ */
+	async function getJoinedCustOrder(ordNo) {
+		return await db.aggregate(CustomerOrderDB, [
+			{'$match': {buyOrdNo: ordNo}},
+			{'$lookup': {
+				'from': 'CustomerCart',
+				'localField': 'buyOrdNo',
+				'foreignField': 'buyOrdNo',
+				'as': 'Cart'
+			}},
+			{'$lookup': {
+				'from': 'Product',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Product'
+			}},
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Category'
+			}}
+		]);
+	}
 
 /* Index Functions
  */
@@ -185,19 +218,21 @@ const adminFunctions = {
  * by the buyers. The seller may also view the orders they have made to the supplier.
  * 
  */
+	getSalesQuery: async function(req, res, next) {
+		res.status(200).send(await getJoinedCustOrder(req.query.ordNo));
+	},
 
 	getSalesOrder: async function(req, res) {
-		let {orderNo} = req.query;
-		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
+		var orderMatch = await getJoinedCustOrder('');
 		
 		if (!orderMatch) {
 			//error handling
 		} else {
+			res.render('salestracker', {
+				title: 'Sales Tracker',
+				salesOrder: orderMatch
+			});
 		}
-		res.render('salestracker', {
-			title: 'Sales Tracker'
-			// buyOrder: orderMatch
-		});
 	},
 
 	getPurchaseOrder: async function(req, res) {
@@ -211,32 +246,6 @@ const adminFunctions = {
 		res.render('purchtracker', {
 			title: 'Purchases Tracker'
 			// suppOrder: orderMatch
-		});
-	},
-
-	getSalesOrders: async function (req, res) {
-		var orders = await db.findMany(CustomerOrderDB, {}, '');
-		
-		if (!orders) {
-			// error handling
-		} else {
-		}
-		res.render('salestracker', {
-			title: 'Sales Tracker',
-			orders: orders
-		});
-	}, 
-	
-	getPurchaseOrders: async function (req, res) {
-		var orders = await db.findMany(SupplierOrderDB, {}, '');
-		
-		if (!orders) {
-			// error handling
-		} else {
-		}
-		res.render('purchtracker', {
-			title: 'Purchases Tracker',
-			orders: orders
 		});
 	},
 
