@@ -30,16 +30,6 @@ function addToCart(code, size, qty) {
 	});
 }
 
-function removeFromCart(s) {
-	$.ajax({
-		method: 'POST',
-		url: '/removeFromCart',
-		data: {code: s},
-		success: () => alert('Item removed from cart'),
-		error: res => console.log(res)
-	});
-}
-
 /* Returns a boolean on the capacity of a cart. If cart still
  * has space, function returns true.
  */
@@ -54,6 +44,35 @@ $(document).ready(function() {
 		url: '/getCart',
 		success: res => $("#lblCartCount").text(res.reduce((a, e) => a + Number.parseInt(e.qty), 0)),
 		error: res => console.log(res)
+	});
+	
+	$('span.bagRemove').click(function() {
+		let parent = $(this).closest(".text-nowrap");
+		$.ajax({
+			method: 'POST',
+			url: '/removeFromCart',
+			data: {code: parent.attr('id')},
+			success: () => {
+				alert('Item removed from cart.');
+				parent.remove();
+			},
+			error: res => console.log(res)
+		});
+	});
+	
+	$(':input[type="number"]').on('keyup mouseup', function() {
+		let id = $(this).closest(".text-nowrap").attr('id'),
+			newqty = $(this).val();
+		console.log(typeof newqty);
+		if (!!newqty && !isNaN(newqty)) {
+			$.ajax({
+				method: 'POST',
+				url: '/updateQtyBag',
+				data: {id: id, newqty: newqty},
+				success: () => console.log('yee'),
+				error: res => console.log(res)
+			});
+		}
 	});
 	
 	// creating post request to checkout cart

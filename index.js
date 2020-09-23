@@ -52,9 +52,7 @@ app.engine('hbs', exphbs.create({
 			return categs.includes('Bottoms');
 		},
 		getPriceTotal: function(cart) {
-			return cart.reduce(function(total, item) {
-				return total + item.price * item.qty;
-			}, 0.00).toFixed(2);
+			return cart.reduce((total, item) => total + item.price * item.qty, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 		},
 		getOrdHeadClass: function(ordStatus) {
 			switch(ordStatus) {

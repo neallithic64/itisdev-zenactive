@@ -97,9 +97,12 @@ const buyerFunctions = {
 	},
 	
 	getBag: async function(req, res) {
+		var lookup = forceJSON(await lookupBag(req.session.cart));
+		var newBag = lookup.map((item, i) => Object.assign({}, item, req.session.cart[i]));
+		console.log(newBag);
 		res.render('bag', {
 			title: 'My Bag - ZenActivePH',
-			bag: await lookupBag(req.session.cart)
+			bag: newBag
 		});
 	},
 	
@@ -199,6 +202,15 @@ const buyerFunctions = {
 	postRemCart: function(req, res) {
 		let {code} = req.body;
 		req.session.cart = req.session.cart.filter(e => e.code !== code);
+		res.status(200).send();
+	},
+	
+	postUpdateQty: function(req, res) {
+		let {id, newqty} = req.body;
+		req.session.cart.forEach(e => {
+			if (e.code === id) e.qty = newqty;
+		});
+		// req.session.cart.forEach(e => e.qty = e.code === id ? newqty : e.qty);
 		res.status(200).send();
 	},
 
