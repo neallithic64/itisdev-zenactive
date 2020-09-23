@@ -75,7 +75,7 @@ function forceJSON(e) {
 	return JSON.parse(JSON.stringify(e));
 }
 
-/** Query for joining the ff tables/collections:
+/* Query for joining the ff tables/collections:
  *  - Product
  *  - ProdCategory
  *  - ProdPhoto
@@ -98,7 +98,7 @@ function forceJSON(e) {
 		]);
 	}
 
-/** Query for joining the ff tables/collections:
+/* Query for joining the ff tables/collections:
  *  - CustomerOrder
  *  - CustomerCart
  *  - Product
@@ -135,7 +135,7 @@ function forceJSON(e) {
 		]);
 	}
 	
-/** Query for joining the ff tables/collections:
+/* Query for joining the ff tables/collections:
  *  - SupplierOrder
  *  - SupplierCart
  *  - Product
@@ -169,6 +169,7 @@ function forceJSON(e) {
  */
 const adminFunctions = {
 	getLogin: function(req, res) {
+		console.log(req.session);
 		if (req.session.admin) res.redirect('/');
 		else res.render('login', {title: 'Login - ZenActivePH'});
 	},
@@ -264,13 +265,13 @@ const adminFunctions = {
 		try {
 			var orderMatch = await getJoinedCustOrder('');
 			
-			console.log(orderMatch);
+			orderMatch.push({status: 'CANCELLED'});
 			
 			res.render('salestracker', {
 				title: 'Sales Tracker',
 				salesOrder: forceJSON(orderMatch)
-			});			
-		} catch(e){
+			});
+		} catch(e) {
 			res.status(500).send(e);
 		}
 	},

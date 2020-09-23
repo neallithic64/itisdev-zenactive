@@ -62,10 +62,28 @@ app.engine('hbs', exphbs.create({
 		categToString: function(cats) {
 			return cats.join(', ');
 		},
-		isProofEmpty: function(proofPay){ // return proofPay.length > 0 ? 'Yes' : 'No';
-			if(proofPay.length > 0) return 'Yes'; 
+		isProofEmpty: function(proofPay) {
+			// return proofPay.length > 0 ? 'Yes' : 'No';
+			if (proofPay.length > 0) return 'Yes'; 
 			else return 'No';
-			
+		},
+		getSalesStatActs: function(status) {
+			switch (status) {
+				case 'CONFIRMED': return 'confirmactions';
+				case 'PENDING': return 'pendingactions';
+				case 'IN TRANSIT': return 'transitactions';
+				case 'CANCELLED':
+				case 'SHIPPED': return 'disabledactions';
+			}
+		},
+		getPurchStatActs: function(status) {
+			switch (status) {
+				case 'INCOMPLETE': return 'purchincactions';
+				case 'PENDING': return 'purchpendingactions';
+				case 'COMPLETE':
+				case 'CANCELLED':
+				case 'REFUNDED': return 'disabledactions';
+			}
 		}
 	}
 }).engine);

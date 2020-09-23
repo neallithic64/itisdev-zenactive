@@ -21,5 +21,6 @@
 		{{! if status = pending: use dropdown in purchpendingactions.hbs }}
 		{{! if status = complete/refunded/cancelled: use dropdown in disabledactions.hbs }}
 		{{! if status = incomplete: use dropdown in purchincactions.hbs }}
+		{{> (getPurchStatActs status)}}
 	</td>
 </tr>

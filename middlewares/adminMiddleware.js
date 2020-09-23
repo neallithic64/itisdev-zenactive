@@ -18,7 +18,7 @@ const SupplierOrderDB = require('../models/SupplierOrder');
 const ThresholdDB = require('../models/Threshold');
 
 
-/** Query for joining the ff tables/collections:
+/* Query for joining the ff tables/collections:
  *  - Product
  *  - ProdCategory
  *  - ProdPhoto
@@ -41,7 +41,7 @@ const ThresholdDB = require('../models/Threshold');
 		]);
 	}
 
-/** Query for joining the ff tables/collections:
+/* Query for joining the ff tables/collections:
  *  - CustomerOrder
  *  - CustomerCart
  *  - Product
@@ -78,7 +78,7 @@ const ThresholdDB = require('../models/Threshold');
 		]);
 	}
 
-/** Query for joining the ff tables/collections:
+/* Query for joining the ff tables/collections:
  *  - SupplierOrder
  *  - SupplierCart
  *  - Product
@@ -114,7 +114,7 @@ const adminMiddleware = {
 			// check if id and email exists in db
 			let {email, password} = req.body;
 			
-			var emailMatch = await db.findOne(AdminDB, {email: password})
+			var emailMatch = await db.findOne(AdminDB, {email: password});
 			
 			if (emailMatch) {
 				res.status(400).send();
