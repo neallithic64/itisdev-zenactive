@@ -8,15 +8,15 @@
 {{! Neal's Note: use HBS expressions for styling}}
 
 <tr style="font-size: 11px;background: rgba(0,0,0,0);">
-	<td id="batchnumber">20200912345</td>
-	<td id="prodname">Yoga Mat<br></td>
-	<td id="categ">Accessories<br></td>
-	<td id="size">M</td>
-	<td class="text-left" id="color">Gray</td>
-	<td class="text-right" id="qty">2</td>
-	<td class="text-right" id="unitprice">585.00</td>
-	<td class="text-right" id="totalamt">1170.00<br></td>
-	<td id="status">Pending</td>
+	<td id="batchnumber"> {{batchID}} </td>
+	<td id="prodname"> {{Product.name}} <br></td>
+	<td id="categ"> {{Category.categName}} <br></td>
+	<td id="size"> {{Product.size}} </td>
+	<td class="text-left" id="color"> {{Product.color}} </td>
+	<td class="text-right" id="qty"> {{SuppCart.qty}} </td>
+	<td class="text-right" id="unitprice"> {{SuppCart.price}} </td>
+	<td class="text-right" id="totalamt"> {{getPriceTotal SuppCart}} <br></td>
+	<td id="status"> {{status}} </td>
 	<td id="purchactions" style="padding: 0px;padding-top: 0px;text-align: center;">
 		{{! if status = pending: use dropdown in purchpendingactions.hbs }}
 		{{! if status = complete/refunded/cancelled: use dropdown in disabledactions.hbs }}

@@ -1,3 +1,4 @@
+<section> </section>
 <div style="height: auto;">
 	<div class="row no-gutters">
 
@@ -11,9 +12,9 @@
 				<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Sales Orders</span>
 				{{! SEARCH BAR }}
 				<div class="d-flex">
-					<input type="search" placeholder="Search Order Number" autocomplete="on" style="margin-right: 7px;">
+					<input id="salesInput" type="search" placeholder="Search Order Number" autocomplete="on" style="margin-right: 7px;">
 					<div>
-						<a href="#" class="searchbtn" onclick="search()"><i class="fa fa-search"></i></a>
+						<a href="#" class="searchbtn" onclick="searchSales()"><i class="fa fa-search"></i></a>
 					</div>
 				</div>
 				
@@ -95,8 +96,11 @@
 					
 					{{! TABLE BODY }}
 						<tbody>
-							{{> salesrow}}
+							{{#each salesOrder}}
+								{{> salesrow}}
+							{{/each}}
 						</tbody>
+
 					</table>
 				</div>
 			</div>

@@ -18,25 +18,95 @@ const SupplierOrderDB = require('../models/SupplierOrder');
 const ThresholdDB = require('../models/Threshold');
 
 
-async function getJoinedQuery(prodID) {
-	return await db.aggregate(ProductDB, [
-		{'$match': {productID: prodID}},
-		{'$lookup': {
-			'from': 'ProdCategory',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'prodCateg'
-		}},
-		{'$unwind': "$prodCateg"},
-		{'$lookup': {
-			'from': 'ProdPhoto',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'prodPhoto'
-		}},
-		{'$unwind': "$prodPhoto"}
-	]);
-}
+/** Query for joining the ff tables/collections:
+ *  - Product
+ *  - ProdCategory
+ *  - ProdPhoto
+ */
+	async function getJoinedQuery(prodID) {
+		return await db.aggregate(ProductDB, [
+			{'$match': {productID: prodID}},
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodCateg'
+			}},
+			{'$lookup': {
+				'from': 'ProdPhoto',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodPhoto'
+			}}
+		]);
+	}
+
+/** Query for joining the ff tables/collections:
+ *  - CustomerOrder
+ *  - CustomerCart
+ *  - Product
+ *  - ProdCategory
+ *  - PaymentProof
+ */
+	async function getJoinedCustOrder(ordNo) {
+		return await db.aggregate(CustomerOrderDB, [
+			{'$match': {buyOrdNo: ordNo}},
+			{'$lookup': {
+				'from': 'CustomerCart',
+				'localField': 'buyOrdNo',
+				'foreignField': 'buyOrdNo',
+				'as': 'Cart'
+			}},
+			{'$lookup': {
+				'from': 'Product',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Product'
+			}},
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Category'
+			}},
+			{'$lookup': {
+				'from': 'PaymentProof',
+				'localField': 'buyOrdNo',
+				'foreignField': 'buyOrdNo',
+				'as': 'PaymentProof'
+			}}
+		]);
+	}
+
+/** Query for joining the ff tables/collections:
+ *  - SupplierOrder
+ *  - SupplierCart
+ *  - Product
+ *  - ProdCategory
+ */
+	async function getJoinedSuppOrder(ordNo) {
+		return await db.aggregate(SupplierOrderDB, [
+			{'match': {batchID: ordNo}},
+			{'$lookup': {
+				'from': 'SupplierCart',
+				'localField': 'batchID',
+				'foreignField': 'batchID',
+				'as': 'SuppCart'
+			}},
+			{'$lookup': {
+				'from': 'Product',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Product'
+			}},
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'Category'
+			}}
+		]);
+	}
 
 const adminMiddleware = {
 	validateRegister: async function (req, res, next) {
@@ -127,6 +197,26 @@ const adminMiddleware = {
 	
 	validatePayment: async function (req, res, next) {
 		// which hbs view is this?
+	},
+	
+	validateSalesOrder: async function (req, res, next) {
+		let {salesInput} = req.body;
+		
+		var orderFind = await getJoinedCustOrder(salesInput);
+		
+		if (!orderFind){
+			res.status(400).send(); //order not found!
+		} else return next();
+	},
+
+	validatePurchOrder: async function (req, res, next) {
+		let {purchInput} = req.body;
+		
+		var orderFind = await getJoinedSuppOrder(purchInput);
+		
+		if (!orderFind){
+			res.status(400).send(); //order not found!
+		} else return next();
 	}
 	
 };

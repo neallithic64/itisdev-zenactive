@@ -83,9 +83,25 @@ $(document).ready(function() {
 	});
 });
 
+function searchSales() {
+	$.ajax({
+		method: 'GET',
+		url: '/searchSales',
+		data: {ordNo: $("#salesInput")},
+		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
+		error: str => console.log(str)
+	});
+}
 
-
-
+function searchPurchases() {
+	$.ajax({
+		method: 'GET',
+		url: '/searchPurchases',
+		data: {ordNo: $("#purchInput")},
+		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
+		error: str => console.log(str)
+	});
+}
 
 /* FRONTEND VALIDATION SCRIPTS */
 $(document).ready(function() {

@@ -61,6 +61,11 @@ app.engine('hbs', exphbs.create({
 		},
 		categToString: function(cats) {
 			return cats.join(', ');
+		},
+		isProofEmpty: function(proofPay){ // return proofPay.length > 0 ? 'Yes' : 'No';
+			if(proofPay.length > 0) return 'Yes'; 
+			else return 'No';
+			
 		}
 	}
 }).engine);
