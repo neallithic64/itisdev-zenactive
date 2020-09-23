@@ -171,7 +171,9 @@ const adminFunctions = {
 	getLogin: function(req, res) {
 		console.log(req.session);
 		if (req.session.admin) res.redirect('/');
-		else res.render('login', {title: 'Login - ZenActivePH'});
+		else res.render('login', {
+			title: 'Login - ZenActivePH'
+		});
 	},
 	
 	getRegister: function(req, res) {
@@ -184,8 +186,7 @@ const adminFunctions = {
 	getAdmin: function(req, res) {
 		if (req.session.admin)
 			res.render('admin', {
-				title: 'Admin Page - ZenActivePH',
-				isAdmin: true
+				title: 'Admin Page - ZenActivePH'
 			});
 		else res.redirect('/');
 	},

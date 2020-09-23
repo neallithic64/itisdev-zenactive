@@ -89,7 +89,7 @@ const buyerFunctions = {
 		req.session.cart = !!req.session.cart ? req.session.cart : [];
 		res.render('home', {
 			title: 'ZenActivePH',
-			isAdmin: false
+			showNav: true
 		});
 	},
 	
@@ -103,7 +103,8 @@ const buyerFunctions = {
 		console.log(newBag);
 		res.render('bag', {
 			title: 'My Bag - ZenActivePH',
-			bag: newBag
+			bag: newBag,
+			showNav: true
 		});
 	},
 	
@@ -119,7 +120,8 @@ const buyerFunctions = {
 		var products = await db.findMany(ProductDB, {}, '');
 		
 		res.render('products', {
-			allProducts: products
+			allProducts: products,
+			showNav: true
 		});
 	},
 	
@@ -129,7 +131,8 @@ const buyerFunctions = {
 		var searchProd = await db.findMany(ProductDB, {name: prodQuery}, '');
 		
 		res.render('products', {
-			products: forceJSON(searchProd)
+			products: forceJSON(searchProd),
+			showNav: true
 		});
 	},
 	
@@ -146,7 +149,8 @@ const buyerFunctions = {
 		]);
 		console.table(forceJSON(searchProd));
 		res.render('products', {
-			products: forceJSON(searchProd)
+			products: forceJSON(searchProd),
+			showNav: true
 		});
 	},
 	
@@ -160,7 +164,8 @@ const buyerFunctions = {
 		} else {
 			res.render('product', {
 				title: prodMatch.productID + ' - ZenActivePH',
-				product: prodMatch
+				product: prodMatch,
+				showNav: true
 			});
 		}
 	},
@@ -188,7 +193,8 @@ const buyerFunctions = {
 
 		} else {
 			res.render('view-orderStatus', {
-				buyOrder: orderMatch
+				buyOrder: orderMatch,
+				showNav: true
 			});
 		}
 
