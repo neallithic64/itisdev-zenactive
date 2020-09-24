@@ -11,7 +11,7 @@ const buyerMiddle = require('../middlewares/buyerMiddleware');
 router.get('/test', test.getHome);
 router.post('/test', test.postGenDocs);
 
-router.get('/aaaaa', (req, res) => res.render('product', {title: 'testing AAAAA'}));
+router.get('/a', (req, res) => res.render('salesreport', {title: 'a'}));
 
 
 

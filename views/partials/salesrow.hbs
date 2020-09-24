@@ -15,9 +15,9 @@
 	<td class="text-left" id="color"> {{Product.color}} </td>
 	<td class="text-right" id="qty"> {{Cart.qty}} </td>
 	<td class="text-right" id="unitprice"> {{Cart.price}} </td>
-	<td class="text-right" id="totalamt"> {{getPriceTotal Cart}} <br></td>
+	<td class="text-right" id="totalamt"> {{!getPriceTotal Cart}} <br></td>
 	<td id="mop"> {{modeOfPay}} </td>
-	<td id="proof"> {{isProofEmpty PaymentProof}} </td>
+	<td id="proof"> {{!isProofEmpty PaymentProof}} </td>
 	<td id="status"> {{status}} </td>
 	<td id="salesactions" style="padding: 0px;padding-top: 0px;text-align: center;">
 		{{! if status = confirmed: use dropdown in confirmactions.hbs }}

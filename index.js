@@ -60,7 +60,8 @@ app.engine('hbs', exphbs.create({
 			}
 		},
 		categToString: function(cats) {
-			return cats.join(', ');
+			console.log(cats);
+			return cats.map(e => e.categName).join(', ');
 		},
 		isProofEmpty: function(proofPay) {
 			// return proofPay.length > 0 ? 'Yes' : 'No';

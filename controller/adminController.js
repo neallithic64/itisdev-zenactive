@@ -266,7 +266,7 @@ const adminFunctions = {
 		try {
 			var orderMatch = await getJoinedCustOrder('');
 			
-			orderMatch.push({status: 'CANCELLED'});
+			orderMatch.push({status: 'CONFIRMED'});
 			
 			res.render('salestracker', {
 				title: 'Sales Tracker',
@@ -292,7 +292,7 @@ const adminFunctions = {
 				suppOrder: forceJSON(orderMatch)
 			});			
 		} catch(e){
-			res.status(500).send(e);			
+			res.status(500).send(e);
 		}
 	},
 
@@ -440,10 +440,10 @@ const adminFunctions = {
  */
 	postAddProduct: async function(req, res) {
 		try {
-			let {pname, pprice, psize, pcolor, pcateg, plink1, plink2, plink3} = req.body;
+			let {pname, pprice, psize, pcolor, phex, pcateg, plink1, plink2, plink3} = req.body;
 			let productID = genProdCode(pcateg);
 		
-			var newProd = new constructors.Product(productID, pname, pprice, psize, pcolor);
+			var newProd = new constructors.Product(productID, pname, pprice, psize, pcolor, phex);
 			await db.insertOne(ProductDB, newProd);
 			await db.insertOne(ProdCategoryDB, {productID: productID, categName: pcateg});
 			if (!!plink1) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink1});

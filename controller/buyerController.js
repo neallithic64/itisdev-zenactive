@@ -74,6 +74,12 @@ async function getJoinedQuery(prodID) {
 			'localField': 'productID',
 			'foreignField': 'productID',
 			'as': 'prodPhoto'
+		}},
+		{'$lookup': {
+			'from': 'Product',
+			'localField': 'name',
+			'foreignField': 'name',
+			'as': 'prodColours'
 		}}
 	]);
 }
@@ -155,16 +161,15 @@ const buyerFunctions = {
 	},
 	
 	getProduct: async function(req, res) {
-		// use server error checking here
-		// view through productID
-		var prodMatch = await db.findOne(ProductDB, {productID: req.params.prodID}, '');
+		var prodMatch = await getJoinedQuery(req.params.prodID);
 		
 		if (!prodMatch) {
 			// error handling: no product found
 		} else {
+			console.log(prodMatch[0]);
 			res.render('product', {
-				title: prodMatch.productID + ' - ZenActivePH',
-				product: prodMatch,
+				title: prodMatch[0].productID + ' - ZenActivePH',
+				product: prodMatch[0],
 				showNav: true
 			});
 		}
