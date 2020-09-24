@@ -49,7 +49,7 @@ app.engine('hbs', exphbs.create({
 			return '/product/' + id;
 		},
 		getSizeChart: function(categs) {
-			return categs.includes('Bottoms');
+			return categs.some(e => e.categName === 'Bottoms');
 		},
 		getPriceTotal: function(cart) {
 			return cart.reduce((total, item) => total + item.price * item.qty, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -60,7 +60,6 @@ app.engine('hbs', exphbs.create({
 			}
 		},
 		categToString: function(cats) {
-			console.log(cats);
 			return cats.map(e => e.categName).join(', ');
 		},
 		isProofEmpty: function(proofPay) {

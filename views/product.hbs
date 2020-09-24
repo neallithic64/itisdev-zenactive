@@ -73,66 +73,67 @@
 					<!-- SIZES -->
 					<div class="row" style="margin: 20px;">
 						<div class="col">
-							<!--IF SHORTS-->
-							<div>
-								<h1 style="font-size: 20px;text-align: center;">Size Chart (Shorts)</h1>
-								<div class="table-responsive">
-									<table class="table table-sm">
-										<thead>
-											<tr>
-												<th class="text-center">SIZE</th>
-												<th class="text-center">WAIST</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td class="text-center">Small</td>
-												<td class="text-center">24" - 28"</td>
-											</tr>
-											<tr>
-												<td class="text-center">Medium</td>
-												<td class="text-center">27" - 28"</td>
-											</tr>
-											<tr>
-												<td class="text-center">Large</td>
-												<td class="text-center">29" - 30"</td>
-											</tr>
-										</tbody>
-									</table>
+							{{#if (getSizeChart product.prodCateg)}}
+								<div>
+									<h1 style="font-size: 20px;text-align: center;">Size Chart (Shorts)</h1>
+									<div class="table-responsive">
+										<table class="table table-sm">
+											<thead>
+												<tr>
+													<th class="text-center">SIZE</th>
+													<th class="text-center">WAIST</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="text-center">Small</td>
+													<td class="text-center">24" - 28"</td>
+												</tr>
+												<tr>
+													<td class="text-center">Medium</td>
+													<td class="text-center">27" - 28"</td>
+												</tr>
+												<tr>
+													<td class="text-center">Large</td>
+													<td class="text-center">29" - 30"</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
-							</div>
-							<!--IF SET-->
-							<div>
-								<h1 style="font-size: 20px;text-align: center;">Size Chart (Sets)</h1>
-								<div class="table-responsive">
-									<table class="table table-sm">
-										<thead>
-											<tr>
-												<th class="text-center">SIZE</th>
-												<th class="text-center">UNDERBUST</th>
-												<th class="text-center">WAIST</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td class="text-center">Small</td>
-												<td class="text-center">26"</td>
-												<td class="text-center">24" - 28"</td>
-											</tr>
-											<tr>
-												<td class="text-center">Medium</td>
-												<td class="text-center">28"</td>
-												<td class="text-center">27" - 28"</td>
-											</tr>
-											<tr>
-												<td class="text-center">Large</td>
-												<td class="text-center">30"</td>
-												<td class="text-center">29" - 30"</td>
-											</tr>
-										</tbody>
-									</table>
+							{{else}}
+								<div>
+									<h1 style="font-size: 20px;text-align: center;">Size Chart (Sets)</h1>
+									<div class="table-responsive">
+										<table class="table table-sm">
+											<thead>
+												<tr>
+													<th class="text-center">SIZE</th>
+													<th class="text-center">UNDERBUST</th>
+													<th class="text-center">WAIST</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="text-center">Small</td>
+													<td class="text-center">26"</td>
+													<td class="text-center">24" - 28"</td>
+												</tr>
+												<tr>
+													<td class="text-center">Medium</td>
+													<td class="text-center">28"</td>
+													<td class="text-center">27" - 28"</td>
+												</tr>
+												<tr>
+													<td class="text-center">Large</td>
+													<td class="text-center">30"</td>
+													<td class="text-center">29" - 30"</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
-							</div>
+							{{/if}}
 						</div>
 					</div>
 					<div class="row" style="margin-top: 30px;margin-bottom: 10px;">
