@@ -31,6 +31,10 @@ function getStrMonth(mon) {
 	return !isNaN(d) ? new Date(d).getMonth() + 1 : -1;
 }
 
+function genBuyOrdNo() {
+	return Number.parseInt((new Date()).toISOString().substr(2, 8).split('-').join('') + Math.round(Math.random()*100000).toString().padStart(5, '0'));
+}
+
 function sendEmail(email) {
 	fs.readFile('./assets/email.html', 'utf8', function(e, bodyData) {
 		var template = handlebars.compile(bodyData);
@@ -85,7 +89,7 @@ async function getJoinedQuery(prodID) {
 }
 
 async function lookupBag(bag) {
-	return (await db.findMany(ProductDB, {})).filter(e1 => bag.map(e2 => e2.code).includes(e1.productID));
+	return forceJSON(await db.findMany(ProductDB, {})).filter(e1 => bag.map(e2 => e2.code).includes(e1.productID)).map((item, i) => Object.assign({}, item, bag[i]));
 }
 
 /* Index Functions
@@ -104,13 +108,20 @@ const buyerFunctions = {
 	},
 	
 	getBag: async function(req, res) {
-		var lookup = forceJSON(await lookupBag(req.session.cart));
-		var newBag = lookup.map((item, i) => Object.assign({}, item, req.session.cart[i]));
+		var newBag = await lookupBag(req.session.cart);
 		console.log(newBag);
 		res.render('bag', {
 			title: 'My Bag - ZenActivePH',
 			bag: newBag,
 			showNav: true
+		});
+	},
+	
+	getCheckout: async function(req, res) {
+		var bag = await lookupBag(req.session.cart);
+		res.render('checkout', {
+			title: 'Checkout - ZenActivePH',
+			bag: bag
 		});
 	},
 	
@@ -203,6 +214,14 @@ const buyerFunctions = {
 			});
 		}
 
+	},
+	
+	postCheckOut: async function(req, res) {
+		let {} = req.body;
+		let ordNo = genBuyOrdNo();
+		
+		await db.insertOne(CustomerOrderDB, {});
+		
 	},
 	
 	postAddCart: function(req, res) {

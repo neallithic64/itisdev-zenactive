@@ -19,6 +19,7 @@ router.get('/a', (req, res) => res.render('salesreport', {title: 'a'}));
 router.get('/', buyerCont.getHome);
 router.get('/getCart', buyerMiddle.validateCartExist, buyerCont.getCartObj);
 router.get('/bag', buyerMiddle.validateCartExist, buyerCont.getBag);
+router.get('/checkout', buyerCont.getCheckout);
 router.get('/search-products', buyerCont.getSearchProducts);
 router.get('/category/:category', buyerCont.getCategoryProds);
 router.get('/product/:prodID', buyerCont.getProduct);

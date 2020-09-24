@@ -56,10 +56,6 @@ function sendEmail(email) {
 	});
 }
 
-function genBuyOrdNo() {
-	return Number.parseInt((new Date()).toISOString().substr(2, 8).split('-').join('') + Math.round(Math.random()*100000).toString().padStart(5, '0'));
-}
-
 async function genProdCode(category) {
 	// {TOP|BOT|SET|ACC}00000
 	var catCode = category.substr(0, 3).toUpperCase(),

@@ -13,6 +13,17 @@ function setSessionCart(cart) {
 	window.sessionStorage.setItem('cart', JSON.stringify(cart));
 }
 
+function callLogout() {
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "/logout", true);
+	xhr.onreadystatechange = function() {
+		if (xhr.status === 200 && xhr.readyState === 4) {
+			window.location.href = '/';
+		}
+	};
+	xhr.send();
+}
+
 /* Function to add the product ID of the added-to product
  * {
  *		code: Product Code
@@ -30,21 +41,27 @@ function addToCart(code, size, qty) {
 	});
 }
 
-/* Returns a boolean on the capacity of a cart. If cart still
- * has space, function returns true.
- */
+async function getCart() {
+	return await $.ajax({
+		method: 'GET',
+		url: '/getCart',
+		error: res => console.log(res)
+	});
+}
+async function getCartTotal() {
+	return (await getCart()).reduce((a, e) => a + Number.parseInt(e.qty), 0);
+}
+
 function trimArr(arr) {
 	arr.forEach(e => e.value = validator.trim(e.value));
 }
 
-$(document).ready(function() {
+$(document).ready(async function() {
+	
 	// updating cart count in navbar
-	$.ajax({
-		method: 'GET',
-		url: '/getCart',
-		success: res => $("#lblCartCount").text(res.reduce((a, e) => a + Number.parseInt(e.qty), 0)),
-		error: res => console.log(res)
-	});
+	console.log(await getCart());
+	$("span#totItems").text('Items: ' + await getCartTotal());
+	$("#lblCartCount").text(await getCartTotal());
 	
 	$('span.bagRemove').click(function() {
 		let parent = $(this).closest(".text-nowrap");
@@ -52,9 +69,10 @@ $(document).ready(function() {
 			method: 'POST',
 			url: '/removeFromCart',
 			data: {code: parent.attr('id')},
-			success: () => {
+			success: async () => {
 				alert('Item removed from cart.');
 				parent.remove();
+				$("span#totItems").text('Items: ' + await getCartTotal());
 			},
 			error: res => console.log(res)
 		});
@@ -63,13 +81,14 @@ $(document).ready(function() {
 	$(':input[type="number"]').on('keyup mouseup', function() {
 		let id = $(this).closest(".text-nowrap").attr('id'),
 			newqty = $(this).val();
-		console.log(typeof newqty);
 		if (!!newqty && !isNaN(newqty)) {
 			$.ajax({
 				method: 'POST',
 				url: '/updateQtyBag',
 				data: {id: id, newqty: newqty},
-				success: () => console.log('yee'),
+				success: async () => {
+					$("span#totItems").text('Items: ' + await getCartTotal());
+				},
 				error: res => console.log(res)
 			});
 		}
@@ -193,14 +212,3 @@ $(document).ready(function() {
 			elem.removeClass('animated ' + elem.attr('data-bs-hover-animate'));
 		});
 });
-
-function callLogout() {
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", "/logout", true);
-	xhr.onreadystatechange = function() {
-		if (xhr.status === 200 && xhr.readyState === 4) {
-			window.location.href = '/';
-		}
-	};
-	xhr.send();
-}
