@@ -94,7 +94,11 @@ $(document).ready(async function() {
 		}
 	});
 	
-	// $('select name="area"');
+	$('select[name="area"]').change(function() {
+		let text = $(this).val(), subtot = Number.parseFloat($('strong#subtot').text().split(' ')[1].split(',').join(''));
+		$('strong#shipping').text(text === "Metro Manila" ? 80 : 150);
+		$('strong#total').text('Php ' + (subtot + (text === "Metro Manila" ? 80 : 150)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+	});
 	
 });
 
@@ -192,6 +196,7 @@ $(document).ready(function() {
 						data: form,
 						success: () => {
 							alert('thank you have a good day');
+							window.location.href = '/';
 						},
 						error: res => console.log(res)
 					});

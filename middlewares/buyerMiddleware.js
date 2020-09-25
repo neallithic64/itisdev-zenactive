@@ -25,7 +25,7 @@ const buyerMiddleware = {
 	validateAddCart: function(req, res, next) {
 		if (req.session.cart.some(e => e.code === req.body.item.code))
 			res.status(403).send('Item already exists in your bag!');
-		else if (req.session.cart.reduce((a, e) => a + e.qty, 0) + req.body.item.qty >= 30)
+		else if (req.session.cart.reduce((a, e) => a + e.qty, 0) + Number.parseInt(req.body.item.qty) >= 30)
 			res.status(403).send('Bag is full! Try removing some items.');
 		else return next();
 	}

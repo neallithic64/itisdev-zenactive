@@ -219,28 +219,32 @@ const buyerFunctions = {
 	
 	postCheckout: async function(req, res) {
 		let {compname, email, contno, address, city, area, modePay} = req.body;
-		let bag = await lookupBag(req.session.cart), total = bag.reduce((acc, e) => acc + e.qty*e.price, 0);
-		let ord = new constructors.CustomerOrder(email, total, modePay, address, city, area, compname, contno);
-		let cartOrds = [];
-		console.log(bag);
-		// make customer order document
-		await db.insertOne(CustomerOrderDB, ord);
-		
-		// make customer cart documents
-		bag.forEach(e => {
-			cartOrds.push({
-				productID: e.code,
-				buyOrdNo: ord.buyOrdNo,
-				qty: e.qty,
-				price: e.price
+		try {
+			let bag = await lookupBag(req.session.cart),
+				total = bag.reduce((acc, e) => acc + e.qty*e.price, 0) + area === 'Metro Manila' ? 80 : 150,
+				ord = new constructors.CustomerOrder(email, total, modePay, address, city, area, compname, contno),
+				cartOrds = [];
+			
+			// make customer order document
+			await db.insertOne(CustomerOrderDB, ord);
+
+			// make customer cart documents
+			bag.forEach(e => {
+				cartOrds.push({
+					productID: e.code,
+					buyOrdNo: ord.buyOrdNo,
+					qty: e.qty,
+					price: e.price
+				});
 			});
-		});
-		console.log(cartOrds);
-		await db.insertMany(CustomerCartDB, cartOrds);
-		
-		// clear cart and exit
-//		req.session.cart = [];
-		res.redirect('/');
+			await db.insertMany(CustomerCartDB, cartOrds);
+
+			// clear cart and exit
+			req.session.cart = [];
+			res.status(200).send();
+		} catch (e) {
+			res.status(500).send(e);
+		}
 	},
 	
 	postAddCart: function(req, res) {
