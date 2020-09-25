@@ -128,22 +128,22 @@
 							<!--PER ITEM (1)-->
 
 							{{#each bag}}
-								<div class="row text-nowrap d-inline-flex d-xl-flex flex-nowrap justify-content-xl-center" style="margin: 0px;margin-top: 15px;margin-bottom: 15px;">
+								<div class="row text-nowrap d-inline-flex d-xl-flex flex-nowrap justify-content-xl-center" style="margin: 0px;">
 									<div class="col-xl-2" style="padding: 0px;">
 										<img src="../../assets/img/IMG_2406.JPG" style="max-height: 60px;">
 									</div>
-									<div class="col-xl-7" style="padding-top: 1px;">
+									<div class="col-xl-7" style="padding: 0px;">
 										<div>
 											<h1 style="margin: 0px;font-size: 16px;">
-												<strong>THRIVING - CODE</strong>
+												<strong>{{this.name}} - {{this.productID}}</strong>
 											</h1>
-											<p style="margin: 0px;font-size: 12px;">Pink /&nbsp;Medium</p>
-											<p style="margin: 0px;font-size: 12px;">Quantity: 1</p>
+											<p style="margin: 0px;font-size: 12px;">{{this.color}} / {{this.size}}</p>
+											<p style="margin: 0px;font-size: 12px;">Quantity: {{this.qty}}</p>
 										</div>
 									</div>
 									<div class="col-xl-2" style="padding: 0px;">
 										<h1 style="font-size: 16px;margin: 0px;text-align: center;">
-											<strong>P 200</strong>
+											<strong>Php {{getPrice this.price}}</strong>
 										</h1>
 									</div>
 								</div>

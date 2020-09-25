@@ -173,17 +173,15 @@ const buyerFunctions = {
 	},
 	
 	getProduct: async function(req, res) {
-		var prodMatch = await getJoinedQuery(req.params.prodID);
-		
-		if (!prodMatch) {
-			// error handling: no product found
-		} else {
-			console.log(prodMatch[0]);
+		try {
+			var prodMatch = await getJoinedQuery(req.params.prodID);
 			res.render('product', {
 				title: prodMatch[0].productID + ' - ZenActivePH',
 				product: prodMatch[0],
 				showNav: true
 			});
+		} catch (e) {
+			res.send('No such product found!');
 		}
 	},
 

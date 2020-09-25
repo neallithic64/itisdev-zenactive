@@ -6,13 +6,6 @@ function closeNav() {
     document.getElementById("mySideNav").style.width = "0";
 }
 
-function getSessionCart() {
-	return JSON.parse(window.sessionStorage.getItem('cart'));
-}
-function setSessionCart(cart) {
-	window.sessionStorage.setItem('cart', JSON.stringify(cart));
-}
-
 function callLogout() {
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", "/logout", true);
@@ -48,6 +41,7 @@ async function getCart() {
 		error: res => console.log(res)
 	});
 }
+
 async function getCartTotal() {
 	return (await getCart()).reduce((a, e) => a + Number.parseInt(e.qty), 0);
 }
@@ -55,6 +49,30 @@ async function getCartTotal() {
 function trimArr(arr) {
 	arr.forEach(e => e.value = validator.trim(e.value));
 }
+
+function searchSales() {
+	$.ajax({
+		method: 'GET',
+		url: '/searchSales',
+		data: {ordNo: $("#salesInput")},
+		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
+		error: str => console.log(str)
+	});
+}
+
+function searchPurchases() {
+	$.ajax({
+		method: 'GET',
+		url: '/searchPurchases',
+		data: {ordNo: $("#purchInput")},
+		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
+		error: str => console.log(str)
+	});
+}
+
+
+
+
 
 $(document).ready(async function() {
 	
@@ -78,6 +96,7 @@ $(document).ready(async function() {
 		});
 	});
 	
+	// updating cart item qty
 	$(':input[type="number"]').on('keyup mouseup', function() {
 		let id = $(this).closest(".text-nowrap").attr('id'),
 			newqty = $(this).val();
@@ -94,33 +113,19 @@ $(document).ready(async function() {
 		}
 	});
 	
+	// changing shipping stuff at checkout
 	$('select[name="area"]').change(function() {
-		let text = $(this).val(), subtot = Number.parseFloat($('strong#subtot').text().split(' ')[1].split(',').join(''));
+		let text = $(this).val(),
+			subtot = Number.parseFloat($('strong#subtot').text().split(' ')[1].split(',').join(''));
 		$('strong#shipping').text(text === "Metro Manila" ? 80 : 150);
 		$('strong#total').text('Php ' + (subtot + (text === "Metro Manila" ? 80 : 150)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 	});
 	
 });
 
-function searchSales() {
-	$.ajax({
-		method: 'GET',
-		url: '/searchSales',
-		data: {ordNo: $("#salesInput")},
-		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
-		error: str => console.log(str)
-	});
-}
 
-function searchPurchases() {
-	$.ajax({
-		method: 'GET',
-		url: '/searchPurchases',
-		data: {ordNo: $("#purchInput")},
-		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
-		error: str => console.log(str)
-	});
-}
+
+
 
 /* FRONTEND VALIDATION SCRIPTS */
 $(document).ready(function() {
@@ -195,7 +200,7 @@ $(document).ready(function() {
 						url: '/checkout',
 						data: form,
 						success: () => {
-							alert('thank you have a good day');
+							alert('Cart checked out successfully!');
 							window.location.href = '/';
 						},
 						error: res => console.log(res)
@@ -205,6 +210,9 @@ $(document).ready(function() {
 		} else alert('Please accomplish all fields.');
 	});
 });
+
+
+
 
 
 /* FRONTEND STYLE SCRIPTS */
