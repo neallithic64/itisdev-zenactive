@@ -35,7 +35,7 @@ function addToCart(code, size, qty) {
 	$.ajax({
 		method: 'POST',
 		url: '/addToCart',
-		data: {item: {code: code, size: size, qty: qty}},
+		data: {item: {code: code, size: size, qty: Number.parseInt(qty)}},
 		success: () => alert('Item added to cart'),
 		error: res => console.log(res)
 	});
@@ -94,20 +94,33 @@ $(document).ready(async function() {
 		}
 	});
 	
+	$('select name="area"');
+	
 	// creating post request to checkout cart
 	$("button#placeOrder").click(function() {
-		var form = $('form#checkout').serializeArray();
+		var form = {}, check = true;
+		trimArr($('form#checkout').serializeArray()).forEach(e => form[e.name] = e.value);
+		console.log(form);
 		
-		
-		$.ajax({
-			method: 'POST',
-			url: '/',
-			data: ,
-			success: () => {
-				
-			},
-			error: res => console.log(res)
+		Object.values(form).forEach(e => {
+			if (validator.isEmpty(e)) check = false;
 		});
+		
+		if (check && Object.keys(form).length === 7) {
+			if (validator.isEmail(form.email)) {
+				if (/^09[0-9]{2}( |-)?[0-9]{3}( |-)?[0-9]{4}$/.test(form.contno)) {
+					$.ajax({
+						method: 'POST',
+						url: '/checkout',
+						data: form,
+						success: () => {
+							
+						},
+						error: res => console.log(res)
+					});
+				} else alert('Please enter a valid contact number.');
+			} else alert('Please enter a valid email address.');
+		} else alert('Please accomplish all fields.');
 	});
 });
 

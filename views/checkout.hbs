@@ -86,7 +86,7 @@
 									<div class="form-row">
 										<div class="col d-xl-flex justify-content-xl-center align-items-xl-center">
 											<div class="form-check d-xl-flex align-items-xl-center">
-												<input class="form-check-input" type="radio" id="formCheck-1" name="modePay" value="paypal">
+												<input class="form-check-input" type="radio" id="formCheck-1" name="modePay" value="PayPal">
 												<label class="form-check-label" for="formCheck-1">
 													<img src="../../assets/img/paypal.png" style="height: 50px;">
 												</label>
@@ -94,7 +94,7 @@
 										</div>
 										<div class="col d-xl-flex justify-content-xl-center align-items-xl-center">
 											<div class="form-check d-xl-flex align-items-xl-center">
-												<input class="form-check-input" type="radio" id="formCheck-3" name="modePay" value="bdo">
+												<input class="form-check-input" type="radio" id="formCheck-3" name="modePay" value="BDO">
 												<label class="form-check-label" for="formCheck-1">
 													<img src="../../assets/img/bdo.png" style="height: 40px;">
 												</label>
@@ -102,7 +102,7 @@
 										</div>
 										<div class="col d-xl-flex justify-content-xl-center align-items-xl-center">
 											<div class="form-check d-xl-flex align-items-xl-center">
-												<input class="form-check-input" type="radio" id="formCheck-4" name="modePay" value="gcash">
+												<input class="form-check-input" type="radio" id="formCheck-4" name="modePay" value="GCash">
 												<label class="form-check-label" for="formCheck-1">
 													<img src="../../assets/img/gcash.png" style="height: 60px;margin-left: -11px;">
 												</label>
@@ -158,7 +158,7 @@
 								<div class="col">
 									<p class="d-xl-flex justify-content-xl-end align-items-xl-start" style="margin: 0px;font-size: 20px;text-align: right;">
 										<!--SUBTOTAL-->
-										<strong>P 3,000</strong>
+										<strong>Php {{getPrice subtotal}}</strong>
 									</p>
 								</div>
 							</div>
@@ -169,7 +169,7 @@
 								<div class="col">
 									<p class="d-xl-flex justify-content-xl-end align-items-xl-start" style="margin: 0px;font-size: 16px;text-align: right;">
 										<!--SHIPPING: 80 if MM; otherwise 150-->
-										<strong>80</strong>
+										<strong id="shipping">80</strong>
 									</p>
 								</div>
 							</div>
@@ -183,7 +183,7 @@
 								<div class="col">
 									<p class="d-xl-flex justify-content-xl-end align-items-xl-start" style="margin: 0px;font-size: 30px;text-align: right;">
 										<!--TOTAL-->
-										<strong>P 3,080</strong>
+										<strong id="total">Php {{getPrice total}}</strong>
 									</p>
 								</div>
 							</div>

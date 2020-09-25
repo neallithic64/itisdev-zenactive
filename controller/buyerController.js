@@ -118,10 +118,14 @@ const buyerFunctions = {
 	},
 	
 	getCheckout: async function(req, res) {
-		var bag = await lookupBag(req.session.cart);
+		var bag = await lookupBag(req.session.cart),
+			sub = bag.reduce((acc, e) => acc + e.price*e.qty, 0);
+		console.log(bag);
 		res.render('checkout', {
 			title: 'Checkout - ZenActivePH',
-			bag: bag
+			bag: bag,
+			subtotal: sub,
+			total: sub + 80
 		});
 	},
 	
@@ -216,7 +220,7 @@ const buyerFunctions = {
 
 	},
 	
-	postCheckOut: async function(req, res) {
+	postCheckout: async function(req, res) {
 		let {} = req.body;
 		let ordNo = genBuyOrdNo();
 		

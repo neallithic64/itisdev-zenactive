@@ -31,6 +31,7 @@ router.get('/view-orderStatus', buyerCont.getOrderStatus);
 router.post('/addToCart', buyerMiddle.validateCartExist, buyerMiddle.validateAddCart, buyerCont.postAddCart);
 router.post('/removeFromCart', buyerCont.postRemCart);
 router.post('/updateQtyBag', buyerCont.postUpdateQty);
+router.post('/checkout', buyerMiddle.validateCartExist, buyerCont.postCheckout);
 
 
 
