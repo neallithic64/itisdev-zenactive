@@ -94,34 +94,8 @@ $(document).ready(async function() {
 		}
 	});
 	
-	$('select name="area"');
+	// $('select name="area"');
 	
-	// creating post request to checkout cart
-	$("button#placeOrder").click(function() {
-		var form = {}, check = true;
-		trimArr($('form#checkout').serializeArray()).forEach(e => form[e.name] = e.value);
-		console.log(form);
-		
-		Object.values(form).forEach(e => {
-			if (validator.isEmpty(e)) check = false;
-		});
-		
-		if (check && Object.keys(form).length === 7) {
-			if (validator.isEmail(form.email)) {
-				if (/^09[0-9]{2}( |-)?[0-9]{3}( |-)?[0-9]{4}$/.test(form.contno)) {
-					$.ajax({
-						method: 'POST',
-						url: '/checkout',
-						data: form,
-						success: () => {
-							
-						},
-						error: res => console.log(res)
-					});
-				} else alert('Please enter a valid contact number.');
-			} else alert('Please enter a valid email address.');
-		} else alert('Please accomplish all fields.');
-	});
 });
 
 function searchSales() {
@@ -197,6 +171,33 @@ $(document).ready(function() {
 		} else {
 			alert('ding dong');
 		}
+	});
+	
+	$("button#placeOrder").click(function() {
+		var form = {}, check = true, arr = $('form#checkout').serializeArray();
+		trimArr(arr);
+		arr.forEach(e => form[e.name] = e.value);
+		console.log(form);
+		
+		Object.values(form).forEach(e => {
+			if (validator.isEmpty(e)) check = false;
+		});
+		
+		if (check && Object.keys(form).length === 7) {
+			if (validator.isEmail(form.email)) {
+				if (/^09[0-9]{2}( |-)?[0-9]{3}( |-)?[0-9]{4}$/.test(form.contno)) {
+					$.ajax({
+						method: 'POST',
+						url: '/checkout',
+						data: form,
+						success: () => {
+							alert('thank you have a good day');
+						},
+						error: res => console.log(res)
+					});
+				} else alert('Please enter a valid contact number.');
+			} else alert('Please enter a valid email address.');
+		} else alert('Please accomplish all fields.');
 	});
 });
 

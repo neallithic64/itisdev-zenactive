@@ -31,10 +31,6 @@ function getStrMonth(mon) {
 	return !isNaN(d) ? new Date(d).getMonth() + 1 : -1;
 }
 
-function genBuyOrdNo() {
-	return Number.parseInt((new Date()).toISOString().substr(2, 8).split('-').join('') + Math.round(Math.random()*100000).toString().padStart(5, '0'));
-}
-
 function sendEmail(email) {
 	fs.readFile('./assets/email.html', 'utf8', function(e, bodyData) {
 		var template = handlebars.compile(bodyData);
@@ -125,7 +121,8 @@ const buyerFunctions = {
 			title: 'Checkout - ZenActivePH',
 			bag: bag,
 			subtotal: sub,
-			total: sub + 80
+			total: sub + 80,
+			showNav: true
 		});
 	},
 	
@@ -221,17 +218,28 @@ const buyerFunctions = {
 	},
 	
 	postCheckout: async function(req, res) {
-		let {} = req.body;
-		let ordNo = genBuyOrdNo();
-		
+		let {compname, email, contno, address, city, area, modePay} = req.body;
+		let bag = await lookupBag(req.session.cart), total = bag.reduce((acc, e) => acc + e.qty*e.price, 0);
+		let ord = new constructors.CustomerOrder(email, total, modePay, address, city, area, compname, contno);
+		let cartOrds = [];
+		console.log(bag);
 		// make customer order document
-		await db.insertOne(CustomerOrderDB, {});
+		await db.insertOne(CustomerOrderDB, ord);
 		
 		// make customer cart documents
-		req.session.cart.forEach(e => {
-			
+		bag.forEach(e => {
+			cartOrds.push({
+				productID: e.code,
+				buyOrdNo: ord.buyOrdNo,
+				qty: e.qty,
+				price: e.price
+			});
 		});
-		req.session.cart = [];
+		console.log(cartOrds);
+		await db.insertMany(CustomerCartDB, cartOrds);
+		
+		// clear cart and exit
+//		req.session.cart = [];
 		res.redirect('/');
 	},
 	
