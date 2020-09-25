@@ -95,9 +95,18 @@ $(document).ready(async function() {
 	});
 	
 	// creating post request to checkout cart
-	$("submitCart idk what to put here").click(function() {
-		$.post('/checkout', cart, result => {
-			// idk
+	$("button#placeOrder").click(function() {
+		var form = $('form#checkout').serializeArray();
+		
+		
+		$.ajax({
+			method: 'POST',
+			url: '/',
+			data: ,
+			success: () => {
+				
+			},
+			error: res => console.log(res)
 		});
 	});
 });

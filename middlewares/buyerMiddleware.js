@@ -18,7 +18,7 @@ const ThresholdDB = require('../models/Threshold');
 
 const buyerMiddleware = {
 	validateCartExist: function (req, res, next) {
-		if (!req.session.cart) res.status(403).send('cart no exist');
+		if (!req.session.cart) res.redirect('/');
 		else return next();
 	},
 	

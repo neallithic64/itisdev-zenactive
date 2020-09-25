@@ -220,8 +220,15 @@ const buyerFunctions = {
 		let {} = req.body;
 		let ordNo = genBuyOrdNo();
 		
+		// make customer order document
 		await db.insertOne(CustomerOrderDB, {});
 		
+		// make customer cart documents
+		req.session.cart.forEach(e => {
+			
+		});
+		req.session.cart = [];
+		res.redirect('/');
 	},
 	
 	postAddCart: function(req, res) {
