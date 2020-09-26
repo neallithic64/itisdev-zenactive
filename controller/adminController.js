@@ -76,23 +76,23 @@ function forceJSON(e) {
  *  - ProdCategory
  *  - ProdPhoto
  */
-	async function getJoinedQuery(prodID) {
-		return await db.aggregate(ProductDB, [
-			{'$match': {productID: prodID}},
-			{'$lookup': {
-				'from': 'ProdCategory',
-				'localField': 'productID',
-				'foreignField': 'productID',
-				'as': 'prodCateg'
-			}},
-			{'$lookup': {
-				'from': 'ProdPhoto',
-				'localField': 'productID',
-				'foreignField': 'productID',
-				'as': 'prodPhoto'
-			}}
-		]);
-	}
+async function getJoinedQuery(prodID) {
+	return await db.aggregate(ProductDB, [
+		{'$match': {productID: prodID}},
+		{'$lookup': {
+			'from': 'ProdCategory',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'prodCateg'
+		}},
+		{'$lookup': {
+			'from': 'ProdPhoto',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'prodPhoto'
+		}}
+	]);
+}
 
 /* Query for joining the ff tables/collections:
  *  - CustomerOrder
@@ -101,35 +101,35 @@ function forceJSON(e) {
  *  - ProdCategory
  *  - PaymentProof
  */
-	async function getJoinedCustOrder(ordNo) {
-		return await db.aggregate(CustomerOrderDB, [
-			{'$match': {buyOrdNo: ordNo}},
-			{'$lookup': {
-				'from': 'CustomerCart',
-				'localField': 'buyOrdNo',
-				'foreignField': 'buyOrdNo',
-				'as': 'Cart'
-			}},
-			{'$lookup': {
-				'from': 'Product',
-				'localField': 'productID',
-				'foreignField': 'productID',
-				'as': 'Product'
-			}},
-			{'$lookup': {
-				'from': 'ProdCategory',
-				'localField': 'productID',
-				'foreignField': 'productID',
-				'as': 'Category'
-			}},
-			{'$lookup': {
-				'from': 'PaymentProof',
-				'localField': 'buyOrdNo',
-				'foreignField': 'buyOrdNo',
-				'as': 'PaymentProof'
-			}}
-		]);
-	}
+async function getJoinedCustOrder(ordNo) {
+	return await db.aggregate(CustomerOrderDB, [
+		{'$match': {buyOrdNo: ordNo}},
+		{'$lookup': {
+			'from': 'CustomerCart',
+			'localField': 'buyOrdNo',
+			'foreignField': 'buyOrdNo',
+			'as': 'Cart'
+		}},
+		{'$lookup': {
+			'from': 'Product',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'Product'
+		}},
+		{'$lookup': {
+			'from': 'ProdCategory',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'Category'
+		}},
+		{'$lookup': {
+			'from': 'PaymentProof',
+			'localField': 'buyOrdNo',
+			'foreignField': 'buyOrdNo',
+			'as': 'PaymentProof'
+		}}
+	]);
+}
 	
 /* Query for joining the ff tables/collections:
  *  - SupplierOrder
@@ -137,29 +137,29 @@ function forceJSON(e) {
  *  - Product
  *  - ProdCategory
  */
-	async function getJoinedSuppOrder(ordNo) {
-		return await db.aggregate(SupplierOrderDB, [
-			{'match': {batchID: ordNo}},
-			{'$lookup': {
-				'from': 'SupplierCart',
-				'localField': 'batchID',
-				'foreignField': 'batchID',
-				'as': 'SuppCart'
-			}},
-			{'$lookup': {
-				'from': 'Product',
-				'localField': 'productID',
-				'foreignField': 'productID',
-				'as': 'Product'
-			}},
-			{'$lookup': {
-				'from': 'ProdCategory',
-				'localField': 'productID',
-				'foreignField': 'productID',
-				'as': 'Category'
-			}}
-		]);
-	}
+async function getJoinedSuppOrder(ordNo) {
+	return await db.aggregate(SupplierOrderDB, [
+		{'match': {batchID: ordNo}},
+		{'$lookup': {
+			'from': 'SupplierCart',
+			'localField': 'batchID',
+			'foreignField': 'batchID',
+			'as': 'SuppCart'
+		}},
+		{'$lookup': {
+			'from': 'Product',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'Product'
+		}},
+		{'$lookup': {
+			'from': 'ProdCategory',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'Category'
+		}}
+	]);
+}
 
 /* Index Functions
  */
@@ -436,13 +436,14 @@ const adminFunctions = {
  */
 	postAddProduct: async function(req, res) {
 		try {
-			let {pname, pprice, psize, pcolor, phex, pcateg, plink1, plink2, plink3} = req.body;
-			let productID = genProdCode(pcateg);
-		
+			let {pname, pcateg, pcolor, phex, psize, pprice, plink1, plink2, plink3} = req.body;
+			let productID = await genProdCode(pcateg);
+			console.log(req.body);
+			
 			var newProd = new constructors.Product(productID, pname, pprice, psize, pcolor, phex);
 			await db.insertOne(ProductDB, newProd);
 			await db.insertOne(ProdCategoryDB, {productID: productID, categName: pcateg});
-			if (!!plink1) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink1});
+			await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink1});
 			if (!!plink2) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink2});
 			if (!!plink3) await db.insertOne(ProdPhotoDB, {productID: productID, photoLink: plink3});
 			

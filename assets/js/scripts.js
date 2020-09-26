@@ -100,7 +100,7 @@ $(document).ready(async function() {
 	$(':input[type="number"]').on('keyup mouseup', function() {
 		let id = $(this).closest(".text-nowrap").attr('id'),
 			newqty = $(this).val();
-		if (!!newqty && !isNaN(newqty)) {
+		if (!!newqty && !validator.isNumeric(newqty)) {
 			$.ajax({
 				method: 'POST',
 				url: '/updateQtyBag',
@@ -162,10 +162,34 @@ $(document).ready(function() {
 	
 	$("button#addProdBtn").click(function() {
 		var addProd = $("form#addProdForm").serializeArray();
-		console.log(addProd);
+		let checks = Array(3).fill(true);;
 		trimArr(addProd);
+		console.log(addProd);
 		
-		if (false) {
+		for (let i = 0; i < addProd.length-2; i++)
+			if (validator.isEmpty(addProd[i].value)) {
+				checks[0] = false;
+				alert('Please fill in all required fields.');
+			}
+		
+		if (!validator.isNumeric(addProd[5].value)) {
+			checks[1] = false;
+			alert('Please input a number for the price.');
+		}
+		
+		if (!validator.isEmpty(addProd[6].value) && !validator.isURL(addProd[6].value)) {
+			checks[2] = false;
+			alert('Please input a valid link for the first photo.');
+		} else if (!validator.isEmpty(addProd[7].value) && !validator.isURL(addProd[7].value)) {
+			checks[2] = false;
+			alert('Please input a valid link for the second photo.');
+		} else if (!validator.isEmpty(addProd[8].value) && !validator.isURL(addProd[8].value)) {
+			checks[2] = false;
+			alert('Please input a valid link for the third photo.');
+		}
+		
+		if (checks.every(Boolean)) {
+			// alert('cleared');
 			$.ajax({
 				method: 'POST',
 				url: '/addProduct',
@@ -177,8 +201,6 @@ $(document).ready(function() {
 					alert(str.responseText);
 				}
 			});
-		} else {
-			alert('ding dong');
 		}
 	});
 	
