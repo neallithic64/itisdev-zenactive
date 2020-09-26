@@ -408,6 +408,24 @@ const adminFunctions = {
 		});
 	},
 	
+	getAddProdExist: async function(req, res) {
+		let prod = await db.aggregate(ProductDB, [
+			{'$match': {name: req.query.name}},
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodCateg'
+			}},
+			{'$project': {
+				'price': 1,
+				'size': 1,
+				'prodCateg.categName': 1
+			}}
+		]);
+		res.status(200).send(prod ? prod[0] : '');
+	},
+	
 	getAddCategory: async function(req, res) {
 		
 	},

@@ -121,6 +121,24 @@ $(document).ready(async function() {
 		$('strong#total').text('Php ' + (subtot + (text === "Metro Manila" ? 80 : 150)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 	});
 	
+	// add product: checking existing item code
+	$('input[name="pname"]').on('keyup', function() {
+		let name = $(this).val();
+		
+		$.ajax({
+			method: 'GET',
+			url: '/addProdExist',
+			data: {name: name},
+			success: res => {
+				if (res) {
+					$('select[name="pcateg"]').val(res.prodCateg[0].categName);
+					$('input[name="pprice"]').val(res.price);
+					$('input[name="psize"]').val(res.size);
+				}
+			},
+			error: res => console.log(res)
+		});
+	});
 });
 
 
@@ -189,7 +207,6 @@ $(document).ready(function() {
 		}
 		
 		if (checks.every(Boolean)) {
-			// alert('cleared');
 			$.ajax({
 				method: 'POST',
 				url: '/addProduct',
