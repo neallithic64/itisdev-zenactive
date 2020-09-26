@@ -184,7 +184,7 @@ const adminFunctions = {
 			res.render('admin', {
 				title: 'Admin Page - ZenActivePH'
 			});
-		else res.redirect('/');
+		else res.redirect('/login');
 	},
 	
 	postLogin: async function(req, res) {
@@ -235,7 +235,7 @@ const adminFunctions = {
 				title: 'Manage Products - ZenActivePH',
 				products: forceJSON(prods)
 			});
-		} else res.redirect('/');
+		} else res.redirect('/login');
 	},
 	
 	getInvCateg: async function(req, res, next) {
@@ -245,7 +245,7 @@ const adminFunctions = {
 				title: 'Manage Categories - ZenActivePH',
 				categories: categs
 			});
-		} else res.redirect('/');
+		} else res.redirect('/login');
 	},
 
 /* View Orders Report --
@@ -261,7 +261,6 @@ const adminFunctions = {
 	getSalesOrder: async function(req, res) {
 		try {
 			var orderMatch = await getJoinedCustOrder('');
-			
 			orderMatch.push({status: 'CONFIRMED'});
 			
 			res.render('salestracker', {
@@ -280,7 +279,6 @@ const adminFunctions = {
 	getPurchaseOrder: async function(req, res) {
 		try {
 			var orderMatch = await getJoinedSuppOrder('');
-
 			console.log(orderMatch);
 
 			res.render('purchtracker', {
@@ -299,26 +297,26 @@ const adminFunctions = {
  * seller), SHIPPED (seller to buyer), CANCELLED (by the seller)).
  */
 	getOrderStatus: async function(req, res) {
-		// details will be displayed in the view order status page
-		
-		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: req.query.orderNo}, '');
-		
-		if (orderMatch.status === 'CANCELLED'){
-			var cancelMatch = await db.findOne(CancelReasonDB, {buyOrdNo: req.query.orderNo}, '');
+		if (req.session.admin) {
+			// details will be displayed in the view order status page
+			var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: req.query.orderNo}, '');
 
-			if (cancelMatch){
-				res.render('', {
-					buyOrder: orderMatch,
-					cancelReason: cancelMatch
+			if (orderMatch.status === 'CANCELLED'){
+				var cancelMatch = await db.findOne(CancelReasonDB, {buyOrdNo: req.query.orderNo}, '');
+
+				if (cancelMatch){
+					res.render('', {
+						buyOrder: orderMatch,
+						cancelReason: cancelMatch
+					});
+				}
+
+			} else {
+				res.render('view-orderStatus', {
+					buyOrder: orderMatch
 				});
 			}
-
-		} else {
-			res.render('view-orderStatus', {
-				buyOrder: orderMatch
-			});
-		}
-
+		} else res.redirect('/login');
 	},
 
 /* Update Order Status --
@@ -354,22 +352,24 @@ const adminFunctions = {
  * 
  */
 	getValidPayment: async function(req, res) {
-		// seller inputs orderNo to search in the db
-		var buyOrder = await db.aggregate(CustomerOrderDB, [
-			{'$match': {buyOrdNo: req.query.text}},
-			{'$lookup': {
-				'from': 'PaymentProof',
-				'localField': 'buyOrdNo',
-				'foreignField': 'buyOrdNo',
-				'as': 'paymentProof'
-			}}
-		]);
-		
-		// retrieve payProof (url/pic) & reference order, for seller to check
-		res.render('', {
-			ordNo: buyOrder.buyOrdNo,
-			payProof: buyOrder.paymentProof
-		});
+		if (req.session.admin) {
+			// seller inputs orderNo to search in the db
+			var buyOrder = await db.aggregate(CustomerOrderDB, [
+				{'$match': {buyOrdNo: req.query.text}},
+				{'$lookup': {
+					'from': 'PaymentProof',
+					'localField': 'buyOrdNo',
+					'foreignField': 'buyOrdNo',
+					'as': 'paymentProof'
+				}}
+			]);
+
+			// retrieve payProof (url/pic) & reference order, for seller to check
+			res.render('', {
+				ordNo: buyOrder.buyOrdNo,
+				payProof: buyOrder.paymentProof
+			});
+		} else res.redirect('/login');
 	},
 
 	postValidPayment: async function(req, res) {
@@ -403,9 +403,11 @@ const adminFunctions = {
  */
 
 	getAddProduct: async function(req, res) {
-		res.render('addproduct', {
-			title: 'Add New Product - ZenActivePH'
-		});
+		if (req.session.admin)
+			res.render('addproduct', {
+				title: 'Add New Product - ZenActivePH'
+			});
+		else res.redirect('/login');
 	},
 	
 	getAddProdExist: async function(req, res) {
@@ -427,13 +429,17 @@ const adminFunctions = {
 	},
 	
 	getAddCategory: async function(req, res) {
-		
+		if (req.session.admin)
+			console.log('a');
+		else res.redirect('/login');
 	},
 	
 	getEditProduct: async function(req, res) {
-		res.render('editproduct', {
-			title: 'Edit Product - ZenActivePH'
-		});
+		if (req.session.admin)
+			res.render('editproduct', {
+				title: 'Edit Product - ZenActivePH'
+			});
+		else res.redirect('/login');
 	},
 	
 /* Manage Inventory --

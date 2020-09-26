@@ -181,7 +181,12 @@ const buyerFunctions = {
 				showNav: true
 			});
 		} catch (e) {
-			res.send('No such product found!');
+			res.render('error', {
+				title: 'Product not found - ZenActivePH',
+				code: 404,
+				message: 'Product not found!',
+				showNav: true
+			});
 		}
 	},
 
