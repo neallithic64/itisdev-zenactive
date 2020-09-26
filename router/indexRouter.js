@@ -11,7 +11,7 @@ const buyerMiddle = require('../middlewares/buyerMiddleware');
 router.get('/test', test.getHome);
 router.post('/test', test.postGenDocs);
 
-router.get('/a', (req, res) => res.render('salesreport', {title: 'a'}));
+router.get('/a', (req, res) => res.render('error', {title: 'a', showNav: true}));
 
 
 
@@ -63,10 +63,12 @@ router.post('/addCategory', adminCont.postAddCateg);
 
 // Error Page
 router.get('*', function(req, res) {
-	res.send('404 error what are you doing');
-//	res.render('error', {
-//		// idk
-//	});
+	res.render('error', {
+		title: 'Page not found - ZenActivePH',
+		code: 404,
+		message: 'Page not found',
+		showNav: true
+	});
 });
 
 
