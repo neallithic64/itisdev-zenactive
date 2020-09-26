@@ -220,7 +220,6 @@ const adminFunctions = {
 	},
 
 	getInvProds: async function(req, res) {
-		// var prods = await db.findMany(ProductDB, {});
 		if (req.session.admin) {
 			var prods = await db.aggregate(ProductDB, [
 				{'$lookup': {
@@ -228,8 +227,7 @@ const adminFunctions = {
 					'localField': 'productID',
 					'foreignField': 'productID',
 					'as': 'prodCateg'
-				}},
-				{'$unwind': "$prodCateg"}
+				}}
 			]);
 			res.render('productlist', {
 				title: 'Manage Products - ZenActivePH',

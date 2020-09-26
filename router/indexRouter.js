@@ -47,7 +47,7 @@ router.get('/purchaseOrders', adminCont.getPurchaseOrder);
 router.get('/addProduct', adminCont.getAddProduct);
 router.get('/addProdExist', adminCont.getAddProdExist);
 router.get('/addCategory', adminCont.getAddCategory);
-router.get('/editProduct', adminCont.getEditProduct);
+router.get('/editProduct/:id', adminCont.getEditProduct);
 
 router.get('/searchSales', adminCont.getSalesQuery);
 router.get('/searchPurchases', adminCont.getPurchQuery);

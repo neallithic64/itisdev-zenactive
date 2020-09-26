@@ -263,7 +263,7 @@ $(document).ready(function() {
 					alert('Category added!');
 					window.location.href = '/admin';
 				},
-				error: res => console.log(res)
+				error: res => alert(res.responseText)
 			});
 		}
 	});
