@@ -1,29 +1,29 @@
 <div style="height: auto;">
 	<div class="row no-gutters" style="height: auto;">
-	
+
 		{{> admin-sidebar }}
-	
-        <div class="col" style="height: auto;">
-            <div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-bottom: 6px;margin-top: 6px;">
+
+		<div class="col" style="height: auto;">
+			<div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-bottom: 6px;margin-top: 6px;">
 				<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;font-size: 20px;">Add New Category</span>
 			</div>
-			
-            <div style="margin-top: 29px;padding-left: 15px;">
-                <div class="d-flex flex-column">
+
+			<div style="margin-top: 29px;padding-left: 15px;">
+				<div class="d-flex flex-column">
 					<span style="font-weight: 600;color: #93623c;">Category Description</span>
 					<span style="font-size: 14px;color: rgb(238,19,19);">Fields with * are required.</span>
 				</div>
-				
+
 				{{! CATEG NAME INPUT }}
-                <div style="margin-top: 23px;">
-                    <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+				<div style="margin-top: 23px;">
+					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
 						<label style="width: 167px;color: rgb(238,19,19);">Category Name *</label>
-						<input type="text" id="addCategName" style="margin-left: 0px;" placeholder="Category Name">
+						<input type="text" name="addCategName" style="margin-left: 0px;" placeholder="Category Name">
 					</div>
-                </div>
+				</div>
 			</div>
-			
-			<button class="btn btn-primary" id="addNewCateg" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 16px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 31px;margin-left: 15px;">Add New Category</button>
+
+			<button class="btn btn-primary" id="addNewCateg" type="button" style="border-width: 0px;font-weight: 600;color: #93623c;background: #f2d8be;margin-top: 20px;margin-left: 15px;">Add New Category</button>
 		</div>
-    </div>
+	</div>
 </div>

@@ -248,6 +248,25 @@ $(document).ready(function() {
 			} else alert('Please enter a valid email address.');
 		} else alert('Please accomplish all fields.');
 	});
+	
+	$('button#addNewCateg').click(function() {
+		var categName = $('input[name="addCategName"]').val();
+		validator.trim(categName);
+		
+		if (validator.isEmpty(categName)) alert('Please input a category name.');
+		else {
+			$.ajax({
+				method: 'POST',
+				url: '/addCategory',
+				data: {categName: categName},
+				success: () => {
+					alert('Category added!');
+					window.location.href = '/admin';
+				},
+				error: res => console.log(res)
+			});
+		}
+	});
 });
 
 

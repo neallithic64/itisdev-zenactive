@@ -186,12 +186,11 @@ const adminMiddleware = {
 	},
 	
 	validateAddCateg: async function (req, res, next) {
-		let {addCategName} = req.body;
-		
-		var categFind = await db.findOne(CategoryDB, {categName: addCategName}, '');
+		let {categName} = req.body;
+		var categFind = await db.findOne(CategoryDB, {categName: categName});
 		
 		if (categFind){
-			res.status(400).send(); //categ exists!
+			res.status(400).send('Category exists!');
 		} else return next();
 	},
 	

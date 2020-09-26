@@ -18,9 +18,8 @@
 				</div>
 
 				{{! ADD NEW CATEG BUTTON }}
-				<button class="btn btn-primary" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">
+				<button class="btn btn-primary" type="button" onclick="window.location.href = '/addCategory';" style="background: rgba(255,255,255,0);border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">
 					<span style="text-decoration: underline;">Add New Category</span>
-					<br>
 				</button>
 			</div>
 
@@ -34,7 +33,9 @@
 						</thead>
 
 						<tbody>
-							{{> categrow }}
+							{{#each categories}}
+								{{> categrow}}
+							{{/each}}
 						</tbody>
 					</table>
 				</div>

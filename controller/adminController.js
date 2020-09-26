@@ -239,9 +239,9 @@ const adminFunctions = {
 	},
 	
 	getInvCateg: async function(req, res, next) {
-		var categs = await db.findMany(CategoryDB, {});
 		if (req.session.admin) {
-			res.render('categorylist', {
+			var categs = await db.findMany(CategoryDB, {});
+			res.render('categlist', {
 				title: 'Manage Categories - ZenActivePH',
 				categories: categs
 			});
@@ -430,7 +430,9 @@ const adminFunctions = {
 	
 	getAddCategory: async function(req, res) {
 		if (req.session.admin)
-			console.log('a');
+			res.render('addcateg', {
+				title: 'Add Category - ZenActivePH'
+			});
 		else res.redirect('/login');
 	},
 	
@@ -551,18 +553,9 @@ const adminFunctions = {
  */
 	postAddCateg: async function(req, res) {
 		try {
-			let {addCategName} = req.body;
-
-			var categInsert = await db.insertOne(CategoryDB, {categName: addCategName});
-			if (!categInsert) {
-				// handle error
-				res.status(400).send();
-			} else {
-				// categ added; redirect to page
-				res.render('addcateg', {
-					title: 'Admin Page - ZenActivePH'
-				});
-			}			
+			let {categName} = req.body;
+			await db.insertOne(CategoryDB, {categName: categName});
+			res.status(200).send();
 		} catch (e){
 			res.status(500).send(e);
 		}

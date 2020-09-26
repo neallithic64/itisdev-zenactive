@@ -58,7 +58,7 @@ router.post('/login', adminCont.postLogin);
 router.post('/logout', adminCont.postLogout);
 router.post('/register', adminCont.postRegister);
 router.post('/addProduct', adminCont.postAddProduct);
-router.post('/addCategory', adminCont.postAddCateg);
+router.post('/addCategory', adminMiddle.validateAddCateg, adminCont.postAddCateg);
 
 
 // Error Page
