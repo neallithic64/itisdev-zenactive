@@ -90,22 +90,22 @@
                 <div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;"><span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Sales Orders</span>
                     <div class="d-flex"><input type="search" placeholder="Search Order Number" autocomplete="on" style="margin-right: 7px;"><div><a href="#" class="searchbtn" onclick="search()"> <i class="fa fa-search"></i> </a></div></div><input id="sdate" type="date" style="font-weight: 600;color: #93623c;border-width: 0px;">
                     <div class="d-flex align-items-center align-content-center"><span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Show by:</span>
-                        <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="sortcateg" type="button" style="background: rgba(255,255,255,0.4);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Category</button>
+                        <div class="dropdown"><button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="sortcateg" type="button" style="background: rgba(255,255,255,0.4);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Category</button>
                             <div
                                 class="dropdown-menu" style="min-width: 118px;width: 120px;margin-top: 0px;"><a class="dropdown-item" id="sorttops" href="#" style="padding-left: 14px;font-size: 12px;">Tops</a><a class="dropdown-item" id="sortbots" href="#" style="padding-left: 14px;font-size: 12px;">Bottoms</a><a class="dropdown-item"
                                     id="sortsets" href="#" style="padding-left: 14px;font-size: 12px;">Sets</a><a class="dropdown-item" id="sortaccs" href="#" style="padding-left: 14px;font-size: 12px;">Accessories</a></div>
                     </div>
-                    <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="sortstat" type="button" style="background: rgba(255,255,255,0.4);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Status</button>
+                    <div class="dropdown"><button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="sortstat" type="button" style="background: rgba(255,255,255,0.4);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Status</button>
                         <div
                             class="dropdown-menu" style="min-width: 118px;width: 120px;margin-top: 0px;"><a class="dropdown-item" id="sortpend" href="#" style="padding-left: 14px;font-size: 12px;">Pending</a><a class="dropdown-item" id="sortintrans" href="#" style="padding-left: 14px;font-size: 12px;">In Transit</a><a class="dropdown-item"
                                 id="sortconf" href="#" style="padding-left: 14px;font-size: 12px;">Confirmed</a><a class="dropdown-item" id="sortcanc" href="#" style="padding-left: 14px;font-size: 12px;">Cancelled</a></div>
                 </div>
-                <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="sortmop" type="button" style="background: rgba(255,255,255,0.4);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">MOP</button>
+                <div class="dropdown"><button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="sortmop" type="button" style="background: rgba(255,255,255,0.4);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">MOP</button>
                     <div
                         class="dropdown-menu" style="min-width: 118px;width: 120px;margin-top: 0px;"><a class="dropdown-item" id="sortmop1" href="#" style="padding-left: 14px;font-size: 12px;">1</a><a class="dropdown-item" id="sortmop2" href="#" style="padding-left: 14px;font-size: 12px;">2</a></div>
             </div>
         </div>
-        <div><button class="btn btn-primary" id="purchall" type="button" style="font-size: 12px;background: rgba(0,0,0,0);font-weight: 600;color: #93623c;border-width: 0px;" disabled="">Purchase All</button><button class="btn btn-primary" id="shipall" type="button"
+        <div><button class="btn" id="purchall" type="button" style="font-size: 12px;background: rgba(0,0,0,0);font-weight: 600;color: #93623c;border-width: 0px;" disabled="">Purchase All</button><button class="btn" id="shipall" type="button"
                 style="font-size: 12px;background: rgba(0,0,0,0);font-weight: 600;color: #93623c;border-width: 0px;" disabled="">Ship All</button></div>
     </div>
     <div>
@@ -141,7 +141,7 @@
                         <td id="proof">No</td>
                         <td id="status">Confirmed</td>
                         <td id="salesactions" style="padding: 0px;padding-top: 0px;text-align: center;">
-                            <div class="dropdown" id="actddown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="confirmactions" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Choose</button>
+                            <div class="dropdown" id="actddown"><button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="confirmactions" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Choose</button>
                                 <div
                                     class="dropdown-menu" style="min-width: 62px;width: 91px;margin-top: 0px;"><a class="dropdown-item" id="actpurch" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Purchase</a><a class="dropdown-item" id="actcancel1" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Cancel 1</a></div>
         </div>
@@ -160,7 +160,7 @@
             <td>Yes</td>
             <td>Pending</td>
             <td style="padding: 0px;padding-top: 0px;text-align: center;">
-                <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="pendactions" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Choose</button>
+                <div class="dropdown"><button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="pendactions" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Choose</button>
                     <div
                         class="dropdown-menu" style="min-width: 62px;width: 91px;margin-top: 0px;"><a class="dropdown-item" id="actproof" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">View Proof</a><a class="dropdown-item" id="actcancel1" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Cancel 1</a>
                         <a
@@ -182,7 +182,7 @@
         <td>No</td>
         <td>Cancelled</td>
         <td style="padding: 0px;padding-top: 0px;text-align: center;">
-            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="dbweek-15" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;"
+            <div class="dropdown"><button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="dbweek-15" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;"
                     disabled="">Choose</button>
                 <div class="dropdown-menu" style="min-width: 118px;width: 120px;margin-top: 0px;"><a class="dropdown-item" id="dbmonth-15" href="#" style="padding-left: 14px;font-size: 12px;">This Month</a><a class="dropdown-item" id="dbday-15" href="#" style="padding-left: 14px;font-size: 12px;">This Day</a><a class="dropdown-item"
                         id="dbquarter-15" href="#" style="padding-left: 14px;font-size: 12px;">This Quarter</a></div>
@@ -202,7 +202,7 @@
         <td>No</td>
         <td>In Transit</td>
         <td style="padding: 0px;padding-top: 0px;text-align: center;">
-            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="intranactions" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Choose</button>
+            <div class="dropdown"><button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="intranactions" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;">Choose</button>
                 <div
                     class="dropdown-menu" style="min-width: 62px;width: 91px;margin-top: 0px;"><a class="dropdown-item" id="actship" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Ship</a><a class="dropdown-item" id="actcancel3" href="#" style="padding-left: 7px;font-size: 12px;padding-right: 5px;">Cancel 3</a></div>
             </div>
@@ -221,7 +221,7 @@
         <td>No</td>
         <td>Shipped</td>
         <td style="padding: 0px;padding-top: 0px;text-align: center;">
-            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="dbweek-13" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;"
+            <div class="dropdown"><button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="dbweek-13" type="button" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;"
                     disabled="">Choose</button>
                 <div class="dropdown-menu" style="min-width: 118px;width: 120px;margin-top: 0px;"><a class="dropdown-item" id="dbmonth-13" href="#" style="padding-left: 14px;font-size: 12px;">This Month</a><a class="dropdown-item" id="dbday-13" href="#" style="padding-left: 14px;font-size: 12px;">This Day</a><a class="dropdown-item"
                         id="dbquarter-13" href="#" style="padding-left: 14px;font-size: 12px;">This Quarter</a></div>
