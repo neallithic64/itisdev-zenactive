@@ -188,22 +188,28 @@ $(document).ready(async function() {
 				method: 'POST',
 				url: '/addProdPhoto/' + prodID,
 				data: obj,
-				success: () => alert('yeet success addPhoto'),
+				success: () => {
+					$('SOMETHING').append(`<div style="padding-left: 75px;margin-bottom: 5px;"><img style="width: 100px;height: 100px;" src="${obj.photo}"><button class="btn remPhoto" type="button" style="border-width: 0px;font-weight: 600;color: #93623c;font-size: 10px;background: #f2d8be;margin-left: 24px;">Remove</button></div>`);
+					alert('yeet success addPhoto');
+				},
 				error: str => alert(str.responseText)
 			});
 		} else alert('Please input a valid URL.');
 	});
 	
 	$('button.remPhoto').click(function() {
-		let prodID = $('input[name="editProdID"]').val();
-		let obj = {photo: $(this).siblings('img').attr('src')};
+		let button = $(this), prodID = $('input[name="editProdID"]').val();
+		let obj = {photo: button.siblings('img').attr('src')};
 		
-		if ($(this).closest('.form-group').children('img').length > 1) {
+		if (button.closest('.form-group').children('div').length > 1) {
 			$.ajax({
 				method: 'POST',
 				url: '/remProdPhoto/' + prodID,
 				data: obj,
-				success: () => alert('yeet success remPhoto'),
+				success: () => {
+					button.parent().remove();
+					alert('yeet success remPhoto');
+				},
 				error: str => alert(str.responseText)
 			});
 		} else alert('Can\'t delete last photo!');
