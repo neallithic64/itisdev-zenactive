@@ -1,3 +1,5 @@
+/* global validator */
+
 function openNav() {
     document.getElementById("mySideNav").style.width = "300px";
 }
@@ -141,11 +143,51 @@ $(document).ready(async function() {
 	});
 	
 	$('select#addCateg').change(function() {
-		
+		let prodID = $('input[name="editProdID"]').val();
+		let obj = {categ: $(this).val()};
+		$.ajax({
+			method: 'POST',
+			url: '/addProdCateg/' + prodID,
+			data: obj,
+			success: () => alert('yeet success addCateg'),
+			error: str => alert(str.responseText)
+		});
 	});
 	
 	$('select#remCateg').change(function() {
-		
+		let prodID = $('input[name="editProdID"]').val();
+		let obj = {categ: $(this).val()};
+		$.ajax({
+			method: 'POST',
+			url: '/remProdCateg/' + prodID,
+			data: obj,
+			success: () => alert('yeet success remCateg'),
+			error: str => alert(str.responseText)
+		});
+	});
+	
+	$('button#addPhoto').click(function() {
+		let prodID = $('input[name="editProdID"]').val();
+		let obj = {photo: $(this).siblings('input').val()};
+		$.ajax({
+			method: 'POST',
+			url: '/addProdPhoto/' + prodID,
+			data: obj,
+			success: () => alert('yeet success addPhoto'),
+			error: str => alert(str.responseText)
+		});
+	});
+	
+	$('button.remPhoto').click(function() {
+		let prodID = $('input[name="editProdID"]').val();
+		let obj = {photo: $(this).val()};
+		$.ajax({
+			method: 'POST',
+			url: '/remProdPhoto/' + prodID,
+			data: obj,
+			success: () => alert('yeet success remPhoto'),
+			error: str => alert(str.responseText)
+		});
 	});
 });
 
