@@ -17,38 +17,41 @@
 					<span style="font-size: 14px;color: rgb(238,19,19);">Fields with * are required.</span>
 				</div>
 
-				{{! THE PLACEHOLDERS SHOULD BE SET TO THE ORIGINAL DETAILS FOR REFERENCE }}
-
-				<div style="margin-top: 23px;">
+				<div style="margin-top: 23px;"><form id="editProd">
 					{{! PRODUCT ID }}
-					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-						<label style="width: 167px;color: rgb(238,19,19);">Product ID *</label>
-						<input type="text" style="width: 310px;" value="{{!{productID}}}" disabled>
+					<div class="form-group" style="margin-top: 10px;">
+						<label style="width: 167px;color: rgb(238,19,19);">Product ID</label>
+						<input name="editProdID" type="text" style="width: 310px;" value="{{{prod.productID}}}" readonly="true">
 					</div>
 					{{! PRODUCT NAME }}
-					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+					<div class="form-group" style="margin-top: 10px;">
 						<label style="width: 167px;color: rgb(238,19,19);">Product Name *</label>
-						<input name="editProdName" type="text" style="width: 310px;" value="Passionate">
+						<input name="editProdName" type="text" style="width: 310px;" value="{{{prod.name}}}">
 					</div>
 					{{! PRODUCT SIZE }}
-					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+					<div class="form-group" style="margin-top: 10px;">
 						<label style="width: 167px;color: rgb(238,19,19);">Size *</label>
-						<input name="editProdSize" type="text" style="width: 310px;" value="M">
+						<input name="editProdSize" type="text" style="width: 310px;" value="{{{prod.size}}}">
 					</div>
 					{{! PRODUCT COLOR }}
-					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+					<div class="form-group" style="margin-top: 10px;">
 						<label style="width: 167px;color: rgb(238,19,19);">Color *</label>
-						<input name="editProdColor" type="text" style="width: 310px;" value="Gray" >
+						<input name="editProdColor" type="text" style="width: 310px;" value="{{{prod.color}}}" >
+					</div>
+					{{! PRODUCT COLOR }}
+					<div class="form-group" style="margin-top: 10px;">
+						<label style="width: 167px;color: rgb(238,19,19);">Color Picker *</label>
+						<input name="editProdHex" type="color" style="width: 310px;" value="{{{prod.hexcode}}}" >
 					</div>
 					{{! PRODUCT PRICE }}
-					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+					<div class="form-group" style="margin-top: 10px;">
 						<label style="width: 167px;color: rgb(238,19,19);">Price *</label>
-						<input name="editProdPrice" type="text" style="width: 310px;" value="580.00">
+						<input name="editProdPrice" type="text" style="width: 310px;" value="{{{prod.price}}}">
 					</div>
-				</div>
+				</form></div>
 
 				{{! SAVE BUTTON }}
-				<button class="btn btn-primary" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 16px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 31px;margin-left: 306px;">Save</button>
+				<button class="btn" type="button" id="editSave" style="border-width: 0px;font-weight: 600;color: #93623c;background: #f2d8be;margin: 31px 306px;">Save</button>
 			</div>
 			
 			{{! EDIT PRODUCT CATEGORY }}
@@ -61,13 +64,11 @@
 				<div style="margin-top: 23px;">
 					<div class="form-group d-flex" style="margin-bottom: 0px;margin-top: 10px;">
 						<label style="width: 167px;color: rgb(238,19,19);">Remove Category:</label>
-
-						<select name="remCateg" style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 12px;width: 252px;">
+						<select id="remCateg" style="background: rgba(255,255,255,0);border-width: 1px;color: #93623c;width: 252px;">
 							<option value="0">Choose Category to Remove</option>
-							<option value="1">Tops</option>
-							<option value="2">Bottoms</option>
-							<option value="3">Sets</option>
-							<option value="4">Accessories</option>
+							{{#each prod.prodCateg}}
+								<option value="{{{this.categName}}}">{{this.categName}}</option>
+							{{/each}}
 						</select>
 					</div>
 				</div>
@@ -76,12 +77,11 @@
 				<div style="margin-top: 23px;">
 					<div class="form-group d-flex" style="margin-bottom: 0px;margin-top: 10px;">
 						<label style="width: 167px;color: rgb(238,19,19);">Add Category:</label>
-						<select name="addCateg"style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 12px;width: 252px;">
-							<option value="0">Choose Category to Remove</option>
-							<option value="1">Tops</option>
-							<option value="2">Bottoms</option>
-							<option value="3">Sets</option>
-							<option value="4">Accessories</option>
+						<select id="addCateg" style="background: rgba(255,255,255,0);border-width: 1px;color: #93623c;width: 252px;">
+							<option value="0">Choose Category to Add</option>
+							{{#each categs}}
+								<option value="{{{this}}}">{{this}}</option>
+							{{/each}}
 						</select>
 					</div>
 				</div>
@@ -98,17 +98,16 @@
 				<div style="margin-top: 23px;">
 
 					{{! REMOVE IMAGE }}
-					<div name="remProdPhoto" class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
 						<label style="width: 167px;color: rgb(238,19,19);">Remove Image:</label>
-						{{> prodimagerow }}
-						{{> prodimagerow }}
+						{{#each prod.prodPhoto}} {{> prodimagerow }} {{/each}}
 					</div>
 
 					{{! ADD IMAGE }}
 					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
 						<label style="width: 167px;color: rgb(238,19,19);">Add Image:</label>
 						<input type="text" name="addProdPhoto" placeholder="Input Image Link" style="width: 310px;" inputmode="url">
-						<button class="btn btn-primary" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 10px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 0px;margin-left: 24px;">Add Image</button>
+						<button class="btn btn-primary" type="button" style="border-width: 0px;font-weight: 600;color: #93623c;font-size: 10px;background: #f2d8be;margin-left: 24px;">Add Image</button>
 					</div>
 				</div>
 			</div>

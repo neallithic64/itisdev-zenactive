@@ -63,6 +63,7 @@ router.post('/logout', adminCont.postLogout);
 router.post('/register', adminCont.postRegister);
 router.post('/addProduct', adminCont.postAddProduct);
 router.post('/addCategory', adminMiddle.validateAddCateg, adminCont.postAddCateg);
+router.post('/editProduct/:id', adminMiddle.validateProductExist, adminMiddle.validateEditProduct, adminCont.postEditProduct);
 
 
 // Error Page

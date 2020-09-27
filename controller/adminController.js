@@ -1,3 +1,5 @@
+/* global process */
+
 const fs = require('fs');
 const handlebars = require('handlebars');
 const nodemailer = require('nodemailer');
@@ -77,7 +79,7 @@ function forceJSON(e) {
  *  - ProdPhoto
  */
 async function getJoinedQuery(prodID) {
-	return await db.aggregate(ProductDB, [
+	return (await db.aggregate(ProductDB, [
 		{'$match': {productID: prodID}},
 		{'$lookup': {
 			'from': 'ProdCategory',
@@ -97,7 +99,7 @@ async function getJoinedQuery(prodID) {
 			'foreignField': 'name',
 			'as': 'prodColours'
 		}}
-	]);
+	]))[0];
 }
 
 /* Query for joining the ff tables/collections:
@@ -441,10 +443,16 @@ const adminFunctions = {
 	},
 	
 	getEditProduct: async function(req, res) {
-		if (req.session.admin)
+		if (req.session.admin) {
+			let prod = await getJoinedQuery(req.params.id);
+			let categs = (await db.findMany(CategoryDB, {})).map(e => e.categName);
+			console.log(categs);
 			res.render('editproduct', {
-				title: 'Edit Product - ZenActivePH'
+				title: 'Edit Product - ZenActivePH',
+				prod: prod,
+				categs: categs
 			});
+		}
 		else res.redirect('/login');
 	},
 	
@@ -485,12 +493,10 @@ const adminFunctions = {
 	
 	postEditProduct: async function(req, res) {
 		try {
-			// how to deal with updating prod quantity?
-			let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
-			var updateProd = new constructors.Product(editProdID, editProdName, editProdPrice, editProdSize, editProdColor);
-
-			await db.updateOne(ProductDB, {productID: editProdID}, updateProd);
-
+			let {editProdName, editProdPrice, editProdSize, editProdColor, editProdHex} = req.body;
+			let updateProd = new constructors.Product(req.params.id, editProdName, editProdPrice, editProdSize, editProdColor, editProdHex);
+			await db.updateOne(ProductDB, {productID: req.params.id}, updateProd);
+			res.status(200).send();
 		} catch (e) {
 			res.status(500).send(e);
 		}
@@ -502,11 +508,8 @@ const adminFunctions = {
 
 	postAddProdCateg: async function(req, res){
 		try {
-			let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
-			let {remCateg, addCateg} = req.body;
-								
-			if (!!remCateg) await db.insertOne(ProdCategoryDB, {productID: editProdID, categName: addCateg});
-	
+			let {editProdID, addCateg} = req.body;
+			await db.insertOne(ProdCategoryDB, {productID: editProdID, categName: addCateg});
 		} catch (e){
 			res.status(500).send(e);
 		}		
@@ -514,11 +517,8 @@ const adminFunctions = {
 	
 	postDelProdCateg: async function(req, res){
 		try {
-			let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
-			let {remCateg, addCateg} = req.body;
-								
-			if (!!addCateg) await db.deleteOne(ProdCategoryDB, {productID: editProdID, categName: addCateg});
-	
+			let {editProdID, remCateg} = req.body;
+			await db.deleteOne(ProdCategoryDB, {productID: editProdID, categName: remCateg});
 		} catch (e){
 			res.status(500).send(e);
 		}		
@@ -530,11 +530,8 @@ const adminFunctions = {
  */	
 	postAddProdPhoto: async function(req, res){
 		try {
-			let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
-			let {addProdPhoto} = req.body;
-						
-			if (!!addProdPhoto) await db.insertOne(ProdPhotoDB, {productID: editProdID, photoLink: addProdPhoto});
-	
+			let {editProdID, addProdPhoto} = req.body;
+			await db.insertOne(ProdPhotoDB, {productID: editProdID, photoLink: addProdPhoto});
 		} catch (e){
 			res.status(500).send(e);
 		}
@@ -542,11 +539,8 @@ const adminFunctions = {
 	
 	postDelProdPhoto: async function(req, res){
 		try {
-			let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
-			let {remProdPhoto} = req.body;
-						
-			if (!!remProdPhoto) await db.deleteOne(ProdPhotoDB, {productID: editProdID, photoLink: remProdPhoto});
-	
+			let {editProdID, remProdPhoto} = req.body;
+			await db.deleteOne(ProdPhotoDB, {productID: editProdID, photoLink: remProdPhoto});
 		} catch (e){
 			res.status(500).send(e);
 		}

@@ -139,6 +139,14 @@ $(document).ready(async function() {
 			error: res => console.log(res)
 		});
 	});
+	
+	$('select#addCateg').change(function() {
+		
+	});
+	
+	$('select#remCateg').change(function() {
+		
+	});
 });
 
 
@@ -182,7 +190,6 @@ $(document).ready(function() {
 		var addProd = $("form#addProdForm").serializeArray();
 		let checks = Array(3).fill(true);;
 		trimArr(addProd);
-		console.log(addProd);
 		
 		for (let i = 0; i < addProd.length-2; i++)
 			if (validator.isEmpty(addProd[i].value)) {
@@ -264,6 +271,36 @@ $(document).ready(function() {
 					window.location.href = '/admin';
 				},
 				error: res => alert(res.responseText)
+			});
+		}
+	});
+	
+	$('button#editSave').click(function() {
+		let arr = $('form#editProd').serializeArray(), checks = Array(2).fill(true);;
+		trimArr(arr);
+		console.log(arr);
+		for (let i = 0; i < arr.length; i++)
+			if (validator.isEmpty(arr[i].value)) {
+				checks[0] = false;
+				alert('Please fill in all required fields.');
+			}
+		
+		if (!validator.isNumeric(arr[5].value)) {
+			checks[1] = false;
+			alert('Please input a number for the price.');
+		}
+		
+		if (checks.every(Boolean)) {
+			$.ajax({
+				method: 'POST',
+				url: '/editProduct/' + arr[0].value,
+				data: arr,
+				success: function() {
+					window.location.href = '/invProds';
+				},
+				error: function(str) {
+					alert(str.responseText);
+				}
 			});
 		}
 	});
