@@ -11,7 +11,7 @@ const buyerMiddle = require('../middlewares/buyerMiddleware');
 router.get('/test', test.getHome);
 router.post('/test', test.postGenDocs);
 
-router.get('/a', (req, res) => res.render('error', {title: 'a', showNav: true}));
+router.get('/a', (req, res) => res.render('salesreport', {title: 'a'}));
 
 
 
@@ -25,6 +25,7 @@ router.get('/category/:category', buyerCont.getCategoryProds);
 router.get('/product/:prodID', buyerCont.getProduct);
 router.get('/view-allproducts', buyerCont.getAllProducts);
 router.get('/view-orderStatus', buyerCont.getOrderStatus);
+
 
 
 // Buyer POST Routes
@@ -41,16 +42,19 @@ router.get('/register', adminCont.getRegister);
 router.get('/admin', adminCont.getAdmin);
 router.get('/invProds', adminCont.getInvProds);
 router.get('/invCateg', adminCont.getInvCateg);
-router.get('/salesOrders', adminCont.getSalesOrder);
-router.get('/purchaseOrders', adminCont.getPurchaseOrder);
-
 router.get('/addProduct', adminCont.getAddProduct);
 router.get('/addProdExist', adminCont.getAddProdExist);
 router.get('/addCategory', adminCont.getAddCategory);
-router.get('/editProduct/:id', adminCont.getEditProduct);
+router.get('/editProduct/:id', adminMiddle.validateProductExist, adminMiddle.validateEditProduct, adminCont.getEditProduct);
 
+router.get('/salesOrders', adminCont.getSalesOrder);
+router.get('/purchaseOrders', adminCont.getPurchaseOrder);
 router.get('/searchSales', adminCont.getSalesQuery);
 router.get('/searchPurchases', adminCont.getPurchQuery);
+//router.get('/salesreport', adminCont.getSalesReport);
+//router.get('/custreport', adminCont.getCustReport);
+//router.get('/webreport', adminCont.getWebReport);
+
 
 
 // Admin POST Routes

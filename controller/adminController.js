@@ -90,6 +90,12 @@ async function getJoinedQuery(prodID) {
 			'localField': 'productID',
 			'foreignField': 'productID',
 			'as': 'prodPhoto'
+		}},
+		{'$lookup': {
+			'from': 'Product',
+			'localField': 'name',
+			'foreignField': 'name',
+			'as': 'prodColours'
 		}}
 	]);
 }

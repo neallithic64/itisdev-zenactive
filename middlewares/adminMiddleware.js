@@ -128,16 +128,26 @@ const adminMiddleware = {
 		}
 	},
 	
+	validateProductExist: async function(req, res, next) {
+		let prod = await db.findOne(ProductDB, {productID: req.params.id});
+		if (prod) return next();
+		else res.render('error', {
+			title: 'Product not found - ZenActivePH',
+			code: 404,
+			message: 'Product not found!',
+			showNav: true
+		});
+	},
+	
 	validateEditProduct: async function (req, res, next) {
-		let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
-
+		/*let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
+		
 		// when will getJoinedQuery() be used if functions are done separately? (e.g. AddProdCateg, AddProdPhoto)
 		var prodFind = await db.findOne(ProductDB, {productID: editProdID}, '');
 		
-		// should product ID be editable?
 		if (!prodFind) {
 			res.status(400).send();
-		} else return next();
+		} else */return next();
 	},
 	
 	validateAddProdCateg: async function (req, res, next) {
