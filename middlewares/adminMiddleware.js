@@ -139,17 +139,6 @@ const adminMiddleware = {
 		});
 	},
 	
-	validateEditProduct: async function (req, res, next) {
-		/*let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
-		
-		// when will getJoinedQuery() be used if functions are done separately? (e.g. AddProdCateg, AddProdPhoto)
-		var prodFind = await db.findOne(ProductDB, {productID: editProdID}, '');
-		
-		if (!prodFind) {
-			res.status(400).send();
-		} else */return next();
-	},
-	
 	validateAddProdCateg: async function (req, res, next) {
 		let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
 		let {remCateg, addCateg} = req.body;

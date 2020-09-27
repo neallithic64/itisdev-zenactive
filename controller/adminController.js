@@ -510,6 +510,7 @@ const adminFunctions = {
 		try {
 			let {editProdID, addCateg} = req.body;
 			await db.insertOne(ProdCategoryDB, {productID: editProdID, categName: addCateg});
+			res.status(200).send();
 		} catch (e){
 			res.status(500).send(e);
 		}		
@@ -519,6 +520,7 @@ const adminFunctions = {
 		try {
 			let {editProdID, remCateg} = req.body;
 			await db.deleteOne(ProdCategoryDB, {productID: editProdID, categName: remCateg});
+			res.status(200).send();
 		} catch (e){
 			res.status(500).send(e);
 		}		
@@ -532,6 +534,7 @@ const adminFunctions = {
 		try {
 			let {editProdID, addProdPhoto} = req.body;
 			await db.insertOne(ProdPhotoDB, {productID: editProdID, photoLink: addProdPhoto});
+			res.status(200).send();
 		} catch (e){
 			res.status(500).send(e);
 		}
@@ -541,6 +544,7 @@ const adminFunctions = {
 		try {
 			let {editProdID, remProdPhoto} = req.body;
 			await db.deleteOne(ProdPhotoDB, {productID: editProdID, photoLink: remProdPhoto});
+			res.status(200).send();
 		} catch (e){
 			res.status(500).send(e);
 		}

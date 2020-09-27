@@ -45,7 +45,7 @@ router.get('/invCateg', adminCont.getInvCateg);
 router.get('/addProduct', adminCont.getAddProduct);
 router.get('/addProdExist', adminCont.getAddProdExist);
 router.get('/addCategory', adminCont.getAddCategory);
-router.get('/editProduct/:id', adminMiddle.validateProductExist, adminMiddle.validateEditProduct, adminCont.getEditProduct);
+router.get('/editProduct/:id', adminMiddle.validateProductExist, adminCont.getEditProduct);
 
 router.get('/salesOrders', adminCont.getSalesOrder);
 router.get('/purchaseOrders', adminCont.getPurchaseOrder);
@@ -63,7 +63,12 @@ router.post('/logout', adminCont.postLogout);
 router.post('/register', adminCont.postRegister);
 router.post('/addProduct', adminCont.postAddProduct);
 router.post('/addCategory', adminMiddle.validateAddCateg, adminCont.postAddCateg);
-router.post('/editProduct/:id', adminMiddle.validateProductExist, adminMiddle.validateEditProduct, adminCont.postEditProduct);
+router.post('/editProduct/:id', adminMiddle.validateProductExist, adminCont.postEditProduct);
+
+router.post('/addProdCateg/:id', adminMiddle.validateProductExist, adminCont.postAddProdCateg);
+router.post('/remProdCateg/:id', adminMiddle.validateProductExist, adminCont.postDelProdCateg);
+router.post('/addProdPhoto/:id', adminMiddle.validateProductExist, adminCont.postAddProdPhoto);
+router.post('/remProdPhoto/:id', adminMiddle.validateProductExist, adminCont.postDelProdPhoto);
 
 
 // Error Page
@@ -75,6 +80,5 @@ router.get('*', function(req, res) {
 		showNav: true
 	});
 });
-
 
 module.exports = router;
