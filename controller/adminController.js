@@ -445,7 +445,9 @@ const adminFunctions = {
 	getEditProduct: async function(req, res) {
 		if (req.session.admin) {
 			let prod = await getJoinedQuery(req.params.id);
-			let categs = (await db.findMany(CategoryDB, {})).map(e => e.categName);
+			let categs = (await db.findMany(CategoryDB, {}))
+					.map(e => e.categName)
+					.filter(e => !prod.prodCateg.map(prodE => prodE.categName).includes(e));
 			console.log(categs);
 			res.render('editproduct', {
 				title: 'Edit Product - ZenActivePH',
@@ -508,8 +510,8 @@ const adminFunctions = {
 
 	postAddProdCateg: async function(req, res){
 		try {
-			let {editProdID, addCateg} = req.body;
-			await db.insertOne(ProdCategoryDB, {productID: editProdID, categName: addCateg});
+			let {editProdID, categ} = req.body;
+			await db.insertOne(ProdCategoryDB, {productID: req.params.id, categName: categ});
 			res.status(200).send();
 		} catch (e){
 			res.status(500).send(e);
@@ -518,8 +520,8 @@ const adminFunctions = {
 	
 	postDelProdCateg: async function(req, res){
 		try {
-			let {editProdID, remCateg} = req.body;
-			await db.deleteOne(ProdCategoryDB, {productID: editProdID, categName: remCateg});
+			let {editProdID, categ} = req.body;
+			await db.deleteOne(ProdCategoryDB, {productID: req.params.id, categName: categ});
 			res.status(200).send();
 		} catch (e){
 			res.status(500).send(e);
@@ -532,8 +534,8 @@ const adminFunctions = {
  */	
 	postAddProdPhoto: async function(req, res){
 		try {
-			let {editProdID, addProdPhoto} = req.body;
-			await db.insertOne(ProdPhotoDB, {productID: editProdID, photoLink: addProdPhoto});
+			let {editProdID, photo} = req.body;
+			await db.insertOne(ProdPhotoDB, {productID: req.params.id, photoLink: photo});
 			res.status(200).send();
 		} catch (e){
 			res.status(500).send(e);
@@ -542,8 +544,8 @@ const adminFunctions = {
 	
 	postDelProdPhoto: async function(req, res){
 		try {
-			let {editProdID, remProdPhoto} = req.body;
-			await db.deleteOne(ProdPhotoDB, {productID: editProdID, photoLink: remProdPhoto});
+			let {editProdID, photo} = req.body;
+			await db.deleteOne(ProdPhotoDB, {productID: req.params.id, photoLink: photo});
 			res.status(200).send();
 		} catch (e){
 			res.status(500).send(e);
