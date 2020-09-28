@@ -43,8 +43,21 @@
 								</tr>
 							</thead>
 							<tbody>
-								 {{> myorderrow buyOrder}}
-								 
+								{{#each buyOrder.Product}}
+									<tr style="font-size: 11px;background: {{{getSalesStyle @root.buyOrder.status}}}">
+										<td>{{@root.buyOrder.buyOrdNo}}</td>
+										<td>{{this.name}}</td>
+										<td>{{categToString @root.buyOrder.Category}}</td>
+										<td>{{getOrdQty @root.buyOrder.Cart @index}}</td>
+										<td>{{this.color}}</td>
+										<td class="text-right">{{}}</td>
+										<td class="text-right">{{getPrice this.price}}</td>
+										<td class="text-right">{{getOrdPriceTotal @root.buyOrder.Cart @index}}</td>
+										<td>{{@root.buyOrder.status}}</td>
+										{{! REMARKS: Where the Cancel Reason will be placed }}
+										<td></td>
+									</tr>
+								{{/each}}
 							</tbody>
 						</table>
 					</div>

@@ -57,10 +57,11 @@ app.engine('hbs', exphbs.create({
 		getPriceTotal: function(cart) {
 			return cart.reduce((total, item) => total + item.price * item.qty, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 		},
-		getOrdHeadClass: function(ordStatus) {
-			switch(ordStatus) {
-				case 'CANCELLED': return "order-header-cancelled";
-			}
+		getOrdPriceTotal: function(cart, index) {
+			return (cart[index].qty * cart[index].price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		},
+		getOrdQty: function(cart, index) {
+			return cart[index].qty;
 		},
 		categToString: function(cats) {
 			return cats.map(e => e.categName).join(', ');

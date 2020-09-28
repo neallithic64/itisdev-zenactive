@@ -270,10 +270,11 @@ const buyerFunctions = {
 			var orderMatch = await getJoinedOrder(req.query.myOrdNo);
 			console.log(orderMatch);
 			// var cancelMatch = await db.findOne(CancelReasonDB, {buyOrdNo: req.query.myOrdNo});
+			// move to get joined instead
 			res.render('myorder', {
 				title: 'View My Order - ZenActivePH',
 				showContent: true,
-				buyOrder: orderMatch,
+				buyOrder: forceJSON(orderMatch),
 				showNav: true
 			});
 		} else {
