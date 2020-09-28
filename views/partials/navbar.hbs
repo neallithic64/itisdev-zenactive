@@ -10,10 +10,10 @@
 				
 				<div id="mySideNav" class="sidenav">
 					<a class="closebtn" onclick="closeNav()"><i class="icon ion-android-close"></i></a>
-					<div> 
-						<input type="text" placeholder="Search..." name="homeSearch"> 
-						<a class="searchbtn"><i class="fa fa-search"></i></a>
-					</div>
+					<form method="GET" action="/search-products"> 
+						<input name="homeSearch" type="text" placeholder="Search..."> 
+						<a class="searchbtn" onclick="this.parentNode.submit()"> <i class="fa fa-search"></i> </a>
+					</form>
 					<a href="/">Home</a>
 					<a href="/category/Tops">Tops</a>
 					<a href="/category/Bottoms">Bottoms</a>			
