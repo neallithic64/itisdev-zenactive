@@ -4,12 +4,11 @@
 			<div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-bottom: 10px;margin-right: 0px;margin-top: 8px;">
 
 				{{! ORDER NUMBER DROPDOWN to accommodate multiple orders from one customer }}
-				<div style="font-weight: 600;color: #93623c;">
+				<form style="font-weight: 600;color: #93623c;" method="GET" action="/vieworder">
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Order#&nbsp;</span>
-					<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 12px;width: 252px;">
-						<option value="1" selected="">20200912345</option>
-						<option value="2">20200912346</option></select>
-				</div>
+					<input type="text" name="myOrdNo" style="background: rgba(255,255,255,0);border-width: 1px;font-weight: 600;color: #93623c;font-size: 12px;width: 252px;">
+					<a class="searchbtn" onclick="this.parentNode.submit()"> <i class="fa fa-search"></i> </a>
+				</form>
 
 				{{! FILTER BY CATEGORY }}
 				<div class="d-flex align-items-center align-content-center">
@@ -23,63 +22,63 @@
 					</select>
 				</div>
 			</div>
-
-			{{! TABLE FOR ORDERS }}
-			<div>
-				<div class="table-responsive" style="max-height: 500px;min-height: auto;margin-bottom: 0px;">
-					<table class="table">
-						<thead style="font-size: 10px;">
-							<tr style="background-color: rgba(242,216,190,0.2);">
-								<th style="width: 163px;">Order No.</th>
-								<th style="width: 230px;">Product Name</th>
-								<th style="width: 233px;">Category</th>
-								<th style="width: 61px;">Size</th>
-								<th class="text-left" style="width: 91px;">Color</th>
-								<th class="text-right" style="width: 61px;">Quantity</th>
-								<th class="text-right" style="width: 133px;">Unit Price</th>
-								<th class="text-right" style="width: 150px;">Total</th>
-								<th>Status</th>
-								<th>Remarks</th>
-							</tr>
-						</thead>
-
-						<tbody>
-							{{> myorderrow }}
-						</tbody>
-					</table>
-				</div>
-			</div>
-
-			{{! SHIPPING FEE AND TOTAL AMT }]
-			<div class="d-xl-flex flex-column justify-content-end align-items-end justify-content-xl-end align-items-xl-end" style="background: #f2d8be33;border: 1px solid #cccccc;padding-bottom: 8px;">
-				<div class="d-flex justify-content-end align-items-end align-content-end">
-					<span>Shipping Fee:&nbsp;</span>
-					<span id="myShipFee">100,00</span>
+			
+			{{#if showContent}}
+				{{! TABLE FOR ORDERS }}
+				<div>
+					<div class="table-responsive" style="max-height: 500px;min-height: auto;margin-bottom: 0px;">
+						<table class="table">
+							<thead style="font-size: 10px;">
+								<tr style="background-color: rgba(242,216,190,0.2);">
+									<th style="width: 163px;">Order No.</th>
+									<th style="width: 230px;">Product Name</th>
+									<th style="width: 233px;">Category</th>
+									<th style="width: 61px;">Size</th>
+									<th class="text-left" style="width: 91px;">Color</th>
+									<th class="text-right" style="width: 61px;">Quantity</th>
+									<th class="text-right" style="width: 133px;">Unit Price</th>
+									<th class="text-right" style="width: 150px;">Total</th>
+									<th>Status</th>
+									<th>Remarks</th>
+								</tr>
+							</thead>
+							<tbody>
+								 {{> myorderrow buyOrder}}
+								 
+							</tbody>
+						</table>
+					</div>
 				</div>
 
-				<div class="d-flex justify-content-end align-items-end align-content-end">
-					<span>Total Amount Receivable:&nbsp;</span>
-					<span id="myTotalAmt">6,800.00</span>
+				{{! SHIPPING FEE AND TOTAL AMT }]
+				<div class="d-xl-flex flex-column justify-content-end align-items-end justify-content-xl-end align-items-xl-end" style="background: #f2d8be33;border: 1px solid #cccccc;padding-bottom: 8px;">
+					<div class="d-flex justify-content-end align-items-end align-content-end">
+						<span>Shipping Fee:&nbsp;</span>
+						<span id="myShipFee">100,00</span>
+					</div>
+					<div class="d-flex justify-content-end align-items-end align-content-end">
+						<span>Total Amount Receivable:&nbsp;</span>
+						<span id="myTotalAmt">6,800.00</span>
+					</div>
+					{{! SEND PROOF OF PAYMENT BUTTON }}
+					{{! IF MOP = PAYPAL, DISABLE BUTTON }}
+					<button class="btn" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 14px;">Send Proof Of Payment</button>
 				</div>
 
-				{{! SEND PROOF OF PAYMENT BUTTON }}
-				{{! IF MOP = PAYPAL, DISABLE BUTTON }}
-				<button class="btn" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 14px;">Send Proof Of Payment</button>
-			</div>
+				{{! TRACKING DETAILS }}
+				<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;margin-top: 14px;">
+					<span style="font-weight: 600;color: #93623c;">Tracking Details</span>
+					<div class="d-flex justify-content-end align-items-end align-content-end">
+						<span>Courier:&nbsp;</span>
+						<span id="myCourier">JRS</span>
+					</div>
 
-			{{! TRACKING DETAILS }}
-			<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;margin-top: 14px;">
-				<span style="font-weight: 600;color: #93623c;">Tracking Details</span>
-				<div class="d-flex justify-content-end align-items-end align-content-end">
-					<span>Courier:&nbsp;</span>
-					<span id="myCourier">JRS</span>
+					<div class="d-flex justify-content-end align-items-end align-content-end">
+						<span>Tracking ID:&nbsp;</span>
+						<span id="myTrackID">128631399127</span>
+					</div>
 				</div>
-
-				<div class="d-flex justify-content-end align-items-end align-content-end">
-					<span>Tracking ID:&nbsp;</span>
-					<span id="myTrackID">128631399127</span>
-				</div>
-			</div>
+			{{/if}}
 		</div>
 	</div>
 </div>

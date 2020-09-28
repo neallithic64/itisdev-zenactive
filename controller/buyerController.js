@@ -88,6 +88,36 @@ async function lookupBag(bag) {
 	return forceJSON(await db.findMany(ProductDB, {})).filter(e1 => bag.map(e2 => e2.code).includes(e1.productID)).map((item, i) => Object.assign({}, item, bag[i]));
 }
 
+async function getJoinedOrder(ordNo) {
+	return (await db.aggregate(CustomerOrderDB, [
+		{'$match': {buyOrdNo: Number.parseInt(ordNo)}},
+		{'$lookup': {
+			'from': 'CustomerCart',
+			'localField': 'buyOrdNo',
+			'foreignField': 'buyOrdNo',
+			'as': 'Cart'
+		}},
+		{'$lookup': {
+			'from': 'Product',
+			'localField': 'Cart.productID',
+			'foreignField': 'productID',
+			'as': 'Product'
+		}},
+		{'$lookup': {
+			'from': 'ProdCategory',
+			'localField': 'Product.productID',
+			'foreignField': 'productID',
+			'as': 'Category'
+		}},
+		{'$lookup': {
+			'from': 'PaymentProof',
+			'localField': 'buyOrdNo',
+			'foreignField': 'buyOrdNo',
+			'as': 'PaymentProof'
+		}}
+	]))[0];
+}
+
 /* Index Functions
  */
 const buyerFunctions = {
@@ -157,7 +187,6 @@ const buyerFunctions = {
 	
 	getSearchProducts: async function(req, res) {
 		let prodQuery = new RegExp(req.query.homeSearch, 'gi');
-		
 		var searchProd = await db.aggregate(ProductDB, [
 			{'$match': {name: prodQuery}},
 			{'$lookup': {
@@ -237,26 +266,23 @@ const buyerFunctions = {
  * seller), SHIPPED (seller to buyer), CANCELLED (by the seller)).
  */
 	getOrderStatus: async function(req, res) {
-		// details will be displayed in the view order status page
-		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: req.query.orderNo}, '');
-		
-		if (orderMatch.status === 'CANCELLED') {
-			var cancelMatch = await db.findOne(CancelReasonDB, {buyOrdNo: req.query.orderNo}, '');
-
-			if (cancelMatch) {
-				res.render('', {
-					buyOrder: orderMatch,
-					cancelReason: cancelMatch
-				});
-			}
-
-		} else {
-			res.render('view-orderStatus', {
+		if (req.query.myOrdNo) {
+			var orderMatch = await getJoinedOrder(req.query.myOrdNo);
+			console.log(orderMatch);
+			// var cancelMatch = await db.findOne(CancelReasonDB, {buyOrdNo: req.query.myOrdNo});
+			res.render('myorder', {
+				title: 'View My Order - ZenActivePH',
+				showContent: true,
 				buyOrder: orderMatch,
 				showNav: true
 			});
+		} else {
+			res.render('myorder', {
+				title: 'View My Order - ZenActivePH',
+				showContent: false,
+				showNav: true
+			});
 		}
-
 	},
 	
 	postCheckout: async function(req, res) {

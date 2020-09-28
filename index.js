@@ -87,6 +87,24 @@ app.engine('hbs', exphbs.create({
 				case 'CANCELLED':
 				case 'REFUNDED': return 'disabledactions';
 			}
+		},
+		getSalesStyle: function(status) {
+			switch (status) {
+				case 'CONFIRMED': return '#b3ffb2';
+				case 'PENDING': return '';
+				case 'IN TRANSIT': return '#fffbd4';
+				case 'CANCELLED': return '#ffa7a7';
+				case 'SHIPPED': return '#ffd6a6';
+			}
+		},
+		getPurchStyle: function(status) {
+			switch (status) {
+				case 'INCOMPLETE': return '#fffbd4';
+				case 'PENDING': return '';
+				case 'COMPLETE': return '#b3ffb2';
+				case 'CANCELLED': return '#ffa7a7';
+				case 'REFUNDED': return '#ffd1ed';
+			}
 		}
 	}
 }).engine);
