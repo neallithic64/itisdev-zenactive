@@ -295,12 +295,15 @@ const buyerFunctions = {
 			
 			// make customer order document
 			await db.insertOne(CustomerOrderDB, ord);
-
+			
 			// make customer cart documents
+			console.log(bag);
+			// ^^^ CHECK IF THE CHOSEN SIZE IS FOUND THERE; WE NEED THAT FOR THE VIEW ORDER
 			bag.forEach(e => {
 				cartOrds.push({
 					productID: e.code,
 					buyOrdNo: ord.buyOrdNo,
+					size: e.size,
 					qty: e.qty,
 					price: e.price
 				});
