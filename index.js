@@ -42,6 +42,9 @@ app.engine('hbs', exphbs.create({
 	partialsDir: 'views/partials',
 	layoutsDir: 'views/layouts',
 	helpers: {
+		getFirstPhoto: function(photos){
+			return photos.length > 0 ? photos[0].photoLink : 'https://safetyaustraliagroup.com.au/wp-content/uploads/2019/05/image-not-found.png';
+		},
 		getPrice: function(price) {
 			return price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 		},

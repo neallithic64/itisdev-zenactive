@@ -145,29 +145,60 @@ const buyerFunctions = {
 	
 	getSearchProducts: async function(req, res) {
 		// use server error checking here
-		let prodQuery = new RegExp(req.query.searchProducts, 'gi');
-		var searchProd = await db.findMany(ProductDB, {name: prodQuery}, '');
+		let prodQuery = new RegExp(req.query.homeSearch, 'gi');
+//		var searchProd = await db.findMany(ProductDB, {name: prodQuery}, '');
+		
+		var searchProd = await db.aggregate(ProductDB, [
+			{'$match': {name: prodQuery}},
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodCateg'
+			}},
+			{'$lookup': {
+				'from': 'ProdPhoto',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodPhoto'
+			}}	
+		]);
 		
 		res.render('products', {
 			products: forceJSON(searchProd),
 			showNav: true
-		});
+		});		
 	},
 	
 	getCategoryProds: async function(req, res) {
-		var searchProd = await db.aggregate(ProdCategoryDB, [
-			{'$match': {categName: req.params.category}},
+		// place query in a placehold array var
+		var searchProd = await db.aggregate(ProductDB, [
 			{'$lookup': {
-				'from': 'Product',
+				'from': 'ProdCategory',
 				'localField': 'productID',
 				'foreignField': 'productID',
-				'as': 'product'
+				'as': 'prodCateg'
 			}},
-			{'$unwind': '$product'}
+			{'$lookup': {
+				'from': 'ProdPhoto',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodPhoto'
+			}}	
 		]);
-		console.table(forceJSON(searchProd));
+		
+		// filter results 
+		var searchCateg = searchProd.filter(function(elem1){
+			return elem1.prodCateg.some(function(elem2){
+				return elem2.categName === req.params.category;
+			});
+		});
+		
+		// render the found elem
+		console.log(searchProd);
+		console.log(forceJSON(searchCateg));
 		res.render('products', {
-			products: forceJSON(searchProd),
+			products: forceJSON(searchCateg),
 			showNav: true
 		});
 	},
