@@ -134,19 +134,29 @@ const buyerFunctions = {
  * 
  */
 	getAllProducts: async function(req, res) {
-		// use server error checking here
-		var products = await db.findMany(ProductDB, {}, '');
-		
+		var products = await db.aggregate(ProductDB, [
+			{'$lookup': {
+				'from': 'ProdCategory',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodCateg'
+			}},
+			{'$lookup': {
+				'from': 'ProdPhoto',
+				'localField': 'productID',
+				'foreignField': 'productID',
+				'as': 'prodPhoto'
+			}}
+		]);
 		res.render('products', {
-			allProducts: products,
+			allProducts: forceJSON(products),
+			title: 'Product Search - ZenActivePH',
 			showNav: true
 		});
 	},
 	
 	getSearchProducts: async function(req, res) {
-		// use server error checking here
 		let prodQuery = new RegExp(req.query.homeSearch, 'gi');
-//		var searchProd = await db.findMany(ProductDB, {name: prodQuery}, '');
 		
 		var searchProd = await db.aggregate(ProductDB, [
 			{'$match': {name: prodQuery}},
@@ -161,13 +171,14 @@ const buyerFunctions = {
 				'localField': 'productID',
 				'foreignField': 'productID',
 				'as': 'prodPhoto'
-			}}	
+			}}
 		]);
 		
 		res.render('products', {
 			products: forceJSON(searchProd),
+			title: 'Product Search - ZenActivePH',
 			showNav: true
-		});		
+		});
 	},
 	
 	getCategoryProds: async function(req, res) {
@@ -188,17 +199,15 @@ const buyerFunctions = {
 		]);
 		
 		// filter results 
-		var searchCateg = searchProd.filter(function(elem1){
-			return elem1.prodCateg.some(function(elem2){
+		var searchCateg = searchProd.filter(function(elem1) {
+			return elem1.prodCateg.some(function(elem2) {
 				return elem2.categName === req.params.category;
 			});
 		});
 		
-		// render the found elem
-		console.log(searchProd);
-		console.log(forceJSON(searchCateg));
 		res.render('products', {
 			products: forceJSON(searchCateg),
+			title: 'Product Search - ZenActivePH',
 			showNav: true
 		});
 	},
@@ -229,13 +238,12 @@ const buyerFunctions = {
  */
 	getOrderStatus: async function(req, res) {
 		// details will be displayed in the view order status page
-		
 		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: req.query.orderNo}, '');
 		
-		if (orderMatch.status === 'CANCELLED'){
+		if (orderMatch.status === 'CANCELLED') {
 			var cancelMatch = await db.findOne(CancelReasonDB, {buyOrdNo: req.query.orderNo}, '');
 
-			if (cancelMatch){
+			if (cancelMatch) {
 				res.render('', {
 					buyOrder: orderMatch,
 					cancelReason: cancelMatch
