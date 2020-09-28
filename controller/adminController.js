@@ -510,7 +510,7 @@ const adminFunctions = {
 
 	postAddProdCateg: async function(req, res){
 		try {
-			let {editProdID, categ} = req.body;
+			let {categ} = req.body;
 			await db.insertOne(ProdCategoryDB, {productID: req.params.id, categName: categ});
 			res.status(200).send();
 		} catch (e){
@@ -520,7 +520,7 @@ const adminFunctions = {
 	
 	postDelProdCateg: async function(req, res){
 		try {
-			let {editProdID, categ} = req.body;
+			let {categ} = req.body;
 			await db.deleteOne(ProdCategoryDB, {productID: req.params.id, categName: categ});
 			res.status(200).send();
 		} catch (e){
@@ -534,7 +534,7 @@ const adminFunctions = {
  */	
 	postAddProdPhoto: async function(req, res){
 		try {
-			let {editProdID, photo} = req.body;
+			let {photo} = req.body;
 			await db.insertOne(ProdPhotoDB, {productID: req.params.id, photoLink: photo});
 			res.status(200).send();
 		} catch (e){
@@ -544,7 +544,7 @@ const adminFunctions = {
 	
 	postDelProdPhoto: async function(req, res){
 		try {
-			let {editProdID, photo} = req.body;
+			let {photo} = req.body;
 			await db.deleteOne(ProdPhotoDB, {productID: req.params.id, photoLink: photo});
 			res.status(200).send();
 		} catch (e){

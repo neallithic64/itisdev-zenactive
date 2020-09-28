@@ -65,10 +65,10 @@ router.post('/addProduct', adminCont.postAddProduct);
 router.post('/addCategory', adminMiddle.validateAddCateg, adminCont.postAddCateg);
 router.post('/editProduct/:id', adminMiddle.validateProductExist, adminCont.postEditProduct);
 
-router.post('/addProdCateg/:id', adminMiddle.validateProductExist, adminCont.postAddProdCateg);
-router.post('/remProdCateg/:id', adminMiddle.validateProductExist, adminCont.postDelProdCateg);
-router.post('/addProdPhoto/:id', adminMiddle.validateProductExist, adminCont.postAddProdPhoto);
-router.post('/remProdPhoto/:id', adminMiddle.validateProductExist, adminCont.postDelProdPhoto);
+router.post('/addProdCateg/:id', adminMiddle.validateProductExist, adminMiddle.validateAddProdCateg, adminCont.postAddProdCateg);
+router.post('/remProdCateg/:id', adminMiddle.validateProductExist, adminMiddle.validateDelProdCateg, adminCont.postDelProdCateg);
+router.post('/addProdPhoto/:id', adminMiddle.validateProductExist, adminMiddle.validateAddProdPhoto, adminCont.postAddProdPhoto);
+router.post('/remProdPhoto/:id', adminMiddle.validateProductExist, adminMiddle.validateDelProdPhoto, adminCont.postDelProdPhoto);
 
 
 // Error Page

@@ -24,7 +24,7 @@ const ThresholdDB = require('../models/Threshold');
  *  - ProdPhoto
  */
 	async function getJoinedQuery(prodID) {
-		return await db.aggregate(ProductDB, [
+		return (await db.aggregate(ProductDB, [
 			{'$match': {productID: prodID}},
 			{'$lookup': {
 				'from': 'ProdCategory',
@@ -38,7 +38,7 @@ const ThresholdDB = require('../models/Threshold');
 				'foreignField': 'productID',
 				'as': 'prodPhoto'
 			}}
-		]);
+		]))[0];
 	}
 
 /* Query for joining the ff tables/collections:
@@ -49,7 +49,7 @@ const ThresholdDB = require('../models/Threshold');
  *  - PaymentProof
  */
 	async function getJoinedCustOrder(ordNo) {
-		return await db.aggregate(CustomerOrderDB, [
+		return (await db.aggregate(CustomerOrderDB, [
 			{'$match': {buyOrdNo: ordNo}},
 			{'$lookup': {
 				'from': 'CustomerCart',
@@ -75,7 +75,7 @@ const ThresholdDB = require('../models/Threshold');
 				'foreignField': 'buyOrdNo',
 				'as': 'PaymentProof'
 			}}
-		]);
+		]))[0];
 	}
 
 /* Query for joining the ff tables/collections:
@@ -85,7 +85,7 @@ const ThresholdDB = require('../models/Threshold');
  *  - ProdCategory
  */
 	async function getJoinedSuppOrder(ordNo) {
-		return await db.aggregate(SupplierOrderDB, [
+		return (await db.aggregate(SupplierOrderDB, [
 			{'match': {batchID: ordNo}},
 			{'$lookup': {
 				'from': 'SupplierCart',
@@ -105,23 +105,15 @@ const ThresholdDB = require('../models/Threshold');
 				'foreignField': 'productID',
 				'as': 'Category'
 			}}
-		]);
+		]))[0];
 	}
 
 const adminMiddleware = {
 	validateRegister: async function (req, res, next) {
 		try {
-			// check if id and email exists in db
-			let {email, password} = req.body;
-			
-			var emailMatch = await db.findOne(AdminDB, {email: password});
-			
-			if (emailMatch) {
-				res.status(400).send();
-			}
-			else if (emailMatch) { //for password
-				res.status(400).send();
-			}
+			let {email} = req.body;
+			var emailMatch = await db.findOne(AdminDB, {email: email});
+			if (emailMatch) res.status(400).send();
 			else return next();
 		} catch (e) {
 			res.status(500).send(e);
@@ -140,48 +132,48 @@ const adminMiddleware = {
 	},
 	
 	validateAddProdCateg: async function (req, res, next) {
-		let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
-		let {remCateg, addCateg} = req.body;
-		
-		var prodFind = await getJoinedQuery(editProdID);
-		
-		if (prodFind) {
-			res.status(400).send(); // categ exists under product!
-		} else return next();
+		try {
+			let {categ} = req.body;
+			var prodFind = await db.findOne(ProdCategoryDB, {productID: req.params.id, categName: categ});
+			if (prodFind) {
+				res.status(400).send('Product already has that category!');
+			} else return next();
+		} catch (e){
+			res.status(500).send(e);
+		}
 	},
 	
 	validateDelProdCateg: async function (req, res, next) {
-		let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
-		let {remCateg, addCateg} = req.body;
-		
-		var prodFind = await getJoinedQuery(editProdID);
-		
-		if (!prodFind) {
-			res.status(400).send(); // categ not found under product!
-		} else return next();
+		try {
+			let {categ} = req.body;
+			var prodFind = await db.findOne(ProdCategoryDB, {productID: req.params.id, categName: categ});
+			if (!prodFind) res.status(400).send('Product doesn\'t have that category!');
+			else return next();
+		} catch (e){
+			res.status(500).send(e);
+		}
 	},
 	
 	validateAddProdPhoto: async function (req, res, next) {
-		let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
-		let {addProdPhoto} = req.body;
-		
-		var prodFind = await getJoinedQuery(editProdID);
-		
-		if (prodFind) {
-			res.status(400).send(); // photo exists under product!
-		} else return next();		
+		try {
+			let {photo} = req.body;
+			var prodFind = await db.findOne(ProdPhotoDB, {productID: req.params.id, photoLink: photo});
+			if (prodFind) res.status(400).send('Product already has that photo!');
+			else return next();
+		} catch (e){
+			res.status(500).send(e);
+		}
 	},
 
 	validateDelProdPhoto: async function (req, res, next) {
-		let {editProdID, editProdName, editProdPrice, editProdSize, editProdColor} = req.body;
-		let {remProdPhoto} = req.body;
-		
-		var prodFind = await getJoinedQuery(editProdID); 
-		// ^ is it correct to find the product itself instead existence of the photo?
-		
-		if (!prodFind) {
-			res.status(400).send(); // photo not found under product!
-		} else return next();		
+		try {
+			let {photo} = req.body;
+			var prodFind = await db.findOne(ProdPhotoDB, {productID: req.params.id, photoLink: photo});
+			if (!prodFind) res.status(400).send('Product doesn\'t have that photo!');
+			else return next();
+		} catch (e){
+			res.status(500).send(e);
+		}
 	},
 	
 	validateAddCateg: async function (req, res, next) {
