@@ -210,13 +210,10 @@ $(document).ready(async function() {
 		});
 	});
 	
-	$('select.????').change(function() {
-		var choice = $(this).val();
-		
+	$('select.actions').change(function() {
+		var choice = $(this).val(), ordNo = $(this).closest('tr').attr('id');
 		switch (choice) {
-			case 'sometihng': {
-				
-			}
+			case 'View': window.location.href = '/view-salesorder/' + ordNo;
 		}
 	});
 });

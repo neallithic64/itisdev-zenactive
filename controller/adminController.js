@@ -110,8 +110,9 @@ async function getJoinedQuery(prodID) {
  *  - PaymentProof
  */
 async function getJoinedCustOrder(ordNo) {
-	return await db.aggregate(CustomerOrderDB, [
-		{'$match': {buyOrdNo: ordNo}},
+	var stages = [];
+	if (ordNo) stages.push({'$match': {buyOrdNo: ordNo}});
+	return await db.aggregate(CustomerOrderDB, stages.concat([
 		{'$lookup': {
 			'from': 'CustomerCart',
 			'localField': 'buyOrdNo',
@@ -136,7 +137,7 @@ async function getJoinedCustOrder(ordNo) {
 			'foreignField': 'buyOrdNo',
 			'as': 'PaymentProof'
 		}}
-	]);
+	]));
 }
 	
 /* Query for joining the ff tables/collections:
@@ -146,8 +147,9 @@ async function getJoinedCustOrder(ordNo) {
  *  - ProdCategory
  */
 async function getJoinedSuppOrder(ordNo) {
-	return await db.aggregate(SupplierOrderDB, [
-		{'match': {batchID: ordNo}},
+	var stages = [];
+	if (ordNo) stages.push({'$match': {batchID: ordNo}});
+	return await db.aggregate(SupplierOrderDB, stages.concat([
 		{'$lookup': {
 			'from': 'SupplierCart',
 			'localField': 'batchID',
@@ -166,7 +168,7 @@ async function getJoinedSuppOrder(ordNo) {
 			'foreignField': 'productID',
 			'as': 'Category'
 		}}
-	]);
+	]));
 }
 
 /* Index Functions
@@ -266,11 +268,9 @@ const adminFunctions = {
 
 	getAllSalesOrders: async function(req, res) { 
 		try {
-			var orderMatch = await getJoinedCustOrder('');
-			orderMatch.push({status: 'CONFIRMED'});
-			
+			var orderMatch = await getJoinedCustOrder();
 			res.render('salestracker', {
-				title: 'Sales Tracker',
+				title: 'Sales Tracker - ZenActivePH',
 				salesOrder: forceJSON(orderMatch)
 			});
 		} catch(e) {
@@ -284,11 +284,9 @@ const adminFunctions = {
 
 	getAllPurchaseOrders: async function(req, res) { 
 		try {
-			var orderMatch = await getJoinedSuppOrder('');
-			console.log(orderMatch);
-
+			var orderMatch = await getJoinedSuppOrder();
 			res.render('purchtracker', {
-				title: 'Purchases Tracker',
+				title: 'Purchases Tracker - ZenActivePH',
 				suppOrder: forceJSON(orderMatch)
 			});			
 		} catch(e){
