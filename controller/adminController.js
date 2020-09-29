@@ -341,7 +341,7 @@ const adminFunctions = {
 			// details regarding their delivery will be sent through the buyer’s email
 			// what details to send? 
 			// how to use helper function 'sendEmail'?
-			// sendEmail(orderMatch.email);        
+			// sendEmail(orderMatch.email);
 		
 		} else if (orderMatch.status === 'CANCELLED'){
 			await db.insertOne(CancelReasonDB, {buyOrdNo: orderNo, cancelReason: cancelRsn});
