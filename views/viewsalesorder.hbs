@@ -12,13 +12,13 @@
 				{{! ORDER NUMBER DIV }}
 				<div style="font-weight: 600;color: #93623c;">
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Order#&nbsp;</span>
-					<span id="ordernum"><strong>20200912345</strong></span>
+					<span id="ordernum"><strong>{{order.buyOrdNo}}</strong></span>
 				</div>
 
 				{{! FILTER BY CATEGORY DIV }}
-							<div class="d-flex align-items-center align-content-center">
+				<div class="d-flex align-items-center align-content-center">
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Show by:</span>
-								<select id="filterCart" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 104px;">
+					<select id="filterCart" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 104px;">
 						<option value="0">Category</option>
 						<option value="1">Tops</option>
 						<option value="2">Bottoms</option>
@@ -115,22 +115,22 @@
 
 					<div>
 						<span>Customer Name:&nbsp;</span>
-						<span id="viewCustName">Julia Estella</span>
+						<span id="viewCustName">{{order.completeName}}</span>
 					</div>
 
 					<div>
 						<span>Address:&nbsp;</span>
-						<span id="viewCustAdd">123 Shannon Village, Quezon City</span>
+						<span id="viewCustAdd">{{order.address}}</span>
 					</div>
 
 					<div>
 						<span>City:&nbsp;</span>
-						<span id="viewCustCity">Quezon City</span>
+						<span id="viewCustCity">{{order.city}}</span>
 					</div>
 
 					<div>
 						<span>Area:&nbsp;</span>
-						<span id="viewCustArea">Metro Manila</span>
+						<span id="viewCustArea">{{order.area}}</span>
 					</div>
 				</div>
 			</div>

@@ -294,35 +294,6 @@ const adminFunctions = {
 		}
 	},
 
-/* View Order Status
- * 
- * Buyers may choose to view their order’s status to track where
- * it is currently (PENDING, CONFIRMED, IN TRANSIT (supplier to
- * seller), SHIPPED (seller to buyer), CANCELLED (by the seller)).
- */
-	getOrderStatus: async function(req, res) {
-		if (req.session.admin) {
-			// details will be displayed in the view order status page
-			var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: req.query.orderNo}, '');
-
-			if (orderMatch.status === 'CANCELLED'){
-				var cancelMatch = await db.findOne(CancelReasonDB, {buyOrdNo: req.query.orderNo}, '');
-
-				if (cancelMatch){
-					res.render('', {
-						buyOrder: orderMatch,
-						cancelReason: cancelMatch
-					});
-				}
-
-			} else {
-				res.render('view-orderStatus', {
-					buyOrder: orderMatch
-				});
-			}
-		} else res.redirect('/login');
-	},
-
 /* Update Order Status --
  * 
  * When items are shipped, details regarding their delivery will be sent
@@ -337,24 +308,34 @@ const adminFunctions = {
  */
 
 	getSalesOrder: async function(req, res) {
-		if (req.session.admin) { 
-		
+		if (req.session.admin) {
 			var buyOrder = await db.aggregate(CustomerOrderDB, [
-				{'$match': {buyOrdNo: req.params.ordNo}},
+				{'$match': {buyOrdNo: Number.parseInt(req.params.ordNo)}},
 				{'$lookup': {
 					'from': 'PaymentProof',
 					'localField': 'buyOrdNo',
 					'foreignField': 'buyOrdNo',
 					'as': 'paymentProof'
-				}} 
+				}},
+				{'$lookup': {
+					'from': 'CustomerCart',
+					'localField': 'buyOrdNo',
+					'foreignField': 'buyOrdNo',
+					'as': 'customerCart'
+				}},
+				{'$lookup': {
+					'from': 'Product',
+					'localField': 'customerCart.productID',
+					'foreignField': 'productID',
+					'as': 'product'
+				}}
 			]);
-
+			buyOrder.forEach(e1 => e1.product = e1.product.map((e2, i) => Object.assign({}, e2, e1.customerCart[i])));
 			// retrieve paymentProof (url/pic) & reference order, for seller to check
 			res.render('viewsalesorder', {
 				title: 'View Sales Order - ZenActivePH',
 				order: buyOrder[0]
 			});
-			
 		} else res.redirect('/login');
 	},
 
