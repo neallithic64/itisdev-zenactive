@@ -383,18 +383,17 @@ $(document).ready(function() {
 		}
 		
 		if (checks.every(Boolean)) {
-			console.log(form);
-//			$.ajax({
-//				method: 'POST',
-//				url: '/sendProof',
-//				data: form,
-//				success: function() {
-//					window.location.href = '/vieworder';
-//				},
-//				error: function(str) {
-//					alert(str.responseText);
-//				}
-//			});
+			$.ajax({
+				method: 'POST',
+				url: '/sendProof',
+				data: form,
+				success: function() {
+					window.location.href = '/vieworder';
+				},
+				error: function(str) {
+					alert(str.responseText);
+				}
+			});
 		}
 	});
 });
