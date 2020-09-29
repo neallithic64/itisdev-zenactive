@@ -25,6 +25,7 @@ router.get('/category/:category', buyerCont.getCategoryProds);
 router.get('/product/:prodID', buyerCont.getProduct);
 router.get('/view-allproducts', buyerCont.getAllProducts);
 router.get('/vieworder*', buyerCont.getOrderStatus);
+router.get('/sendProof/:buyOrd', buyerCont.getProofPayment);
 
 
 

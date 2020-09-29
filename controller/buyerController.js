@@ -286,6 +286,14 @@ const buyerFunctions = {
 		}
 	},
 	
+	getProofPayment: async function(req, res, next) {
+		res.render('sendproof', {
+			title: 'ZenActivePH',
+			buyOrdNo: req.params.buyOrd,
+			showNav: true
+		});
+	},
+	
 	postCheckout: async function(req, res) {
 		let {compname, email, contno, address, city, area, modePay} = req.body;
 		try {

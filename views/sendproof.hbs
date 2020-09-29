@@ -1,39 +1,41 @@
 <div style="height: auto;">
-    <div class="row no-gutters" style="height: auto;">
-        <div class="col" style="height: auto;margin-top: 100px;padding-left: 431px;">
-            <div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-bottom: 6px;margin-top: 6px;">
-				<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;font-size: 20px;">Send Proof of Payment</span>
+	<div class="row no-gutters" style="height: auto;">
+		<div class="col" style="height: auto;margin-top: 100px;padding-left: 431px;">
+			<div class="d-flex" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-bottom: 6px;margin-top: 6px;">
+				<span class="text-xl-center" style="font-weight: 600;color: #93623c;font-size: 20px;">Send Proof of Payment</span>
 			</div>
-			
-            <div style="margin-top: 29px;padding-left: 15px;">
-                <div class="d-flex flex-column">
+
+			<div style="margin-top: 29px;padding-left: 15px;">
+				<div class="d-flex flex-column">
 					<span style="font-weight: 600;color: #93623c;">Payment Details</span>
 					<span style="font-size: 14px;color: rgb(238,19,19);">Fields with * are required.</span>
 				</div>
-				
+
 				{{! FORM }}
-                <div style="margin-top: 23px;">
-					
+				<form id="payProof" style="margin-top: 23px;">
+
 					{{! REF NO }}
-                    <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+					<div class="form-group" style="margin-top: 10px;">
 						<label style="width: 167px;color: rgb(238,19,19);">Reference No *</label>
-						<input type="text" id="submitRefNo" style="margin-left: 0px;" placeholder="Reference No">
+						<input type="text" name="submitRefNo" style="" placeholder="Reference No">
 					</div>
-					
-                    <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
+
+					<div class="form-group" style="margin-top: 10px;">
 						<label style="width: 167px;color: rgb(238,19,19);">Amount Paid *</label>
-						<input type="text" id="submitAmtPaid" style="margin-left: 0px;" placeholder="Amount">
+						<input type="text" name="submitAmtPaid" style="" placeholder="Amount">
+					</div>
+
+					<div class="form-group" style="margin-top: 10px;">
+						<label style="width: 167px;color: rgb(238,19,19);">Proof *</label>
+						<input type="text" name="submitProofImg" style="" placeholder="Proof Link">
 					</div>
 					
-                    <div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-						<label style="width: 167px;color: rgb(238,19,19);">Proof *</label>
-						<input type="text" id="submitProofImg" style="margin-left: 0px;" placeholder="Proof Link">
-					</div>
-                </div>
-            </div>
-			
+					<input type="hidden" name="buyOrdNo" value="{{{buyOrdNo}}}">
+				</form>
+			</div>
+
 			{{! SUBMIT BUTTON }}
-			<button class="btn" id="submitProof" type="submit" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 16px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 31px;margin-left: 15px;">Submit Proof</button>
+			<button class="btn" id="submitProof" type="button" style="font-weight: 600;color: #93623c;font-size: 16px;background: #f2d8be;margin-top: 31px;margin-left: 15px;">Submit Proof</button>
 		</div>
-    </div>
+	</div>
 </div>

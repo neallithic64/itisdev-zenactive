@@ -48,11 +48,11 @@
 										<td>{{@root.buyOrder.buyOrdNo}}</td>
 										<td>{{this.name}}</td>
 										<td>{{categToString @root.buyOrder.Category}}</td>
-										<td>{{getOrdQty @root.buyOrder.Cart @index}}</td>
+										<td>{{getOrdAccess @root.buyOrder.Cart @index 0}}</td>
 										<td>{{this.color}}</td>
-										<td class="text-right">{{}}</td>
-										<td class="text-right">{{getPrice this.price}}</td>
-										<td class="text-right">{{getOrdPriceTotal @root.buyOrder.Cart @index}}</td>
+										<td class="text-right">{{getOrdAccess @root.buyOrder.Cart @index 1}}</td>
+										<td class="text-right">{{getOrdAccess @root.buyOrder.Cart @index 2}}</td>
+										<td class="text-right">{{getOrdAccess @root.buyOrder.Cart @index 3}}</td>
 										<td>{{@root.buyOrder.status}}</td>
 										{{! REMARKS: Where the Cancel Reason will be placed }}
 										<td></td>
@@ -75,7 +75,7 @@
 					</div>
 					{{! SEND PROOF OF PAYMENT BUTTON }}
 					{{! IF MOP = PAYPAL, DISABLE BUTTON }}
-					<button class="btn" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 14px;">Send Proof Of Payment</button>
+					<button class="btn" onclick="window.location.href = '/sendProof/{{{buyOrder.buyOrdNo}}}';" type="button" style="font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin-top: 14px;">Send Proof Of Payment</button>
 				</div>
 
 				{{! TRACKING DETAILS }}

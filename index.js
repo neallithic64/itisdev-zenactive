@@ -42,7 +42,7 @@ app.engine('hbs', exphbs.create({
 	partialsDir: 'views/partials',
 	layoutsDir: 'views/layouts',
 	helpers: {
-		getFirstPhoto: function(photos){
+		getFirstPhoto: function(photos) {
 			return photos.length > 0 ? photos[0].photoLink : 'https://safetyaustraliagroup.com.au/wp-content/uploads/2019/05/image-not-found.png';
 		},
 		getPrice: function(price) {
@@ -57,11 +57,13 @@ app.engine('hbs', exphbs.create({
 		getPriceTotal: function(cart) {
 			return cart.reduce((total, item) => total + item.price * item.qty, 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 		},
-		getOrdPriceTotal: function(cart, index) {
-			return (cart[index].qty * cart[index].price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-		},
-		getOrdQty: function(cart, index) {
-			return cart[index].qty;
+		getOrdAccess: function(cart, index, attr) {
+			switch (attr) {
+				case 0: return cart[index].size;
+				case 1: return cart[index].qty;
+				case 2: return cart[index].price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+				case 3: return (cart[index].qty * cart[index].price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
 		},
 		categToString: function(cats) {
 			return cats.map(e => e.categName).join(', ');

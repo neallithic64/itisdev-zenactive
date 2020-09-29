@@ -340,13 +340,9 @@ $(document).ready(function() {
 	$('button#editSave').click(function() {
 		let arr = $('form#editProd').serializeArray(), checks = Array(2).fill(true);;
 		trimArr(arr);
-		console.log(arr);
-		for (let i = 0; i < arr.length; i++)
-			if (validator.isEmpty(arr[i].value)) {
-				checks[0] = false;
-				alert('Please fill in all required fields.');
-			}
 		
+		checks[0] = arr.some(e => validator.isEmpty(e.value)) ? false : true;
+		if (!checks[0]) alert('Please fill in all required fields.');
 		if (!validator.isNumeric(arr[5].value)) {
 			checks[1] = false;
 			alert('Please input a number for the price.');
@@ -359,6 +355,37 @@ $(document).ready(function() {
 				data: arr,
 				success: function() {
 					window.location.href = '/invProds';
+				},
+				error: function(str) {
+					alert(str.responseText);
+				}
+			});
+		}
+	});
+	
+	$('button#submitProof').click(function() {
+		var form = $('form#payProof').serializeArray();
+		trimArr(form);
+		var checks = Array(3).fill(true);
+		
+		checks[0] = form.some(e => validator.isEmpty(e.value)) ? false : true;
+		if (!checks[0]) alert('Please fill in all fields.');
+		if (!validator.isNumeric(form[1].value)) {
+			checks[1] = false;
+			alert('Please input a valid value for the price.');
+		}
+		if (validator.isURL(form[2].value)) {
+			checks[2] = false;
+			alert('Please input a valid URL for the proof.');
+		}
+		
+		if (checks.every(Boolean)) {
+			$.ajax({
+				method: 'POST',
+				url: '/sendProof/' + form[3].value,
+				data: form,
+				success: function() {
+					window.location.href = '/vieworder';
 				},
 				error: function(str) {
 					alert(str.responseText);
