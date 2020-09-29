@@ -185,8 +185,22 @@ const adminMiddleware = {
 		} else return next();
 	},
 	
-	validatePayment: async function (req, res, next) {
-		// which hbs view is this?
+	validateUpdateSalesOrd: async function (req, res, next) {
+		let {ordNo} = req.body;
+		
+		var buyOrderFind = await db.aggregate(CustomerOrderDB, [
+			{'$match': {buyOrdNo: ordNo}},
+			{'$lookup': {
+				'from': 'PaymentProof',
+				'localField': 'buyOrdNo',
+				'foreignField': 'buyOrdNo',
+				'as': 'paymentProof'
+			}}
+		]);	
+		
+		if(buyOrderFind.length === 0){
+			res.status(400).send('Order not found.');			
+		} else return next();
 	},
 	
 	validateSalesOrder: async function (req, res, next) {
