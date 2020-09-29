@@ -48,9 +48,10 @@ router.get('/addProduct', adminCont.getAddProduct);
 router.get('/addProdExist', adminCont.getAddProdExist);
 router.get('/addCategory', adminCont.getAddCategory);
 router.get('/editProduct/:id', adminMiddle.validateProductExist, adminCont.getEditProduct);
+router.get('/view-salesorder/:ordNo', adminCont.getSalesOrder);
 
-router.get('/salesOrders', adminCont.getSalesOrder);
-router.get('/purchaseOrders', adminCont.getPurchaseOrder);
+router.get('/salesOrders', adminCont.getAllSalesOrders);
+router.get('/purchaseOrders', adminCont.getAllPurchaseOrders);
 router.get('/searchSales', adminCont.getSalesQuery);
 router.get('/searchPurchases', adminCont.getPurchQuery);
 //router.get('/salesreport', adminCont.getSalesReport);
@@ -66,6 +67,7 @@ router.post('/register', adminCont.postRegister);
 router.post('/addProduct', adminCont.postAddProduct);
 router.post('/addCategory', adminMiddle.validateAddCateg, adminCont.postAddCateg);
 router.post('/editProduct/:id', adminMiddle.validateProductExist, adminCont.postEditProduct);
+router.post('/updateOrdStatus', adminMiddle.validateUpdateSalesOrd, adminCont.postUpdateSalesOrder);
 
 router.post('/addProdCateg/:id', adminMiddle.validateProductExist, adminMiddle.validateAddProdCateg, adminCont.postAddProdCateg);
 router.post('/remProdCateg/:id', adminMiddle.validateProductExist, adminMiddle.validateDelProdCateg, adminCont.postDelProdCateg);

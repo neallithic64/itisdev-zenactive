@@ -264,7 +264,7 @@ const adminFunctions = {
 		res.status(200).send(await getJoinedCustOrder(req.query.ordNo));
 	},
 
-	getSalesOrder: async function(req, res) {
+	getAllSalesOrders: async function(req, res) { 
 		try {
 			var orderMatch = await getJoinedCustOrder('');
 			orderMatch.push({status: 'CONFIRMED'});
@@ -282,7 +282,7 @@ const adminFunctions = {
 		res.status(200).send(await getJoinedSuppOrder(req.query.ordNo));
 	},
 
-	getPurchaseOrder: async function(req, res) {
+	getAllPurchaseOrders: async function(req, res) { 
 		try {
 			var orderMatch = await getJoinedSuppOrder('');
 			console.log(orderMatch);
@@ -331,64 +331,60 @@ const adminFunctions = {
  * through the buyer’s email and displayed in the view order status page,
  * by utilizing the tracking details from the partner courier. When items
  * are cancelled, the reason for cancelling will also be displayed.
- */
-	postOrderStatus: async function(req, res) {
-
-		let {orderNo, cancelRsn} = req.body;
-		var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
-
-		if (orderMatch.status === 'SHIPPED'){
-			// details regarding their delivery will be sent through the buyer’s email
-			// what details to send? 
-			// how to use helper function 'sendEmail'?
-			// sendEmail(orderMatch.email);
-		
-		} else if (orderMatch.status === 'CANCELLED'){
-			await db.insertOne(CancelReasonDB, {buyOrdNo: orderNo, cancelReason: cancelRsn});
-			
-		} else {
-			// render smthn
-		}
-	},
-
-/* Validate Payment
+ * 
+ * Validate Payment -- 
  * 
  * The seller receives the proof of payment from the buyer and 
  * updates the status of the order.
- * 
  */
-	getValidPayment: async function(req, res) {
-		if (req.session.admin) {
-			// seller inputs orderNo to search in the db
+
+	getSalesOrder: async function(req, res) {
+		if (req.session.admin) { 
+		
 			var buyOrder = await db.aggregate(CustomerOrderDB, [
-				{'$match': {buyOrdNo: req.query.text}},
+				{'$match': {buyOrdNo: req.params.ordNo}},
 				{'$lookup': {
 					'from': 'PaymentProof',
 					'localField': 'buyOrdNo',
 					'foreignField': 'buyOrdNo',
 					'as': 'paymentProof'
-				}}
+				}} 
 			]);
 
-			// retrieve payProof (url/pic) & reference order, for seller to check
-			res.render('', {
-				ordNo: buyOrder.buyOrdNo,
-				payProof: buyOrder.paymentProof
+			// retrieve paymentProof (url/pic) & reference order, for seller to check
+			res.render('viewsalesorder', {
+				title: 'View Sales Order - ZenActivePH',
+				order: buyOrder[0]
 			});
+			
 		} else res.redirect('/login');
 	},
 
-	postValidPayment: async function(req, res) {
-		// possibly AJAX: update order status depending on what seller chooses in front end (dropdown?)
-		let {orderNo, orderStatus} = req.body;
-		var updateStatus = await db.updateOne(CustomerOrderDB, {buyOrdNo: orderNo}, {status: orderStatus});
+	postUpdateSalesOrder: async function(req, res) {
+		// possibly AJAX: update order status depending on what seller chooses in front end (dropdown?) 
+		try{
+			let {orderNo, orderStatus, cancelRsn} = req.body;
+			await db.updateOne(CustomerOrderDB, {buyOrdNo: orderNo}, {status: orderStatus});
+			res.status(200).send();			
+			
+			var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
 
-		if (!updateStatus) {
-			// handle error
-		} else {
-			// possiblly AJAX instead idk
+			if (orderMatch.status === 'SHIPPED'){
+				// details regarding their delivery will be sent through the buyer’s email
+				// what details to send? 
+				// how to use helper function 'sendEmail'?
+				// sendEmail(orderMatch.email);
+
+			} else if (orderMatch.status === 'CANCELLED'){
+				await db.insertOne(CancelReasonDB, {buyOrdNo: orderNo, cancelReason: cancelRsn});
+
+			} else {
+				// render smthn
+			}			
+			
+		} catch(e){
+			res.status(500).send(e);
 		}
-
 	},
 
 /* Manage Inventory --
