@@ -28,6 +28,20 @@ const buyerMiddleware = {
 		else if (req.session.cart.reduce((a, e) => a + e.qty, 0) + Number.parseInt(req.body.item.qty) >= 30)
 			res.status(403).send('Bag is full! Try removing some items.');
 		else return next();
+	},
+	
+	validateProofPayment: async function(req, res, next) {
+		try {
+			let {buyOrdNo, submitProofImg} = req.body;
+			var order = await db.findOne(CustomerOrderDB, {buyOrdNo: buyOrdNo});
+			var payProof = await db.findOne(PaymentProofDB, {buyOrdNo: buyOrdNo, paymentProof: submitProofImg});
+			
+			if (order.modeOfPay === 'PayPal') res.status(400).send('PayPal payments don\'t need proof submission!');
+			else if (payProof) res.status(400).send('You already submitted that payment proof!');
+			else return next();
+		} catch (e){
+			res.status(500).send(e);
+		}
 	}
 };
 

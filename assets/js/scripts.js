@@ -343,6 +343,7 @@ $(document).ready(function() {
 		
 		checks[0] = arr.some(e => validator.isEmpty(e.value)) ? false : true;
 		if (!checks[0]) alert('Please fill in all required fields.');
+		
 		if (!validator.isNumeric(arr[5].value)) {
 			checks[1] = false;
 			alert('Please input a number for the price.');
@@ -370,28 +371,30 @@ $(document).ready(function() {
 		
 		checks[0] = form.some(e => validator.isEmpty(e.value)) ? false : true;
 		if (!checks[0]) alert('Please fill in all fields.');
+		
 		if (!validator.isNumeric(form[1].value)) {
 			checks[1] = false;
 			alert('Please input a valid value for the price.');
 		}
 		
-		if (validator.isURL(form[2].value)) {
+		if (!validator.isURL(form[2].value)) {
 			checks[2] = false;
 			alert('Please input a valid URL for the proof.');
 		}
 		
 		if (checks.every(Boolean)) {
-			$.ajax({
-				method: 'POST',
-				url: '/sendProof',
-				data: form,
-				success: function() {
-					window.location.href = '/vieworder';
-				},
-				error: function(str) {
-					alert(str.responseText);
-				}
-			});
+			console.log(form);
+//			$.ajax({
+//				method: 'POST',
+//				url: '/sendProof',
+//				data: form,
+//				success: function() {
+//					window.location.href = '/vieworder';
+//				},
+//				error: function(str) {
+//					alert(str.responseText);
+//				}
+//			});
 		}
 	});
 });

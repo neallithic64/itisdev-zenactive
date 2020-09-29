@@ -357,24 +357,13 @@ const buyerFunctions = {
  */
 	postProofPayment: async function(req, res) {
 		try {
-			let {ordNo, payProof, referNo, amtPaid} = req.body;
-			var order = await db.findOne(CustomerOrderDB, {buyOrdNo: ordNo}, '');
-
-			if (order.modeOfPay === 'bank transfer' || order.modeOfPay === 'GCash') { //values of MOP to be verified 
-				var updateProof = await db.insertOne(PaymentProofDB, new constructors.PaymentProof(order.buyOrdNo, payProof, referNo, amtPaid));
-
-				if (updateProof) {
-					// res.render/ redirect
-				} else {
-					// handle error: server error or idk amp
-				}
-			} else {
-				// handle error: MOP is cash or...
-			}			
+			let {buyOrdNo, submitProofImg, submitRefNo, submitAmtPaid} = req.body;
+			var order = await db.findOne(CustomerOrderDB, {buyOrdNo: buyOrdNo}, '');
+			await db.insertOne(PaymentProofDB, new constructors.PaymentProof(order.buyOrdNo, submitProofImg, submitRefNo, submitAmtPaid));
+			res.status(200).send();
 		} catch (e){
 			res.status(500).send(e);
 		}
-		
 	}
 };
 
