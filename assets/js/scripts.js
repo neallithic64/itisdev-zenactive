@@ -374,6 +374,7 @@ $(document).ready(function() {
 			checks[1] = false;
 			alert('Please input a valid value for the price.');
 		}
+		
 		if (validator.isURL(form[2].value)) {
 			checks[2] = false;
 			alert('Please input a valid URL for the proof.');
@@ -382,7 +383,7 @@ $(document).ready(function() {
 		if (checks.every(Boolean)) {
 			$.ajax({
 				method: 'POST',
-				url: '/sendProof/' + form[3].value,
+				url: '/sendProof',
 				data: form,
 				success: function() {
 					window.location.href = '/vieworder';

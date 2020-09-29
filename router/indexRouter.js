@@ -34,6 +34,7 @@ router.post('/addToCart', buyerMiddle.validateCartExist, buyerMiddle.validateAdd
 router.post('/removeFromCart', buyerCont.postRemCart);
 router.post('/updateQtyBag', buyerCont.postUpdateQty);
 router.post('/checkout', buyerMiddle.validateCartExist, buyerCont.postCheckout);
+router.post('/sendProof', buyerCont.postProofPayment);
 
 
 
