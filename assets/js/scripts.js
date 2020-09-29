@@ -209,6 +209,16 @@ $(document).ready(async function() {
 			error: str => alert(str.responseText)
 		});
 	});
+	
+	$('select.????').change(function() {
+		var choice = $(this).val();
+		
+		switch (choice) {
+			case 'sometihng': {
+				
+			}
+		}
+	});
 });
 
 

@@ -11,7 +11,7 @@ const buyerMiddle = require('../middlewares/buyerMiddleware');
 router.get('/test', test.getHome);
 router.post('/test', test.postGenDocs);
 
-router.get('/a', (req, res) => res.render('salesreport', {title: 'a'}));
+router.get('/a', (req, res) => res.render('viewbuyerorder', {title: 'a'}));
 
 
 
