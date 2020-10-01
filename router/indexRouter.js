@@ -54,9 +54,9 @@ router.get('/salesOrders', adminCont.getAllSalesOrders);
 router.get('/purchaseOrders', adminCont.getAllPurchaseOrders);
 router.get('/searchSales', adminCont.getSalesQuery);
 router.get('/searchPurchases', adminCont.getPurchQuery);
-//router.get('/salesreport', adminCont.getSalesReport);
-//router.get('/custreport', adminCont.getCustReport);
-//router.get('/webreport', adminCont.getWebReport);
+router.get('/salesreport', adminCont.getSalesReport);
+router.get('/custreport', adminCont.getCustReport);
+router.get('/webreport', adminCont.getWebReport);
 
 
 

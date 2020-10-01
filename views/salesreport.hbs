@@ -111,8 +111,11 @@
 						<tbody>
 							{{! If total sales > target: #b3ffb2 }}
 							{{! If total sales < 25% target: #ffa7a7 }}
-							
-							{{> salesreprow }}
+						
+							{{#each salesRow}}
+								{{> salesreprow }}
+							{{/each}}
+
 						</tbody>
 					</table>
 				</div>
