@@ -392,7 +392,7 @@ const adminFunctions = {
 				title: 'Purchases Tracker - ZenActivePH',
 				purchOrder: forceJSON(orderMatch)
 			});			
-		} catch(e){
+		} catch(e) {
 			res.status(500).send(e);
 		}
 	},
@@ -410,7 +410,7 @@ const adminFunctions = {
  * updates the status of the order.
  */
 
-	getSalesOrder: async function(req, res) {
+	AAAAA: async function(req, res) {
 		if (req.session.admin) {
 			var buyOrder = await db.aggregate(CustomerOrderDB, [
 				{'$match': {buyOrdNo: Number.parseInt(req.params.ordNo)}},
@@ -443,28 +443,44 @@ const adminFunctions = {
 	},
 
 	postUpdateSalesOrder: async function(req, res) {
-		// possibly AJAX: update order status depending on what seller chooses in front end (dropdown?) 
-		try{
-			let {orderNo, orderStatus, cancelRsn} = req.body;
-			await db.updateOne(CustomerOrderDB, {buyOrdNo: orderNo}, {status: orderStatus});
+		// possibly AJAX: update order status depending on what seller chooses in front end (dropdown?)
+//		If status is confirmed: actions are: purchase, cancel 1
+//		If status is pending: actions are: view proof, cancel 1, cancel 2
+//		If status is in transit: actions are: ship, cancel 3
+//		If status is cancelled/shipped: disable actions
+//		cancel 1: out of stock sa supplier
+//		cancel 2: wrong payment details
+//		cancel 3: unable to deliver
+		try {
+			let {orderNo, action} = req.body;
+			await db.updateOne(CustomerOrderDB, {buyOrdNo: orderNo}, {status: ''});
 			res.status(200).send();			
 			
 			var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
 
-			if (orderMatch.status === 'SHIPPED'){
+			if (orderMatch.status === 'SHIPPED') {
 				// details regarding their delivery will be sent through the buyer’s email
 				// what details to send? 
 				// how to use helper function 'sendEmail'?
 				// sendEmail(orderMatch.email);
 
-			} else if (orderMatch.status === 'CANCELLED'){
+			} else if (orderMatch.status === 'CANCELLED') {
 				await db.insertOne(CancelReasonDB, {buyOrdNo: orderNo, cancelReason: cancelRsn});
-
 			} else {
 				// render smthn
 			}			
-			
-		} catch(e){
+		} catch(e) {
+			res.status(500).send(e);
+		}
+	},
+	
+	postUpdatePurchOrder: async function(req, res) {
+		try {
+			let {orderNo, action} = req.body;
+			await db.updateOne(SupplierOrderDB, {buyOrdNo: orderNo}, {status: ''});
+			await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
+			await db.insertOne(CancelReasonDB, {buyOrdNo: orderNo, cancelReason: ''});
+		} catch(e) {
 			res.status(500).send(e);
 		}
 	},
@@ -586,22 +602,22 @@ const adminFunctions = {
  * 
  */	
 
-	postAddProdCateg: async function(req, res){
+	postAddProdCateg: async function(req, res) {
 		try {
 			let {categ} = req.body;
 			await db.insertOne(ProdCategoryDB, {productID: req.params.id, categName: categ});
 			res.status(200).send();
-		} catch (e){
+		} catch (e) {
 			res.status(500).send(e);
 		}		
 	},
 	
-	postDelProdCateg: async function(req, res){
+	postDelProdCateg: async function(req, res) {
 		try {
 			let {categ} = req.body;
 			await db.deleteOne(ProdCategoryDB, {productID: req.params.id, categName: categ});
 			res.status(200).send();
-		} catch (e){
+		} catch (e) {
 			res.status(500).send(e);
 		}		
 	},
@@ -610,22 +626,22 @@ const adminFunctions = {
 /* Edit Product Photo(s)
  * 
  */	
-	postAddProdPhoto: async function(req, res){
+	postAddProdPhoto: async function(req, res) {
 		try {
 			let {photo} = req.body;
 			await db.insertOne(ProdPhotoDB, {productID: req.params.id, photoLink: photo});
 			res.status(200).send();
-		} catch (e){
+		} catch (e) {
 			res.status(500).send(e);
 		}
 	},
 	
-	postDelProdPhoto: async function(req, res){
+	postDelProdPhoto: async function(req, res) {
 		try {
 			let {photo} = req.body;
 			await db.deleteOne(ProdPhotoDB, {productID: req.params.id, photoLink: photo});
 			res.status(200).send();
-		} catch (e){
+		} catch (e) {
 			res.status(500).send(e);
 		}
 	},
@@ -638,7 +654,7 @@ const adminFunctions = {
 			let {categName} = req.body;
 			await db.insertOne(CategoryDB, {categName: categName});
 			res.status(200).send();
-		} catch (e){
+		} catch (e) {
 			res.status(500).send(e);
 		}
 	},

@@ -187,20 +187,16 @@ const adminMiddleware = {
 	
 	validateUpdateSalesOrd: async function (req, res, next) {
 		let {ordNo} = req.body;
-		
-		var buyOrderFind = await db.aggregate(CustomerOrderDB, [
-			{'$match': {buyOrdNo: ordNo}},
-			{'$lookup': {
-				'from': 'PaymentProof',
-				'localField': 'buyOrdNo',
-				'foreignField': 'buyOrdNo',
-				'as': 'paymentProof'
-			}}
-		]);	
-		
-		if(buyOrderFind.length === 0){
-			res.status(400).send('Order not found.');			
-		} else return next();
+		var orderFind = await db.findOne(CustomerOrderDB, {buyOrdNo: ordNo});
+		if (!orderFind) res.status(400).send('Order not found.');			
+		else return next();
+	},
+	
+	validateUpdatePurchOrd: async function (req, res, next) {
+		let {ordNo} = req.body;
+		var orderFind = await db.findOne(SupplierOrderDB, {buyOrdNo: ordNo});
+		if (!orderFind) res.status(400).send('Order not found.');			
+		else return next();
 	},
 	
 	validateSalesOrder: async function (req, res, next) {

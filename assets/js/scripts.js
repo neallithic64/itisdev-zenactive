@@ -56,7 +56,7 @@ function searchSales() {
 	$.ajax({
 		method: 'GET',
 		url: '/searchSales',
-		data: {ordNo: $("#salesInput")},
+		data: {ordNo: $("#salesInput").val()},
 		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
 		error: str => console.log(str)
 	});
@@ -66,7 +66,7 @@ function searchPurchases() {
 	$.ajax({
 		method: 'GET',
 		url: '/searchPurchases',
-		data: {ordNo: $("#purchInput")},
+		data: {ordNo: $("#purchInput").val()},
 		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
 		error: str => console.log(str)
 	});
@@ -218,7 +218,7 @@ $(document).ready(async function() {
 		else {
 			$.ajax({
 				method: 'POST',
-				url: '/updateStatus',
+				url: '/updateSalesStatus',
 				data: {action: choice, ordNo: ordNo},
 				success: () => {
 					
@@ -237,7 +237,7 @@ $(document).ready(async function() {
 		else {
 			$.ajax({
 				method: 'POST',
-				url: '/updateStatus',
+				url: '/updatePurchStatus',
 				data: {action: choice, ordNo: ordNo},
 				success: () => {
 					

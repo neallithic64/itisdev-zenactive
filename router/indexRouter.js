@@ -66,9 +66,10 @@ router.post('/logout', adminCont.postLogout);
 router.post('/register', adminCont.postRegister);
 router.post('/addProduct', adminCont.postAddProduct);
 router.post('/addCategory', adminMiddle.validateAddCateg, adminCont.postAddCateg);
-router.post('/editProduct/:id', adminMiddle.validateProductExist, adminCont.postEditProduct);
-router.post('/updateOrdStatus', adminMiddle.validateUpdateSalesOrd, adminCont.postUpdateSalesOrder);
+router.post('/updateSalesStatus', adminMiddle.validateUpdateSalesOrd, adminCont.postUpdateSalesOrder);
+router.post('/updatePurchStatus', adminMiddle.validateUpdatePurchOrd, adminCont.postUpdatePurchOrder);
 
+router.post('/editProduct/:id', adminMiddle.validateProductExist, adminCont.postEditProduct);
 router.post('/addProdCateg/:id', adminMiddle.validateProductExist, adminMiddle.validateAddProdCateg, adminCont.postAddProdCateg);
 router.post('/remProdCateg/:id', adminMiddle.validateProductExist, adminMiddle.validateDelProdCateg, adminCont.postDelProdCateg);
 router.post('/addProdPhoto/:id', adminMiddle.validateProductExist, adminMiddle.validateAddProdPhoto, adminCont.postAddProdPhoto);
