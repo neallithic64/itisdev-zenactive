@@ -171,6 +171,79 @@ async function getJoinedSuppOrder(ordNo) {
 	]));
 }
 
+/* Query for joining the ff tables/collections:
+ *  - Product
+ *  - ProdCategory
+ *  - ProdPhoto
+ *  - CustomerOrder
+ *  - CustomerCart
+ */
+async function getJoinedSalesQuery(prodID) {
+	return (await db.aggregate(ProductDB, [
+		{'$match': {productID: prodID}},
+		{'$lookup': {
+			'from': 'ProdCategory',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'prodCateg'
+		}},
+		{'$lookup': {
+			'from': 'ProdPhoto',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'prodPhoto'
+		}},
+		{'$lookup': {
+			'from': 'Product',
+			'localField': 'name',
+			'foreignField': 'name',
+			'as': 'prodColours'
+		}},
+		{'$lookup': {
+			'from': 'CustomerCart',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'custCart'
+		}},
+		{'$lookup': {
+			'from': 'CustomerOrder',
+			'localField': 'buyOrdNo',
+			'foreignField': 'buyOrdNo',
+			'as': 'custOrder'
+		}}
+	]));
+}
+
+/* Query for joining the ff tables/collections:
+ *  - Product
+ *  - ProdCategory
+ *  - ProdPhoto
+ *  - 
+ */
+async function getJoinedWebQuery(prodID) {
+	return (await db.aggregate(ProductDB, [
+		{'$match': {productID: prodID}},
+		{'$lookup': {
+			'from': 'ProdCategory',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'prodCateg'
+		}},
+		{'$lookup': {
+			'from': 'ProdPhoto',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'prodPhoto'
+		}},
+		{'$lookup': {
+			'from': 'Product',
+			'localField': 'name',
+			'foreignField': 'name',
+			'as': 'prodColours'
+		}}
+	]));
+}
+
 /* Index Functions
  */
 const adminFunctions = {
@@ -538,6 +611,53 @@ const adminFunctions = {
 		} catch (e){
 			res.status(500).send(e);
 		}
+	},
+
+/* Generate Sales Report
+ * 
+ * The admin can view all sales made within a specific timeframe (week, month, year) 
+ * in a summary. The results may also be filtered between a specific product to 
+ * see how many were sold.
+ * 
+ */	
+	getSalesReport: async function (req, res) {
+		// Note: are orders with status CONFIRMED the only ones considered as sales?
+		var salesMatch = await getJoinedSalesQuery(req.query.ordNo); //i think this is for AJAX
+
+		res.render('salesreport', {
+			title: 'View Sales Report - ZenActivePH',
+			salesRow: salesMatch
+		});
+	},
+	
+/* Generate Customer Report
+ * 
+ * The admin can view all new and repeating customers within a specific timeframe 
+ * (week, month, year) in a summary.
+ * 
+ */	
+	getCustReport: async function (req, res) {
+//		var custMatch = await getJoinedSalesQuery(req.query.ordNo);
+
+// how to know if customer is new or repeat?
+		res.render('custreport', {
+			title: 'View Customer Report - ZenActivePH',
+			custRow: custMatch
+		});
+	},
+	
+/* Generate Web Metrics Report
+ * 
+ * The admin can view most-viewed products and search metrics from the website 
+ * within a specific timeframe (week, month, year) in a summary.
+ * 
+ */	
+	getWebReport: async function (req, res) {
+//		var webMatch = await getJoinedSalesQuery(req.query.ordNo); 
+
+		res.render('webreport', {
+			title: 'View Web Report - ZenActivePH'
+		});
 	}
 };
 

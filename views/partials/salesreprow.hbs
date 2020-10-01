@@ -1,12 +1,12 @@
 <tr style="font-size: 11px;background: rgba(0,0,0,0);">
-	<td id="sprodImg"><img style="min-width: 60px;max-width: 60px;height: 60px;min-height: 60px;max-height: 60px;" src="assets/img/best-dummy2.jpg"></td>
-	<td id="sprodID">20200912345</td>
-	<td id="sprodName" style="width: 128px;">Powerful</td>
-	<td class="text-break" id="sprodCateg">Tops, Linen, Stretch, Sweat</td>
-	<td class="text-left" id="sprodColor">Green</td>
-	<td class="text-right" id="sprodSize">M</td>
-	<td class="text-right" id="sprodPrice">585.00</td>
-	<td class="text-right" id="sprodTarget">585.00</td>
-	<td class="text-right" id="sprodCount">10</td>
-	<td class="text-right" id="sprodTotal">5800.00</td>
+	<td id="sprodImg"><img style="min-width: 60px;max-width: 60px;height: 60px;min-height: 60px;max-height: 60px;" src="{{{getFirstPhoto prodPhoto}}}"></td>
+	<td id="sprodID"> {{productID}} </td>
+	<td id="sprodName" style="width: 128px;"> {{name}} </td>
+	<td class="text-break" id="sprodCateg"> {{categToString prodCateg}} </td> //is categ an array?
+	<td class="text-left" id="sprodColor"> {{color}} </td>
+	<td class="text-right" id="sprodSize"> {{size}} </td>
+	<td class="text-right" id="sprodPrice"> {{getPrice price}} </td>
+	<td class="text-right" id="sprodTarget">585.00</td> //what's this?
+	<td class="text-right" id="sprodCount">10</td> //qty in custCart?
+	<td class="text-right" id="sprodTotal">5800.00</td> //
 </tr>
