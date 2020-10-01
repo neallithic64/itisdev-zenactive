@@ -1,74 +1,74 @@
 <div style="height: auto;">
-    <div class="row no-gutters" style="height: auto";>
-        
+	<div class="row no-gutters" style="height: auto";>
+
 		{{> admin-sidebar }}
 		{{> filters }}
-		
+
 		<div class="col" style="height: auto;">
-		
+
 			{{! SUMMARY CARDS }}
-            <div class="d-flex justify-content-between" style="max-width: 969.333px;">
-			
+			<div class="d-flex justify-content-between" style="max-width: 969.333px;">
+
 				{{! TOTAL NEW CUST }}
-                <div class="card" style="height: 67px;width: 136px;font-size: 10px;">
-                     <div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center">
+				<div class="card" style="height: 67px;width: 136px;font-size: 10px;">
+					 <div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center">
 						<span class="text-center" style="max-width: 85px;color: #93623c;width: 85px;"><strong>Total New Customers</strong></span>
 						<span id="custTotalNew" class="text-center" style="width: 118px;max-width: 118px;text-align: right;font-size: 12px;">120</span>
 					</div>
-                </div>
-				
+				</div>
+
 				{{! TOTAL REPEAT CUST }}
 				<div class="card" style="height: 67px;width: 136px;font-size: 10px;">
-                     <div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center" style="width: 136px;">
+					 <div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center" style="width: 136px;">
 						<span class="text-center" style="max-width: 98px;color: #93623c;width: 98px;"><strong>Total Repeat Customers</strong></span>
 						<span id="custTotalRep" class="text-center" style="width: 118px;max-width: 118px;text-align: right;font-size: 12px;">35</span>
 					</div>
-                </div>
-				
+				</div>
+
 				{{! SMALLEST NEW CUST }}
-                <div class="card" style="height: 67px;width: 136px;font-size: 10px;">
-                    <div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center">
+				<div class="card" style="height: 67px;width: 136px;font-size: 10px;">
+					<div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center">
 						<span class="text-center" style="max-width: 103px;color: #93623c;width: 103px;"><strong>Smallest New Customer</strong></span>
 						<span id="custSmallNew" class="text-center" style="width: 118px;max-width: 118px;text-align: right;font-size: 12px;">9</span>
 					</div>
-                </div>
-				
+				</div>
+
 				{{! SMALLEST REPEAT CUST }}
-                <div class="card" style="height: 67px;width: 136px;font-size: 10px;">
-                    <div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center">
+				<div class="card" style="height: 67px;width: 136px;font-size: 10px;">
+					<div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center">
 						<span class="text-center" style="max-width: 120px;color: #93623c;width: 120px;"><strong>Smallest Repeat Customer</strong></span>
 						<span id="custSmallRep" class="text-center" style="width: 118px;max-width: 118px;text-align: right;font-size: 12px;">1</span>
 					</div>
-                </div>
-				
+				</div>
+
 				{{! HIGHEST NEW CUST }}
-                <div class="card" style="height: 67px;width: 136px;font-size: 10px;">
-                    <div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center">
+				<div class="card" style="height: 67px;width: 136px;font-size: 10px;">
+					<div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center">
 						<span class="text-center" style="max-width: 103px;color: #93623c;width: 103px;"><strong>Highest New Customer</strong></span>
 						<span id="custHighNew" class="text-center" style="width: 118px;max-width: 118px;text-align: right;font-size: 12px;">12</span>
 					</div>
-                </div>
-				
+				</div>
+
 				{{! HIGHEST REPEAT CUST }}
-                <div class="card" style="height: 67px;width: 136px;font-size: 10px;">
-                    <div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center">
+				<div class="card" style="height: 67px;width: 136px;font-size: 10px;">
+					<div class="d-flex flex-column flex-fill justify-content-center align-items-center align-content-center">
 						<span class="text-center" style="max-width: 120px;color: #93623c;width: 120px;"><strong>Highest Repeat Customer</strong></span>
 						<span id="custHighRep" class="text-center" style="width: 118px;max-width: 118px;text-align: right;font-size: 12px;">2</span>
 					</div>
-                </div>
-            </div>
-			
+				</div>
+			</div>
+
 			{{! HEADER }}
-            <div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-top: 0px;padding-top: 13px;padding-bottom: 13px;">
-                
+			<div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-top: 0px;padding-top: 13px;padding-bottom: 13px;">
+
 				{{! TITLE AND DATE AND TIMESTAMP }}
 				<div>
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Customer Report</span>
-					<span id="custDateStamp" class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;">09/19/2020 12:46:30</span>
+					<span id="custDateStamp" class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;">{{getDateNow}}</span>
 				</div>
-				
+
 				{{! SORT }}
-                <div class="d-flex align-items-center align-content-center">
+				<div class="d-flex align-items-center align-content-center">
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Sort by:</span>
 					<select style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 182px;">
 						<option value="0">Choose</option>
@@ -80,34 +80,34 @@
 						<option value="6">Lowest to Highest Total</option>
 					</select>
 				</div>
-            </div>
-			
-			{{! TABLE }}
-            <div style="height: auto;">
-                <div class="table-responsive" style="max-height: auto;margin-bottom: -15px;height: auto;min-height: auto;">
-                    <table class="table">
-                        <thead style="font-size: 10px;">
-                            <tr style="background-color: rgba(242,216,190,0.2);">
-                                <th style="width: 107px;">Date</th>
-                                <th style="width: 106px;">New Customers</th>
-                                <th style="width: 106px;">New Customer Rate (%)</th>
-                                <th style="width: 110px;">Repeat Customers</th>
-                                <th style="width: 110px;">Repeat Customer Rate (%)</th>
-                                <th style="width: 110px;">Total Customers</th>
-                            </tr>
-                        </thead>
-						
-                        <tbody>
-                            {{#each custRow}}
-								{{> custreprow }}
-							{{/each}}
-                        </tbody>
-                    </table>
-                </div>
-				
-				<span class="d-xl-flex justify-content-xl-center">END OF REPORT</span>
-				
 			</div>
-        </div>
-    </div>
+
+			{{! TABLE }}
+			<div style="height: auto;">
+				<div class="table-responsive" style="max-height: auto;margin-bottom: -15px;height: auto;min-height: auto;">
+					<table class="table">
+						<thead style="font-size: 10px;">
+							<tr style="background-color: rgba(242,216,190,0.2);">
+								<th style="width: 107px;">Date</th>
+								<th style="width: 106px;">New Customers</th>
+								<th style="width: 106px;">New Customer Rate (%)</th>
+								<th style="width: 110px;">Repeat Customers</th>
+								<th style="width: 110px;">Repeat Customer Rate (%)</th>
+								<th style="width: 110px;">Total Customers</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{{#each custRow}}
+								{{> custreprow}}
+							{{/each}}
+						</tbody>
+					</table>
+				</div>
+
+				<span class="d-xl-flex justify-content-xl-center">END OF REPORT</span>
+
+			</div>
+		</div>
+	</div>
 </div>

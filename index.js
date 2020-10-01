@@ -108,6 +108,9 @@ app.engine('hbs', exphbs.create({
 				case 'CANCELLED': return '#ffa7a7';
 				case 'REFUNDED': return '#ffd1ed';
 			}
+		},
+		getDateNow: function() {
+			return new Date();
 		}
 	}
 }).engine);

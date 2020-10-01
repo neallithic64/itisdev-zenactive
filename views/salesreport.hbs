@@ -42,7 +42,7 @@
 				{{! TITLE AND DATE AND TIMESTAMP }}
 				<div>
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Sales Report</span>
-					<span id="salesDateStamp" class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;">09/19/2020 12:46:30</span>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;">{{getDateNow}}</span>
 				</div>
 
 				{{! SEARCH BAR }}
@@ -74,11 +74,9 @@
 						<tbody>
 							{{! If total sales greater than target: #b3ffb2 }}
 							{{! If total sales less than 25% target: #ffa7a7 }}
-
 							{{#each salesRow}}
-								{{> salesreprow }}
+								{{> salesreprow}}
 							{{/each}}
-
 						</tbody>
 					</table>
 				</div>

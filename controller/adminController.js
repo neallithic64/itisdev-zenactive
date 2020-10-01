@@ -102,6 +102,38 @@ async function getJoinedQuery(prodID) {
 	]))[0];
 }
 
+	
+/* Query for joining the ff tables/collections:
+ *  - SupplierOrder
+ *  - SupplierCart
+ *  - Product
+ *  - ProdCategory
+ */
+async function getJoinedSuppOrder(ordNo) {
+	var stages = [];
+	if (ordNo) stages.push({'$match': {batchID: ordNo}});
+	return await db.aggregate(SupplierOrderDB, stages.concat([
+		{'$lookup': {
+			'from': 'SupplierCart',
+			'localField': 'batchID',
+			'foreignField': 'batchID',
+			'as': 'SuppCart'
+		}},
+		{'$lookup': {
+			'from': 'Product',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'Product'
+		}},
+		{'$lookup': {
+			'from': 'ProdCategory',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'Category'
+		}}
+	]));
+}
+
 /* Query for joining the ff tables/collections:
  *  - CustomerOrder
  *  - CustomerCart
@@ -139,37 +171,6 @@ async function getJoinedCustOrder(ordNo) {
 		}}
 	]));
 }
-	
-/* Query for joining the ff tables/collections:
- *  - SupplierOrder
- *  - SupplierCart
- *  - Product
- *  - ProdCategory
- */
-async function getJoinedSuppOrder(ordNo) {
-	var stages = [];
-	if (ordNo) stages.push({'$match': {batchID: ordNo}});
-	return await db.aggregate(SupplierOrderDB, stages.concat([
-		{'$lookup': {
-			'from': 'SupplierCart',
-			'localField': 'batchID',
-			'foreignField': 'batchID',
-			'as': 'SuppCart'
-		}},
-		{'$lookup': {
-			'from': 'Product',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'Product'
-		}},
-		{'$lookup': {
-			'from': 'ProdCategory',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'Category'
-		}}
-	]));
-}
 
 /* Query for joining the ff tables/collections:
  *  - Product
@@ -179,8 +180,9 @@ async function getJoinedSuppOrder(ordNo) {
  *  - CustomerCart
  */
 async function getJoinedSalesQuery(prodID) {
-	return (await db.aggregate(ProductDB, [
-		{'$match': {productID: prodID}},
+	var stages = [];
+	if (prodID) stages.push({'$match': {productID: prodID}});
+	return await db.aggregate(ProductDB, stages.concat([
 		{'$lookup': {
 			'from': 'ProdCategory',
 			'localField': 'productID',
@@ -221,8 +223,9 @@ async function getJoinedSalesQuery(prodID) {
  *  - 
  */
 async function getJoinedWebQuery(prodID) {
-	return (await db.aggregate(ProductDB, [
-		{'$match': {productID: prodID}},
+	var stages = [];
+	if (prodID) stages.push({'$match': {productID: prodID}});
+	return await db.aggregate(ProductDB, stages.concat([
 		{'$lookup': {
 			'from': 'ProdCategory',
 			'localField': 'productID',
@@ -622,8 +625,7 @@ const adminFunctions = {
  */	
 	getSalesReport: async function (req, res) {
 		// Note: are orders with status CONFIRMED the only ones considered as sales?
-		var salesMatch = await getJoinedSalesQuery(req.query.ordNo); //i think this is for AJAX
-
+		var salesMatch = await getJoinedSalesQuery(req.query.ordNo);
 		res.render('salesreport', {
 			title: 'View Sales Report - ZenActivePH',
 			salesRow: salesMatch
@@ -637,9 +639,8 @@ const adminFunctions = {
  * 
  */	
 	getCustReport: async function (req, res) {
-//		var custMatch = await getJoinedSalesQuery(req.query.ordNo);
-
-// how to know if customer is new or repeat?
+		var custMatch = await getJoinedSalesQuery(req.query.ordNo);
+		// how to know if customer is new or repeat?
 		res.render('custreport', {
 			title: 'View Customer Report - ZenActivePH',
 			custRow: custMatch
@@ -653,10 +654,11 @@ const adminFunctions = {
  * 
  */	
 	getWebReport: async function (req, res) {
-//		var webMatch = await getJoinedSalesQuery(req.query.ordNo); 
+		var webMatch = await getJoinedWebQuery(req.query.ordNo); 
 
 		res.render('webreport', {
-			title: 'View Web Report - ZenActivePH'
+			title: 'View Web Report - ZenActivePH',
+			webRow: webMatch
 		});
 	}
 };

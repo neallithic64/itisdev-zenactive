@@ -50,7 +50,7 @@
 				{{! TITLE AND DATE AND TIMESTAMP }}
 				<div>
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Web Metrics Report</span>
-					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;">09/19/2020 12:46:30</span>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;">{{getDateNow}}</span>
 				</div>
 
 				{{! SEARCH BAR }}
@@ -80,9 +80,9 @@
 							</tr>
 						</thead>
 						<tbody>
-
-							{{> webreprow }}
-
+							{{#each webRow}}
+								{{> webreprow}}
+							{{/each}}
 						</tbody>
 					</table>
 				</div>
