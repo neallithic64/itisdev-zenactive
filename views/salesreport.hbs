@@ -1,5 +1,7 @@
+<!DOCTYPE html>
+
 <div style="height: auto;">
-    <div class="row no-gutters" style="height: auto;">
+    <div class="row no-gutters" style="height: auto">
 	
 		{{> admin-sidebar }}
 		{{> filters }}
@@ -33,21 +35,6 @@
 					</div>
                 </div>
 				
-				{{! MIN DAILY SALES }}
-                <div class="card" style="height: 46px;width: 170px;font-size: 10px;">
-                    <div class="d-flex flex-row flex-fill justify-content-between align-items-center align-content-end">
-						<span style="max-width: 77px;color: #93623c;"><strong>Minimum Daily Sales</strong></span>
-						<span id="repMinSales" style="width: 84px;max-width: 84px;text-align: right;font-size: 12px;">1,400,000.00<br></span>
-					</div>
-                </div>
-				
-				{{! MAX DAILY SALES }}
-                <div class="card" style="height: 46px;width: 170px;font-size: 10px;">
-                    <div class="d-flex flex-row flex-fill justify-content-between align-items-center align-content-end">
-						<span style="max-width: 77px;color: #93623c;"><strong>Maximum Daily Sales</strong></span>
-						<span id="repMaxSales" style="text-align: right;width: 84px;max-width: 84px;font-size: 12px;">1,400,000.00</span>
-					</div>
-                </div>
             </div>
 			
 			{{! HEADER }}
@@ -109,8 +96,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							{{! If total sales > target: #b3ffb2 }}
-							{{! If total sales < 25% target: #ffa7a7 }}
+							{{! If total sales greater than target: #b3ffb2 }}
+							{{! If total sales less than 25% target: #ffa7a7 }}
 						
 							{{#each salesRow}}
 								{{> salesreprow }}
