@@ -102,46 +102,7 @@ async function getJoinedQuery(prodID) {
 	]))[0];
 }
 
-	
-/* Query for joining the ff tables/collections:
- *  - SupplierOrder
- *  - SupplierCart
- *  - Product
- *  - ProdCategory
- */
-async function getJoinedSuppOrder(ordNo) {
-	var stages = [];
-	if (ordNo) stages.push({'$match': {batchID: ordNo}});
-	return await db.aggregate(SupplierOrderDB, stages.concat([
-		{'$lookup': {
-			'from': 'SupplierCart',
-			'localField': 'batchID',
-			'foreignField': 'batchID',
-			'as': 'SuppCart'
-		}},
-		{'$lookup': {
-			'from': 'Product',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'Product'
-		}},
-		{'$lookup': {
-			'from': 'ProdCategory',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'Category'
-		}}
-	]));
-}
-
-/* Query for joining the ff tables/collections:
- *  - CustomerOrder
- *  - CustomerCart
- *  - Product
- *  - ProdCategory
- *  - PaymentProof
- */
-async function getJoinedCustOrder(startDate, endDate) {
+async function getJoinedSalesOrder() {
 	var stages = [];
 	if (ordNo) stages.push({'$match': {buyOrdNo: ordNo}});
 	return await db.aggregate(CustomerOrderDB, stages.concat([
@@ -168,6 +129,37 @@ async function getJoinedCustOrder(startDate, endDate) {
 			'localField': 'buyOrdNo',
 			'foreignField': 'buyOrdNo',
 			'as': 'PaymentProof'
+		}}
+	]));
+}
+
+/* Query for joining the ff tables/collections:
+ *  - SupplierOrder
+ *  - SupplierCart
+ *  - Product
+ *  - ProdCategory
+ */
+async function getJoinedPurchOrder(ordNo) {
+	var stages = [];
+	if (ordNo) stages.push({'$match': {batchID: ordNo}});
+	return await db.aggregate(SupplierOrderDB, stages.concat([
+		{'$lookup': {
+			'from': 'SupplierCart',
+			'localField': 'batchID',
+			'foreignField': 'batchID',
+			'as': 'SuppCart'
+		}},
+		{'$lookup': {
+			'from': 'Product',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'Product'
+		}},
+		{'$lookup': {
+			'from': 'ProdCategory',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'Category'
 		}}
 	]));
 }
@@ -211,6 +203,44 @@ async function getJoinedSalesQuery(startDate, endDate) {
 	if (startDate && endDate)
 		results.forEach(e1 => e1.custCart = e1.custCart.filter(e2 => e2.orderDate >= startDate && e2.orderDate <= endDate));
 	return results;
+}
+
+/* Query for joining the ff tables/collections:
+ *  - CustomerOrder
+ *  - CustomerCart
+ *  - Product
+ *  - ProdCategory
+ *  - PaymentProof
+ */
+async function getJoinedCustQuery(startDate, endDate) {
+	var stages = [];
+	if (ordNo) stages.push({'$match': {buyOrdNo: ordNo}});
+	return await db.aggregate(CustomerOrderDB, stages.concat([
+		{'$lookup': {
+			'from': 'CustomerCart',
+			'localField': 'buyOrdNo',
+			'foreignField': 'buyOrdNo',
+			'as': 'Cart'
+		}},
+		{'$lookup': {
+			'from': 'Product',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'Product'
+		}},
+		{'$lookup': {
+			'from': 'ProdCategory',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'Category'
+		}},
+		{'$lookup': {
+			'from': 'PaymentProof',
+			'localField': 'buyOrdNo',
+			'foreignField': 'buyOrdNo',
+			'as': 'PaymentProof'
+		}}
+	]));
 }
 
 /* Query for joining the ff tables/collections:
@@ -336,12 +366,12 @@ const adminFunctions = {
  * 
  */
 	getSalesQuery: async function(req, res, next) {
-		res.status(200).send(await getJoinedCustOrder(req.query.ordNo));
+		res.status(200).send(await getJoinedSalesOrder(req.query.ordNo));
 	},
 
 	getAllSalesOrders: async function(req, res) { 
 		try {
-			var orderMatch = await getJoinedCustOrder();
+			var orderMatch = await getJoinedSalesOrder();
 			res.render('salestracker', {
 				title: 'Sales Tracker - ZenActivePH',
 				salesOrder: forceJSON(orderMatch)
@@ -352,15 +382,15 @@ const adminFunctions = {
 	},
 	
 	getPurchQuery: async function(req, res, next) {
-		res.status(200).send(await getJoinedSuppOrder(req.query.ordNo));
+		res.status(200).send(await getJoinedPurchOrder(req.query.ordNo));
 	},
 
 	getAllPurchaseOrders: async function(req, res) { 
 		try {
-			var orderMatch = await getJoinedSuppOrder();
+			var orderMatch = await getJoinedPurchOrder();
 			res.render('purchtracker', {
 				title: 'Purchases Tracker - ZenActivePH',
-				suppOrder: forceJSON(orderMatch)
+				purchOrder: forceJSON(orderMatch)
 			});			
 		} catch(e){
 			res.status(500).send(e);
@@ -636,7 +666,7 @@ const adminFunctions = {
  * 
  */	
 	getCustReport: async function (req, res) {
-		var custMatch = await getJoinedCustOrder(req.query.startDate, req.query.endDate);
+		var custMatch = await getJoinedCustQuery(req.query.startDate, req.query.endDate);
 		// how to know if customer is new or repeat?
 		res.render('custreport', {
 			title: 'View Customer Report - ZenActivePH',
