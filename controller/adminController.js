@@ -141,7 +141,7 @@ async function getJoinedSuppOrder(ordNo) {
  *  - ProdCategory
  *  - PaymentProof
  */
-async function getJoinedCustOrder(ordNo) {
+async function getJoinedCustOrder(startDate, endDate) {
 	var stages = [];
 	if (ordNo) stages.push({'$match': {buyOrdNo: ordNo}});
 	return await db.aggregate(CustomerOrderDB, stages.concat([
@@ -179,10 +179,8 @@ async function getJoinedCustOrder(ordNo) {
  *  - CustomerOrder
  *  - CustomerCart
  */
-async function getJoinedSalesQuery(prodID) {
-	var stages = [];
-	if (prodID) stages.push({'$match': {productID: prodID}});
-	return await db.aggregate(ProductDB, stages.concat([
+async function getJoinedSalesQuery(startDate, endDate) {
+	var results = await db.aggregate(ProductDB, [
 		{'$lookup': {
 			'from': 'ProdCategory',
 			'localField': 'productID',
@@ -196,12 +194,6 @@ async function getJoinedSalesQuery(prodID) {
 			'as': 'prodPhoto'
 		}},
 		{'$lookup': {
-			'from': 'Product',
-			'localField': 'name',
-			'foreignField': 'name',
-			'as': 'prodColours'
-		}},
-		{'$lookup': {
 			'from': 'CustomerCart',
 			'localField': 'productID',
 			'foreignField': 'productID',
@@ -213,7 +205,12 @@ async function getJoinedSalesQuery(prodID) {
 			'foreignField': 'buyOrdNo',
 			'as': 'custOrder'
 		}}
-	]));
+	]);
+	console.log(results);
+	
+	if (startDate && endDate)
+		results.forEach(e1 => e1.custCart = e1.custCart.filter(e2 => e2.orderDate >= startDate && e2.orderDate <= endDate));
+	return results;
 }
 
 /* Query for joining the ff tables/collections:
@@ -222,7 +219,7 @@ async function getJoinedSalesQuery(prodID) {
  *  - ProdPhoto
  *  - 
  */
-async function getJoinedWebQuery(prodID) {
+async function getJoinedWebQuery(startDate, endDate) {
 	var stages = [];
 	if (prodID) stages.push({'$match': {productID: prodID}});
 	return await db.aggregate(ProductDB, stages.concat([
@@ -625,7 +622,7 @@ const adminFunctions = {
  */	
 	getSalesReport: async function (req, res) {
 		// Note: are orders with status CONFIRMED the only ones considered as sales?
-		var salesMatch = await getJoinedSalesQuery(req.query.ordNo);
+		var salesMatch = await getJoinedSalesQuery(new Date(req.query.startDate), new Date(req.query.endDate));
 		res.render('salesreport', {
 			title: 'View Sales Report - ZenActivePH',
 			salesRow: salesMatch
@@ -639,7 +636,7 @@ const adminFunctions = {
  * 
  */	
 	getCustReport: async function (req, res) {
-		var custMatch = await getJoinedSalesQuery(req.query.ordNo);
+		var custMatch = await getJoinedCustOrder(req.query.startDate, req.query.endDate);
 		// how to know if customer is new or repeat?
 		res.render('custreport', {
 			title: 'View Customer Report - ZenActivePH',
@@ -654,8 +651,7 @@ const adminFunctions = {
  * 
  */	
 	getWebReport: async function (req, res) {
-		var webMatch = await getJoinedWebQuery(req.query.ordNo); 
-
+		var webMatch = await getJoinedWebQuery(req.query.startDate, req.query.endDate);
 		res.render('webreport', {
 			title: 'View Web Report - ZenActivePH',
 			webRow: webMatch
