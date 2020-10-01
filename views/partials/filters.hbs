@@ -1,78 +1,80 @@
+<!DOCTYPE html>
+
 {{! FILTERS }}
-        <div class="col" style="width: 140px;max-width: 140px;height: 782px;">
-			
-			{{! DATE RANGE }}
-            <div class="card">
-                <div class="card-body" style="padding: 5px;padding-bottom: 15px;">
-                    <div style="padding: 0px;padding-top: 0px;">
-						{{! FROM }}
-						<span style="font-size: 10px;color: #93623c;"><strong>From</strong></span>
-						<input id="fromDate" type="date" style="font-weight: 600;color: #000000;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;padding-top: 0px;padding-bottom: 0px;">
-						{{! TO }}
-                        <span style="font-size: 10px;color: #93623c;"><strong>To</strong></span>
-						<input id="toDate" type="date" style="font-weight: 600;color: #000000;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;padding-top: 0px;padding-bottom: 0px;">
-					</div>
-                </div>
-            </div>
-			
-			{{! SELECT AREA }}
-            <div class="card">
-                <div class="card-body" style="padding: 5px;height: 86px;">
-					<span style="font-size: 10px;color: #93623c;"><strong>Area</strong><br></span>
-					<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 10px;width: 127px;">
-						<option value="0">Area</option>
-						<option value="1">Metro Manila</option>
-						<option value="2">Luzon</option>
-						<option value="3">Visayas</option>
-						<option value="4">Mindanao</option>
-					</select>
-				</div>
-            </div>
-			
-			{{! SELECT YEAR }}
-            <div class="card">
-                <div class="card-body" style="padding: 5px;height: 86px;">
-					<span style="font-size: 10px;color: #93623c;"><strong>Year</strong><br></span>
-					<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 10px;width: 127px;">
-						<option value="0">Year</option>
-						<option value="1" selected="">2020</option>
-					</select>
-				</div>
-            </div>
-			
-			{{! SELECT QUARTER }}
-            <div class="card">
-                <div class="card-body" style="padding: 5px;height: 86px;">
-					<span style="font-size: 10px;color: #93623c;"><strong>Quarter</strong><br></span>
-					<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 10px;width: 127px;">
-						<option value="0">Quarter</option>
-						<option value="1">Q1</option>
-						<option value="2">Q2</option>
-						<option value="3">Q3</option>
-						<option value="4">Q4</option>
-					</select>
-				</div>
-            </div>
-			
-			{{! SELECT MONTH }}
-            <div class="card">
-                <div class="card-body" style="padding: 5px;height: 86px;">
-					<span style="font-size: 10px;color: #93623c;"><strong>Month</strong><br></span>
-					<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 10px;width: 127px;">
-						<option value="0">Month</option>
-						<option value="1">January</option>
-						<option value="2">February</option>
-						<option value="3">March</option>
-						<option value="4">April</option>
-						<option value="5">May</option>
-						<option value="6">June</option>
-						<option value="7">July</option>
-						<option value="8">August</option>
-						<option value="9">September</option>
-						<option value="10">October</option>
-						<option value="11">November</option>
-						<option value="12">December</option>
-					</select>
-				</div>
-            </div>
-        </div>
+<div class="col" style="width: 140px;max-width: 140px;height: 782px;">
+	
+	{{! DATE RANGE }}
+	<div class="card">
+		<div class="card-body" style="padding: 5px;padding-bottom: 15px;">
+			<div style="padding: 0px;padding-top: 0px;">
+				{{! FROM }}
+				<span style="font-size: 10px;color: #93623c;"><strong>From</strong></span>
+				<input id="fromDate" type="date" style="font-weight: 600;color: #000000;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;padding-top: 0px;padding-bottom: 0px;">
+				{{! TO }}
+				<span style="font-size: 10px;color: #93623c;"><strong>To</strong></span>
+				<input id="toDate" type="date" style="font-weight: 600;color: #000000;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;padding-top: 0px;padding-bottom: 0px;">
+			</div>
+		</div>
+	</div>
+	
+	{{! SELECT AREA }}
+	<div class="card">
+		<div class="card-body" style="padding: 5px;height: 86px;">
+			<span style="font-size: 10px;color: #93623c;"><strong>Area</strong><br></span>
+			<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 10px;width: 127px;">
+				<option value="0">Area</option>
+				<option value="1">Metro Manila</option>
+				<option value="2">Luzon</option>
+				<option value="3">Visayas</option>
+				<option value="4">Mindanao</option>
+			</select>
+		</div>
+	</div>
+	
+	{{! SELECT YEAR }}
+	<div class="card">
+		<div class="card-body" style="padding: 5px;height: 86px;">
+			<span style="font-size: 10px;color: #93623c;"><strong>Year</strong><br></span>
+			<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 10px;width: 127px;">
+				<option value="0">Year</option>
+				<option value="1" selected="">2020</option>
+			</select>
+		</div>
+	</div>
+	
+	{{! SELECT QUARTER }}
+	<div class="card">
+		<div class="card-body" style="padding: 5px;height: 86px;">
+			<span style="font-size: 10px;color: #93623c;"><strong>Quarter</strong><br></span>
+			<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 10px;width: 127px;">
+				<option value="0">Quarter</option>
+				<option value="1">Q1</option>
+				<option value="2">Q2</option>
+				<option value="3">Q3</option>
+				<option value="4">Q4</option>
+			</select>
+		</div>
+	</div>
+	
+	{{! SELECT MONTH }}
+	<div class="card">
+		<div class="card-body" style="padding: 5px;height: 86px;">
+			<span style="font-size: 10px;color: #93623c;"><strong>Month</strong><br></span>
+			<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 10px;width: 127px;">
+				<option value="0">Month</option>
+				<option value="1">January</option>
+				<option value="2">February</option>
+				<option value="3">March</option>
+				<option value="4">April</option>
+				<option value="5">May</option>
+				<option value="6">June</option>
+				<option value="7">July</option>
+				<option value="8">August</option>
+				<option value="9">September</option>
+				<option value="10">October</option>
+				<option value="11">November</option>
+				<option value="12">December</option>
+			</select>
+		</div>
+	</div>
+</div>
