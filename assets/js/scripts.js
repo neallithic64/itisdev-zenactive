@@ -214,6 +214,7 @@ $(document).ready(async function() {
 		var choice = $(this).val(), ordNo = $(this).closest('tr').attr('id');
 		switch (choice) {
 			case 'View': window.location.href = '/view-salesorder/' + ordNo;
+			case '': ;
 		}
 	});
 });

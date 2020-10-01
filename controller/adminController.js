@@ -102,7 +102,7 @@ async function getJoinedQuery(prodID) {
 	]))[0];
 }
 
-async function getJoinedSalesOrder() {
+async function getJoinedSalesOrder(ordNo) {
 	var stages = [];
 	if (ordNo) stages.push({'$match': {buyOrdNo: ordNo}});
 	return await db.aggregate(CustomerOrderDB, stages.concat([
@@ -365,7 +365,7 @@ const adminFunctions = {
  * by the buyers. The seller may also view the orders they have made to the supplier.
  * 
  */
-	getSalesQuery: async function(req, res, next) {
+	getSalesOrder: async function(req, res, next) {
 		res.status(200).send(await getJoinedSalesOrder(req.query.ordNo));
 	},
 
@@ -381,7 +381,7 @@ const adminFunctions = {
 		}
 	},
 	
-	getPurchQuery: async function(req, res, next) {
+	getPurchOrder: async function(req, res, next) {
 		res.status(200).send(await getJoinedPurchOrder(req.query.ordNo));
 	},
 
