@@ -368,6 +368,7 @@ const adminFunctions = {
 	getAllSalesOrders: async function(req, res) { 
 		try {
 			var orderMatch = await getJoinedSalesOrder();
+			console.log(orderMatch);
 			res.render('salestracker', {
 				title: 'Sales Tracker - ZenActivePH',
 				salesOrder: forceJSON(orderMatch)
@@ -435,32 +436,31 @@ const adminFunctions = {
 	},
 
 	postUpdateSalesOrder: async function(req, res) {
-		// possibly AJAX: update order status depending on what seller chooses in front end (dropdown?)
-//		If status is confirmed: actions are: purchase, cancel 1
-//		If status is pending: actions are: view proof, cancel 1, cancel 2
-//		If status is in transit: actions are: ship, cancel 3
-//		If status is cancelled/shipped: disable actions
-//		cancel 1: out of stock sa supplier
-//		cancel 2: wrong payment details
-//		cancel 3: unable to deliver
 		try {
 			let {orderNo, action} = req.body;
-			await db.updateOne(CustomerOrderDB, {buyOrdNo: orderNo}, {status: ''});
-			res.status(200).send();			
+			var status = (function(action) {
+				switch (action) {
+					case 'Purchase': return 'IN TRANSIT';
+					case 'Ship': return 'SHIPPED';
+					default: return 'CANCELLED';
+				}
+			})(action);
+			await db.updateOne(CustomerOrderDB, {buyOrdNo: orderNo}, {status: status});
 			
-			var orderMatch = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
-
-			if (orderMatch.status === 'SHIPPED') {
+			if (status === 'SHIPPED') {
 				// details regarding their delivery will be sent through the buyer’s email
-				// what details to send? 
-				// how to use helper function 'sendEmail'?
 				// sendEmail(orderMatch.email);
-
-			} else if (orderMatch.status === 'CANCELLED') {
-				await db.insertOne(CancelReasonDB, {buyOrdNo: orderNo, cancelReason: cancelRsn});
-			} else {
-				// render smthn
-			}			
+			} else if (status === 'CANCELLED') {
+				var cancRsn = (function(action) {
+					switch (action) {
+						case 'Cancel1': return 'Supplier is out of stock';
+						case 'Cancel2': return 'Wrong payment details';
+						case 'Cancel3': return 'Unable to deliver to buyer';
+					}
+				})(action);
+				await db.insertOne(CancelReasonDB, {buyOrdNo: orderNo, cancelReason: cancRsn});
+			}
+			res.status(200).send();
 		} catch(e) {
 			res.status(500).send(e);
 		}
@@ -468,10 +468,10 @@ const adminFunctions = {
 	
 	postUpdatePurchOrder: async function(req, res) {
 		try {
-			let {orderNo, action} = req.body;
-			await db.updateOne(SupplierOrderDB, {buyOrdNo: orderNo}, {status: ''});
-			await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo}, '');
-			await db.insertOne(CancelReasonDB, {buyOrdNo: orderNo, cancelReason: ''});
+			let {batchID, action} = req.body;
+			await db.updateOne(SupplierOrderDB, {batchID: batchID}, {status: ''});
+			// await db.findOne(CustomerOrderDB, {buyOrdNo: batchID}, '');
+			await db.insertOne(CancelReasonDB, {buyOrdNo: batchID, cancelReason: ''});
 		} catch(e) {
 			res.status(500).send(e);
 		}

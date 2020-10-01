@@ -186,16 +186,16 @@ const adminMiddleware = {
 	},
 	
 	validateUpdateSalesOrd: async function (req, res, next) {
-		let {ordNo} = req.body;
-		var orderFind = await db.findOne(CustomerOrderDB, {buyOrdNo: ordNo});
+		let {orderNo} = req.body;
+		var orderFind = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo});
 		if (!orderFind) res.status(400).send('Order not found.');			
 		else return next();
 	},
 	
 	validateUpdatePurchOrd: async function (req, res, next) {
-		let {ordNo} = req.body;
-		var orderFind = await db.findOne(SupplierOrderDB, {buyOrdNo: ordNo});
-		if (!orderFind) res.status(400).send('Order not found.');			
+		let {batchID} = req.body;
+		var orderFind = await db.findOne(SupplierOrderDB, {batchID: batchID});
+		if (!orderFind) res.status(400).send('Batch not found.');			
 		else return next();
 	},
 	

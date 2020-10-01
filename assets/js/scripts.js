@@ -59,7 +59,6 @@ function trimArr(arr) {
 $(document).ready(async function() {
 	
 	// updating cart count in navbar
-	console.log(await getCart());
 	$("span#totItems").text('Items: ' + await getCartTotal());
 	$("#lblCartCount").text(await getCartTotal());
 	
@@ -190,35 +189,28 @@ $(document).ready(async function() {
 		});
 	});
 	
-	$('select.saleActions').change(function() {
-		var choice = $(this).val(), ordNo = $(this).closest('tr').attr('id'),
-			ordNo;
-		if (choice === '0');
-		else if (choice === 'View') window.location.href = '/view-salesorder/' + ordNo;
-		else {
+	$('select.salesActions').change(function() {
+		var choice = $(this).val(), ordNo = $(this).closest('tr').attr('id');
+		if (choice !== '0' && choice === 'View') window.location.href = '/view-salesorder/' + ordNo;
+		else if (choice !== '0') {
 			$.ajax({
 				method: 'POST',
 				url: '/updateSalesStatus',
-				data: {action: choice, ordNo: ordNo},
-				success: () => {
-					
-				},
+				data: {action: choice, orderNo: ordNo},
+				success: () => window.location.reload(),
 				error: str => alert(str.responseText)
 			});
 		}
 	});
 	
-	
 	$('select.purchActions').change(function() {
-		var choice = $(this).val(), ordNo = $(this).closest('tr').attr('id'),
-			ordNo;
-		if (choice === '0');
-		else if (choice === 'View') window.location.href = '/view-salesorder/' + ordNo;
-		else {
+		var choice = $(this).val(), ordNo = $(this).closest('tr').attr('id');
+		if (choice !== '0' && choice === 'View') window.location.href = '/view-salesorder/' + ordNo;
+		else if (choice !== '0') {
 			$.ajax({
 				method: 'POST',
 				url: '/updatePurchStatus',
-				data: {action: choice, ordNo: ordNo},
+				data: {action: choice, orderNo: ordNo},
 				success: () => {
 					
 				},
