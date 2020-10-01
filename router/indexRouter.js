@@ -52,8 +52,6 @@ router.get('/view-salesorder/:ordNo', adminCont.getSalesOrder);
 
 router.get('/salesOrders', adminCont.getAllSalesOrders);
 router.get('/purchaseOrders', adminCont.getAllPurchaseOrders);
-router.get('/searchSales', adminCont.getSalesOrder);
-router.get('/searchPurchases', adminCont.getPurchOrder);
 router.get('/salesreport*', adminCont.getSalesReport);
 router.get('/custreport*', adminCont.getCustReport);
 router.get('/webreport*', adminCont.getWebReport);

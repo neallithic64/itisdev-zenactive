@@ -52,26 +52,6 @@ function trimArr(arr) {
 	arr.forEach(e => e.value = validator.trim(e.value));
 }
 
-function searchSales() {
-	$.ajax({
-		method: 'GET',
-		url: '/searchSales',
-		data: {ordNo: $("#salesInput").val()},
-		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
-		error: str => console.log(str)
-	});
-}
-
-function searchPurchases() {
-	$.ajax({
-		method: 'GET',
-		url: '/searchPurchases',
-		data: {ordNo: $("#purchInput").val()},
-		success: res => $('tbody').html(res.match(/<tbody>([\s\S]*)<\/tbody>/g)),
-		error: str => console.log(str)
-	});
-}
-
 
 
 

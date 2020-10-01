@@ -365,10 +365,6 @@ const adminFunctions = {
  * by the buyers. The seller may also view the orders they have made to the supplier.
  * 
  */
-	getSalesOrder: async function(req, res, next) {
-		res.status(200).send(await getJoinedSalesOrder(req.query.ordNo));
-	},
-
 	getAllSalesOrders: async function(req, res) { 
 		try {
 			var orderMatch = await getJoinedSalesOrder();
@@ -381,10 +377,6 @@ const adminFunctions = {
 		}
 	},
 	
-	getPurchOrder: async function(req, res, next) {
-		res.status(200).send(await getJoinedPurchOrder(req.query.ordNo));
-	},
-
 	getAllPurchaseOrders: async function(req, res) { 
 		try {
 			var orderMatch = await getJoinedPurchOrder();
@@ -410,7 +402,7 @@ const adminFunctions = {
  * updates the status of the order.
  */
 
-	AAAAA: async function(req, res) {
+	getSalesOrder: async function(req, res) {
 		if (req.session.admin) {
 			var buyOrder = await db.aggregate(CustomerOrderDB, [
 				{'$match': {buyOrdNo: Number.parseInt(req.params.ordNo)}},
