@@ -210,13 +210,44 @@ $(document).ready(async function() {
 		});
 	});
 	
-	$('select.actions').change(function() {
-		var choice = $(this).val(), ordNo = $(this).closest('tr').attr('id');
-		switch (choice) {
-			case 'View': window.location.href = '/view-salesorder/' + ordNo;
-			case '': ;
+	$('select.saleActions').change(function() {
+		var choice = $(this).val(), ordNo = $(this).closest('tr').attr('id'),
+			ordNo;
+		if (choice === '0');
+		else if (choice === 'View') window.location.href = '/view-salesorder/' + ordNo;
+		else {
+			$.ajax({
+				method: 'POST',
+				url: '/updateStatus',
+				data: {action: choice, ordNo: ordNo},
+				success: () => {
+					
+				},
+				error: str => alert(str.responseText)
+			});
 		}
 	});
+	
+	
+	$('select.purchActions').change(function() {
+		var choice = $(this).val(), ordNo = $(this).closest('tr').attr('id'),
+			ordNo;
+		if (choice === '0');
+		else if (choice === 'View') window.location.href = '/view-salesorder/' + ordNo;
+		else {
+			$.ajax({
+				method: 'POST',
+				url: '/updateStatus',
+				data: {action: choice, ordNo: ordNo},
+				success: () => {
+					
+				},
+				error: str => alert(str.responseText)
+			});
+		}
+	});
+	
+	
 });
 
 
