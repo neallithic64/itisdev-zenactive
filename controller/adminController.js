@@ -193,15 +193,17 @@ async function getJoinedSalesQuery(startDate, endDate) {
 		}},
 		{'$lookup': {
 			'from': 'CustomerOrder',
-			'localField': 'buyOrdNo',
+			'localField': 'custCart.buyOrdNo',
 			'foreignField': 'buyOrdNo',
 			'as': 'custOrder'
 		}}
 	]);
-	console.log(results);
+//	console.log(results);
 	
-	if (startDate && endDate)
-		results.forEach(e1 => e1.custCart = e1.custCart.filter(e2 => e2.orderDate >= startDate && e2.orderDate <= endDate));
+	// also filter out order status
+	
+//	if (startDate && endDate)
+//		results.forEach(e1 => e1.custCart = e1.custOrder.filter(e2 => e2.orderDate >= startDate && e2.orderDate <= endDate));
 	return results;
 }
 
@@ -241,6 +243,11 @@ async function getJoinedCustQuery(startDate, endDate) {
 			'as': 'PaymentProof'
 		}}
 	]));
+	console.log(results);
+	
+	if (startDate && endDate)
+		results.forEach(e1 => e1.custCart = e1.custOrder.filter(e2 => e2.orderDate >= startDate && e2.orderDate <= endDate));
+	return results;
 }
 
 /* Query for joining the ff tables/collections:
@@ -661,9 +668,42 @@ const adminFunctions = {
 	getSalesReport: async function (req, res) {
 		// Note: are orders with status CONFIRMED the only ones considered as sales?
 		var salesMatch = await getJoinedSalesQuery(new Date(req.query.startDate), new Date(req.query.endDate));
+		
+		var salesCount = [];
+		var totalSales = [];
+		
+		salesMatch.forEach(function(elem1, index){
+			salesCount.push(elem1.custCart.reduce(function(acc, elem2){
+							return acc + elem2.qty;
+							},0));
+							
+			totalSales.push(elem1.custCart.reduce(function(acc, elem2){
+							return acc + (elem2.price*elem2.qty);
+							},0));
+							
+		});
+		
+		console.log(salesMatch[0].custCart);
+		console.log(totalSales);
+		console.log(salesCount);
+		
+		var totalS = totalSales.reduce(function(acc, elem){
+			return acc + elem;
+		},0);
+		var sCount = salesCount.reduce(function(acc, elem){
+			return acc + elem;			
+		},0); 
+		var aveS = totalS / sCount;
+
+
 		res.render('salesreport', {
 			title: 'View Sales Report - ZenActivePH',
-			salesRow: salesMatch
+			salesRow: salesMatch,
+			salesCount: salesCount,
+			totalSales: totalSales,
+			totalS: totalS,
+			sCount: sCount,
+			aveS: aveS
 		});
 	},
 	
