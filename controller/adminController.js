@@ -687,11 +687,23 @@ const adminFunctions = {
 		console.log(totalSales);
 		console.log(salesCount);
 		
+		var totalS = totalSales.reduce(function(acc, elem){
+			return acc + elem;
+		},0);
+		var sCount = salesCount.reduce(function(acc, elem){
+			return acc + elem;			
+		},0); 
+		var aveS = totalS / sCount;
+
+
 		res.render('salesreport', {
 			title: 'View Sales Report - ZenActivePH',
 			salesRow: salesMatch,
 			salesCount: salesCount,
-			totalSales: totalSales 
+			totalSales: totalSales,
+			totalS: totalS,
+			sCount: sCount,
+			aveS: aveS
 		});
 	},
 	
