@@ -1,21 +1,20 @@
 {{! FILTERS }}
 <div class="col" style="width: 140px;max-width: 140px;height: 782px;">
-	
-	{{! DATE RANGE }}
-	<div class="card">
-		<div class="card-body" style="padding: 5px;padding-bottom: 15px;">
-			<div style="padding: 0px;padding-top: 0px;">
-				{{! FROM }}
-				<span style="font-size: 10px;color: #93623c;"><strong>From</strong></span>
-				<input name="startDate" type="date" style="font-weight: 600;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;">
-				{{! TO }}
-				<span style="font-size: 10px;color: #93623c;"><strong>To</strong></span>
-				<input name="endDate" type="date" style="font-weight: 600;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;">
+	<form METHOD="GET" action="/salesreport*">
+		{{! DATE RANGE }}
+		<div class="card">
+			<div class="card-body" style="padding: 5px;padding-bottom: 15px;">
+				<div style="padding: 0px;padding-top: 0px;">
+					{{! FROM }}
+					<span style="font-size: 10px;color: #93623c;"><strong>From</strong></span>
+					<input name="startDate" type="date" style="font-weight: 600;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;">
+					{{! TO }}
+					<span style="font-size: 10px;color: #93623c;"><strong>To</strong></span>
+					<input name="endDate" type="date" style="font-weight: 600;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;">
+				</div>
 			</div>
 		</div>
-	</div>
-	
-	<form>
+
 		<button id="btnRange" type="button" class="btn" style="color: rgb(237,211,186);background: rgb(146,96,60);font-size: 10px;width: 100%;padding: 10px;margin-top: 10px;border-color: rgb(255,255,255);"> <strong>Submit</strong> </button>
 	</form>
 </div>
