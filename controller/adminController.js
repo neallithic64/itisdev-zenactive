@@ -447,10 +447,7 @@ const adminFunctions = {
 			})(action);
 			await db.updateOne(CustomerOrderDB, {buyOrdNo: orderNo}, {status: status});
 			
-			if (status === 'SHIPPED') {
-				// details regarding their delivery will be sent through the buyer’s email
-				// sendEmail(orderMatch.email);
-			} else if (status === 'CANCELLED') {
+			if (status === 'CANCELLED') {
 				var cancRsn = (function(action) {
 					switch (action) {
 						case 'Cancel1': return 'Supplier is out of stock';
