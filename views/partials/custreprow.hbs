@@ -1,8 +1,8 @@
 <tr style="font-size: 11px;background: rgba(0,0,0,0);">
-    <td id="date">09/20/2020</td>
-    <td id="newCust">20</td>
-	<td id="newCustRate">20</td>
-    <td id="repCust" style="width: 128px;">0</td>
-    <td id="repCustRate" style="width: 128px;">0<</td>
-    <td id="totalCust" style="width: 128px;">20</td>
+    <td id="date">{{_id}}</td>
+    <td id="newCust">{{newCust}}</td>
+	<td id="newCustRate">{{getFracRate newCust count}}</td>
+    <td id="repCust" style="width: 128px;">{{repeatCust}}</td>
+    <td id="repCustRate" style="width: 128px;">{{getFracRate repeatCust count}}</td>
+    <td id="totalCust" style="width: 128px;">{{count}}</td>
 </tr>

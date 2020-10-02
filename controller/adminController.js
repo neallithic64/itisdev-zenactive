@@ -221,39 +221,28 @@ async function getJoinedSalesQuery(startDate, endDate) {
  *  - PaymentProof
  */
 async function getJoinedCustQuery(startDate, endDate) {
-	var stages = [];
-	if (ordNo) stages.push({'$match': {buyOrdNo: ordNo}});
-	return await db.aggregate(CustomerOrderDB, stages.concat([
-		{'$lookup': {
-			'from': 'CustomerCart',
-			'localField': 'buyOrdNo',
-			'foreignField': 'buyOrdNo',
-			'as': 'Cart'
+	var results = await db.aggregate(CustomerOrderDB, [
+		{'$group': {
+			_id : { '$dateToString': { format: "%Y-%m-%d", date: "$timestamp" } },
+			count: { '$sum': 1 },
+			email: { '$push': '$email' },
+			emailNew: { '$addToSet': '$email' }
 		}},
-		{'$lookup': {
-			'from': 'Product',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'Product'
-		}},
-		{'$lookup': {
-			'from': 'ProdCategory',
-			'localField': 'productID',
-			'foreignField': 'productID',
-			'as': 'Category'
-		}},
-		{'$lookup': {
-			'from': 'PaymentProof',
-			'localField': 'buyOrdNo',
-			'foreignField': 'buyOrdNo',
-			'as': 'PaymentProof'
-		}}
-	]));
-	console.log(results);
-	
-	if (startDate && endDate)
-		results.forEach(e1 => e1.custCart = e1.custOrder.filter(e2 => e2.orderDate >= startDate && e2.orderDate <= endDate));
-	return results;
+		{'$sort': {_id: 1}}
+	]);
+	var counts;
+	results.forEach(function(elem1) {
+		counts = {};
+		elem1.newCust = elem1.emailNew.length;
+		elem1.email.forEach(function(x) {
+			counts[x] = (counts[x] || 0) + 1;
+		});
+		elem1.emailRep = counts;
+		elem1.repeatCust = Object.values(counts).filter(e => e > 1).length;
+	});
+	// console.log(results);
+	if (startDate && endDate) return results.filter(e => new Date(e._id) >= new Date(startDate) && new Date(e._id) <= new Date(endDate));
+	else return results;
 }
 
 /* Query for joining the ff tables/collections:
@@ -264,7 +253,7 @@ async function getJoinedCustQuery(startDate, endDate) {
  */
 async function getJoinedWebQuery(startDate, endDate) {
 	var stages = [];
-	if (prodID) stages.push({'$match': {productID: prodID}});
+	// if (prodID) stages.push({'$match': {productID: prodID}});
 	return await db.aggregate(ProductDB, stages.concat([
 		{'$lookup': {
 			'from': 'ProdCategory',
@@ -710,10 +699,13 @@ const adminFunctions = {
  */	
 	getCustReport: async function (req, res) {
 		var custMatch = await getJoinedCustQuery(req.query.startDate, req.query.endDate);
-		// how to know if customer is new or repeat?
+		console.log(custMatch);
+		
 		res.render('custreport', {
 			title: 'View Customer Report - ZenActivePH',
-			custRow: custMatch
+			custRow: custMatch,
+			totNewCust: custMatch.reduce((acc, e) => acc + e.newCust, 0),
+			totRepCust: custMatch.reduce((acc, e) => acc + e.repeatCust, 0)
 		});
 	},
 	

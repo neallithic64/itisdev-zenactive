@@ -114,6 +114,9 @@ app.engine('hbs', exphbs.create({
 		},
 		getDateNow: function() {
 			return new Date();
+		},
+		getFracRate: function(val, total) {
+			return val/total*100 + '%';
 		}
 	}
 }).engine);
