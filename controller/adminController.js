@@ -198,13 +198,19 @@ async function getJoinedSalesQuery(startDate, endDate) {
 			'as': 'custOrder'
 		}}
 	]);
-//	console.log(results);
-	
-	// also filter out order status
-	
-//	if (startDate && endDate)
-//		results.forEach(e1 => e1.custCart = e1.custOrder.filter(e2 => e2.orderDate >= startDate && e2.orderDate <= endDate));
-	return results;
+	var newArr = [];
+	if (startDate && endDate) {
+		results.forEach(function(elem1) {
+			newArr = [];
+			elem1.custCart.forEach(function(elem2, index) {
+				if (elem1.custOrder[index].timestamp >= new Date(startDate) && elem1.custOrder[index].timestamp <= new Date(endDate)) {
+					newArr.push(elem2);
+				}
+			});
+			elem1.custCart = newArr;
+		});
+	}
+	return results.filter(e => e.custCart.length > 0);
 }
 
 /* Query for joining the ff tables/collections:
@@ -672,9 +678,8 @@ const adminFunctions = {
 	getSalesReport: async function (req, res) {
 		// Note: are orders with status CONFIRMED the only ones considered as sales?
 		var salesMatch = await getJoinedSalesQuery(req.query.startDate, req.query.endDate);
-
+		
 		var salesCount = [], totalSales = [];
-
 		salesMatch.forEach(function(elem1) {
 			salesCount.push(elem1.custCart.reduce(function(acc, elem2) {
 								return acc + elem2.qty;
@@ -683,11 +688,9 @@ const adminFunctions = {
 								return acc + (elem2.price*elem2.qty);
 							}, 0));
 		});
-
 		var totalS = totalSales.reduce((acc, elem) => acc + elem, 0);
 		var sCount = salesCount.reduce((acc, elem) => acc + elem, 0);
 		var aveS = totalS / sCount;
-
 		res.render('salesreport', {
 			title: 'View Sales Report - ZenActivePH',
 			salesRow: salesMatch,

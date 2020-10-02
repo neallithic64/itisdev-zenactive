@@ -405,6 +405,15 @@ $(document).ready(function() {
 			});
 		}
 	});
+	
+	$('button#btnRange').click(function() {
+		var startDate = $('input[name="startDate"]').val();
+		var endDate = $('input[name="endDate"]').val();
+		console.log(startDate, endDate);
+		if ((startDate && endDate) || (!startDate && !endDate)) {
+			$('form').submit();
+		} else alert('One of the dates are missing!');
+	});
 });
 
 
