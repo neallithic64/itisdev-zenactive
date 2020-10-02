@@ -6,7 +6,6 @@
 	<td class="text-left" id="sprodColor"> {{color}} </td>
 	<td class="text-right" id="sprodSize"> {{size}} </td>
 	<td class="text-right" id="sprodPrice"> {{getPrice price}} </td>
-	<td class="text-right" id="sprodTarget">585.00</td>
-	<td class="text-right" id="sprodCount">10</td>
-	<td class="text-right" id="sprodTotal">5800.00</td>
+	<td class="text-right" id="sprodCount"> {{getArrIndex @root.salesCount @index}} </td>
+	<td class="text-right" id="sprodTotal"> {{getPrice (getArrIndex @root.totalSales @index)}} </td>
 </tr>

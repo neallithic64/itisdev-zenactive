@@ -42,6 +42,9 @@ app.engine('hbs', exphbs.create({
 	partialsDir: 'views/partials',
 	layoutsDir: 'views/layouts',
 	helpers: {
+		getArrIndex: function(arr, index) {
+			return arr[index];
+		},
 		getFirstPhoto: function(photos) {
 			return photos.length > 0 ? photos[0].photoLink : 'https://safetyaustraliagroup.com.au/wp-content/uploads/2019/05/image-not-found.png';
 		},
