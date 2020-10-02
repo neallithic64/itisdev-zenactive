@@ -114,13 +114,13 @@ async function getJoinedSalesOrder(ordNo) {
 		}},
 		{'$lookup': {
 			'from': 'Product',
-			'localField': 'productID',
+			'localField': 'Cart.productID',
 			'foreignField': 'productID',
 			'as': 'Product'
 		}},
 		{'$lookup': {
 			'from': 'ProdCategory',
-			'localField': 'productID',
+			'localField': 'Product.productID',
 			'foreignField': 'productID',
 			'as': 'Category'
 		}},
