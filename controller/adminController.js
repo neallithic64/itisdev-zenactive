@@ -469,9 +469,16 @@ const adminFunctions = {
 	postUpdatePurchOrder: async function(req, res) {
 		try {
 			let {batchID, action} = req.body;
-			await db.updateOne(SupplierOrderDB, {batchID: batchID}, {status: ''});
-			// await db.findOne(CustomerOrderDB, {buyOrdNo: batchID}, '');
-			await db.insertOne(CancelReasonDB, {buyOrdNo: batchID, cancelReason: ''});
+			var status = (function(action) {
+				switch (action) {
+					case 'Complete': return 'COMPLETE';
+					case 'Incomplete': return 'INCOMPLETE';
+					case 'Refunded': return 'REFUNDED';
+					case 'Cancelled': return 'CANCELLED';
+				}
+			})(action);
+			await db.updateOne(SupplierOrderDB, {batchID: batchID}, {status: status});
+			res.status(200).send();	
 		} catch(e) {
 			res.status(500).send(e);
 		}

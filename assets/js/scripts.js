@@ -204,18 +204,16 @@ $(document).ready(async function() {
 	});
 	
 	$('select.purchActions').change(function() {
-		var choice = $(this).val(), ordNo = $(this).closest('tr').attr('id');
-		if (choice !== '0' && choice === 'View') window.location.href = '/view-salesorder/' + ordNo;
-		else if (choice !== '0') {
+		var choice = $(this).val(), batchID = $(this).closest('tr').attr('id');
+		if (choice !== '0') {
 			$.ajax({
 				method: 'POST',
 				url: '/updatePurchStatus',
-				data: {action: choice, orderNo: ordNo},
-				success: () => {
-					
-				},
+				data: {action: choice, batchID: batchID},
+				success: () => window.location.reload(),
 				error: str => alert(str.responseText)
 			});
+			
 		}
 	});
 	

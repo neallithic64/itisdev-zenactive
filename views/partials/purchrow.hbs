@@ -1,14 +1,14 @@
-<tr style="font-size: 11px;background: {{{getPurchStyle status}}};">
-	<td id="batchnumber"> {{batchID}} </td>
-	<td id="prodname"> {{Product.name}} <br></td>
-	<td id="categ"> {{Category.categName}} <br></td>
-	<td id="size"> {{Product.size}} </td>
-	<td class="text-left" id="color"> {{Product.color}} </td>
-	<td class="text-right" id="qty"> {{SuppCart.qty}} </td>
-	<td class="text-right" id="unitprice"> {{SuppCart.price}} </td>
-	<td class="text-right" id="totalamt"> {{getPriceTotal SuppCart}} <br></td>
-	<td id="status"> {{status}} </td>
-	<td id="purchactions" style="padding: 0px;padding-top: 0px;text-align: center;">
+<tr id="{{{batchID}}}" style="font-size: 11px;background: {{{getPurchStyle status}}};">
+	<td> {{batchID}} </td>
+	<td> {{Product.name}} <br></td>
+	<td> {{Category.categName}} <br></td>
+	<td> {{Product.size}} </td>
+	<td class="text-left"> {{Product.color}} </td>
+	<td class="text-right"> {{SuppCart.qty}} </td>
+	<td class="text-right"> {{SuppCart.price}} </td>
+	<td class="text-right"> {{getPriceTotal SuppCart}} <br></td>
+	<td> {{status}} </td>
+	<td style="padding: 0px;padding-top: 0px;text-align: center;">
 		{{! if status = pending: use dropdown in purchpendingactions.hbs }}
 		{{! if status = complete/refunded/cancelled: use dropdown in disabledactions.hbs }}
 		{{! if status = incomplete: use dropdown in purchincactions.hbs }}
