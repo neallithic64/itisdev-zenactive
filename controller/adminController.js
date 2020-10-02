@@ -671,34 +671,22 @@ const adminFunctions = {
  */	
 	getSalesReport: async function (req, res) {
 		// Note: are orders with status CONFIRMED the only ones considered as sales?
-		var salesMatch = await getJoinedSalesQuery(new Date(req.query.startDate), new Date(req.query.endDate));
-		
-		var salesCount = [];
-		var totalSales = [];
-		
-		salesMatch.forEach(function(elem1, index){
-			salesCount.push(elem1.custCart.reduce(function(acc, elem2){
-							return acc + elem2.qty;
-							},0));
-							
-			totalSales.push(elem1.custCart.reduce(function(acc, elem2){
-							return acc + (elem2.price*elem2.qty);
-							},0));
-							
-		});
-		
-		console.log(salesMatch[0].custCart);
-		console.log(totalSales);
-		console.log(salesCount);
-		
-		var totalS = totalSales.reduce(function(acc, elem){
-			return acc + elem;
-		},0);
-		var sCount = salesCount.reduce(function(acc, elem){
-			return acc + elem;			
-		},0); 
-		var aveS = totalS / sCount;
+		var salesMatch = await getJoinedSalesQuery(req.query.startDate, req.query.endDate);
 
+		var salesCount = [], totalSales = [];
+
+		salesMatch.forEach(function(elem1) {
+			salesCount.push(elem1.custCart.reduce(function(acc, elem2) {
+								return acc + elem2.qty;
+							}, 0));
+			totalSales.push(elem1.custCart.reduce(function(acc, elem2) {
+								return acc + (elem2.price*elem2.qty);
+							}, 0));
+		});
+
+		var totalS = totalSales.reduce((acc, elem) => acc + elem, 0);
+		var sCount = salesCount.reduce((acc, elem) => acc + elem, 0);
+		var aveS = totalS / sCount;
 
 		res.render('salesreport', {
 			title: 'View Sales Report - ZenActivePH',
