@@ -307,8 +307,7 @@ async function getJoinedWebQuery(startDate, endDate) {
  */
 const adminFunctions = {
 	getLogin: function(req, res) {
-		console.log(req.session);
-		if (req.session.admin) res.redirect('/');
+		if (req.session.admin) res.redirect('/admin');
 		else res.render('login', {
 			title: 'Login - ZenActivePH'
 		});
