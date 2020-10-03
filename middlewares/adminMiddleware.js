@@ -188,11 +188,9 @@ const adminMiddleware = {
 	validateUpdateSalesOrd: async function (req, res, next) {
 		let {action, orderNo} = req.body;
 		var orderFind = await db.findOne(CustomerOrderDB, {buyOrdNo: orderNo});
-		if (!orderFind) res.status(400).send('Order not found.');			
-		else {
-			if (action === 'Purchase' && orderFind.status !== 'PENDING') res.status(400).send('Order does not have PENDING status.');
-			else return next();
-		}
+		if (!orderFind) res.status(400).send('Order not found.');
+		else if (action === 'Purchase' && orderFind.status !== 'PENDING') res.status(400).send('Order does not have PENDING status.');
+		else return next();
 	},
 	
 	validateUpdatePurchOrd: async function (req, res, next) {
