@@ -233,7 +233,7 @@ $(document).ready(function() {
 		var qty = validator.trim($("input#prodQty").val());
 		
 		if (validator.isEmpty(qty)) alert('Please input a quantity!');
-		else if (isNaN(qty)) alert('Please input a valid number!');
+		else if (isNaN(qty) || qty <= 0) alert('Please input a valid number!');
 		else addToCart(code, size, qty);
 	});
 	

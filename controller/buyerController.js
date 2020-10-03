@@ -31,28 +31,23 @@ function getStrMonth(mon) {
 	return !isNaN(d) ? new Date(d).getMonth() + 1 : -1;
 }
 
-function sendEmail(email) {
-	fs.readFile('./assets/email.html', 'utf8', function(e, bodyData) {
-		var template = handlebars.compile(bodyData);
-		var htmlToSend = template({});
-		
-		var smtpTransport = nodemailer.createTransport({
-			service: "Gmail",
-			auth: {
-				user: process.env.EMAIL_ADDR,
-				pass: process.env.EMAIL_PASS
-			}
-		});
-		var mailOpts = {
-			from: '',
-			to: email, 
-			subject: '',
-			html: htmlToSend
-		};
-		smtpTransport.sendMail(mailOpts, function(err) {
-			if (err) console.log(err);
-			smtpTransport.close();
-		});
+function sendEmail(email, buyOrdNo) {
+	var smtpTransport = nodemailer.createTransport({
+		service: "Gmail",
+		auth: {
+			user: process.env.EMAIL_ADDR,
+			pass: process.env.EMAIL_PASS
+		}
+	});
+	var mailOpts = {
+		from: '',
+		to: email, 
+		subject: '',
+		text: 'Hi! Your Order Number is ' + buyOrdNo + '.'
+	};
+	smtpTransport.sendMail(mailOpts, function(err) {
+		if (err) console.log(err);
+		smtpTransport.close();
 	});
 }
 
@@ -318,7 +313,6 @@ const buyerFunctions = {
 			
 			// make customer cart documents
 			console.log(bag);
-			// ^^^ CHECK IF THE CHOSEN SIZE IS FOUND THERE; WE NEED THAT FOR THE VIEW ORDER
 			bag.forEach(e => {
 				cartOrds.push({
 					productID: e.code,
@@ -329,7 +323,7 @@ const buyerFunctions = {
 				});
 			});
 			await db.insertMany(CustomerCartDB, cartOrds);
-
+			sendEmail(email, ord.buyOrdNo);
 			// clear cart and exit
 			req.session.cart = [];
 			res.status(200).send();
