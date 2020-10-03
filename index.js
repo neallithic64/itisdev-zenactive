@@ -116,7 +116,7 @@ app.engine('hbs', exphbs.create({
 			return new Date();
 		},
 		getFracRate: function(val, total) {
-			return val/total*100 + '%';
+			return val&&total ? Math.round(val/total * 100) / 100 + '%' : '0%';
 		}
 	}
 }).engine);

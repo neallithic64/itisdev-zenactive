@@ -289,10 +289,18 @@ async function getJoinedWebQuery(startDate, endDate) {
 					newArr.push(elem2);
 				}
 			});
-			elem1.custCart = newArr;
+			elem1.totalSales = newArr.length;
+			elem1.totalViews = elem1.pageView
+					.filter(e => new Date(e.date) >= new Date(startDate) && new Date(e.date) <= new Date(endDate))
+					.reduce((acc, e) => acc + e.count, 0);
+		});
+	} else {
+		results.forEach(function(elem1) {
+			elem1.totalSales = elem1.custCart.length;
+			elem1.totalViews = elem1.pageView.reduce((acc, e) => acc + e.count, 0);
 		});
 	}
-	return results.filter(e => e.custCart.length > 0);
+	return results;
 }
 
 /* Index Functions
@@ -736,9 +744,12 @@ const adminFunctions = {
  */	
 	getWebReport: async function (req, res) {
 		var webMatch = await getJoinedWebQuery(req.query.startDate, req.query.endDate);
+		
 		res.render('webreport', {
 			title: 'View Web Report - ZenActivePH',
-			webRow: webMatch
+			webRow: webMatch,
+			totalViews: webMatch.reduce((acc, e) => acc + e.totalViews, 0),
+			aveViews: webMatch.reduce((acc, e) => acc + e.totalViews, 0)/webMatch.length
 		});
 	}
 };

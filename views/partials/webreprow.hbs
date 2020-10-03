@@ -6,7 +6,6 @@
     <td class="text-left" id="webProdColor"> {{color}} </td>
     <td class="text-right" id="webProdSize"> {{size}} </td>
     <td class="text-right" id="webProdPrice"> {{price}} </td>
-    <td class="text-right" id="webProdViews>10<</td>
-    <td class="text-right" id="webSalesCount">8></td>
-    <td class="text-right" id="webConvRate">10</td>
+    <td class="text-right" id="webProdViews">{{totalViews}}</td>
+    <td class="text-right" id="webConvRate">{{getFracRate totalSales totalViews}}</td>
 </tr>
