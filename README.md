@@ -1,8 +1,5 @@
 # itisdev-zenactive
 
-## Heroku Deployed App
-Status: [![Heroku App Status](http://heroku-shields.herokuapp.com/???)]()
-
 ## Current Dependencies
 - [express](https://www.npmjs.com/package/express)
 - [express-handlebars](https://www.npmjs.com/package/express-handlebars)
