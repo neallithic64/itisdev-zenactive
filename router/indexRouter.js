@@ -11,7 +11,7 @@ const buyerMiddle = require('../middlewares/buyerMiddleware');
 router.get('/test', test.getHome);
 router.post('/test', test.postGenDocs);
 
-router.get('/a', (req, res) => res.render('viewsalesorder', {title: 'a'}));
+router.get('/a', (req, res) => res.render('custdetailed', {title: 'test'}));
 
 
 
@@ -56,6 +56,9 @@ router.get('/purchaseOrders', adminCont.getAllPurchaseOrders);
 router.get('/salesreport*', adminCont.getSalesReport);
 router.get('/custreport*', adminCont.getCustReport);
 router.get('/webreport*', adminCont.getWebReport);
+router.get('/salesdetreport*', adminCont.getSalesDetReport);
+router.get('/custdetreport*', adminCont.getCustDetReport);
+router.get('/webdetreport*', adminCont.getWebDetReport);
 
 
 

@@ -718,6 +718,10 @@ const adminFunctions = {
 		});
 	},
 	
+	getSalesDetReport: async function(req, res, next) {
+		
+	},
+	
 /* Generate Customer Report
  * 
  * The admin can view all new and repeating customers within a specific timeframe 
@@ -734,6 +738,10 @@ const adminFunctions = {
 			totNewCust: custMatch.reduce((acc, e) => acc + e.newCust, 0),
 			totRepCust: custMatch.reduce((acc, e) => acc + e.repeatCust, 0)
 		});
+	},
+	
+	getCustDetReport: async function(req, res, next) {
+		
 	},
 	
 /* Generate Web Metrics Report
@@ -753,6 +761,24 @@ const adminFunctions = {
 		});
 	},
 	
+	getWebDetReport: async function(req, res, next) {
+		
+	},
+
+	
+/* Select Pre-Order Batch Threshold
+ * 
+ * The admin can view recommendations on the pre-order cut-off date based on different
+ * algorithms using historical data from orders and sales. The recommendations will be
+ * by type and color, which are already assigned by the admin upon adding an item
+ * (e.g.: sets, accessories, tops, bottoms).
+ * 
+ * The admin will be notified at the cut-off date to make the batch order to the
+ * supplier. This way, they can have a more efficient schedule when they will be
+ * ordering the products from their supplier, lessening the shipping and overall
+ * costs.
+ * 
+ */
 	getChooseThresh: async function(req, res, next) {
 		try {
 			console.log(algo.getAlgos());
