@@ -750,6 +750,14 @@ const adminFunctions = {
 			totalViews: webMatch.reduce((acc, e) => acc + e.totalViews, 0),
 			aveViews: webMatch.reduce((acc, e) => acc + e.totalViews, 0)/webMatch.length
 		});
+	},
+	
+	getChooseThresh: async function(req, res, next) {
+		var categs = await db.findMany(CategoryDB, {});
+		res.render('choosethreshold', {
+			title: 'Choose Threshold - ZenActivePH',
+			categs: categs
+		});
 	}
 };
 

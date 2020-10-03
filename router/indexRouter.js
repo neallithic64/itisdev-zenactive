@@ -49,6 +49,7 @@ router.get('/addProdExist', adminCont.getAddProdExist);
 router.get('/addCategory', adminCont.getAddCategory);
 router.get('/editProduct/:id', adminMiddle.validateProductExist, adminCont.getEditProduct);
 router.get('/view-salesorder/:ordNo', adminCont.getSalesOrder);
+router.get('/chooseThreshold', adminCont.getChooseThresh);
 
 router.get('/salesOrders', adminCont.getAllSalesOrders);
 router.get('/purchaseOrders', adminCont.getAllPurchaseOrders);

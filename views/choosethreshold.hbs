@@ -19,10 +19,9 @@
 						<label style="width: 167px;color: rgb(238,19,19);padding-top: 10px;">Category *</label>
 						<select style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 12px;width: 252px;height: 32px;">
 							<option value="0">Choose Category</option>
-							<option value="1">Tops</option>
-							<option value="2">Bottoms</option>
-							<option value="3">Sets</option>
-							<option value="4">Accessories</option>
+							{{#each categs}}
+								<option value="{{{this.categName}}}">{{this.categName}}</option>
+							{{/each}}
 						</select>
 					</div>
 				</div>
@@ -69,7 +68,7 @@
 					</div>
 				</div>
 
-				<button id="saveThresh" class="btn" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 16px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 31px;margin-left: 165px;">Save Threshold</button>
+				<button id="saveThresh" class="btn" type="button" style="border-width: 0px;font-weight: 600;color: #93623c;font-size: 16px;background: #f2d8be;margin-top: 31px;margin-left: 165px;">Save Threshold</button>
 			</div>
 		</div>
 	</div>
