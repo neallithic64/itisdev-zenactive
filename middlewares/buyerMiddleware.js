@@ -36,9 +36,14 @@ const buyerMiddleware = {
 			var order = await db.findOne(CustomerOrderDB, {buyOrdNo: buyOrdNo});
 			var payProof = await db.findOne(PaymentProofDB, {buyOrdNo: buyOrdNo, paymentProof: submitProofImg});
 			
-			if (order.modeOfPay === 'PayPal') res.status(400).send('PayPal payments don\'t need proof submission!');
-			else if (payProof) res.status(400).send('You already submitted that payment proof!');
-			else return next();
+			// Only orders with status 'PENDING' will have payment proof
+			if (order.status !== 'PENDING'){
+				res.status(400).send('Not PENDING status orders don\'t need proof submission!');
+			} else {
+				if (order.modeOfPay === 'PayPal') res.status(400).send('PayPal payments don\'t need proof submission!');
+				else if (payProof) res.status(400).send('You already submitted that payment proof!');
+				else return next();						
+			}
 		} catch (e){
 			res.status(500).send(e);
 		}
