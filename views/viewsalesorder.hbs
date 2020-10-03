@@ -75,26 +75,26 @@
 			<div class="d-flex">
 				<div class="d-flex flex-column justify-content-center align-items-center align-self-center align-items-xl-start" style="margin: 7px;padding-right: 45px;border-right: 1px solid #cccccc ;">
 
-					{{! SHIPPING DETAILS }}
+					{{!hidden input tag (for buyOrdNo)}}
+					<input type="hidden" name="inputOrdNo" value="{{{order.buyOrdNo}}}">
+
+					{{! SHIPPING DETAILS }}  
 					<span style="font-weight: 600;color: #93623c;">Shipping Details</span>
 
 					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
-						<label style="width: 167px;color: #93623c;">Courier</label>
-						<select id="addCourier" style="background: rgba(255,255,255,0);color: #000000;border-width: 1px;font-weight: 600;color: #93623c;font-size: 14px;width: 252px;">
-							<option value="0">Choose Courier</option>
-							<option value="1">J&amp;T</option>
-							<option value="2">JRS</option>
-							<option value="3">LBC</option>
-						</select>
-					</div>
-
-					<div class="form-group" style="margin-bottom: 0px;margin-top: 10px;">
 						<label style="width: 167px;color: #93623c;">Tracking ID</label>
-						<input type="text" id="addTrackID" style="margin-left: 0px;" placeholder="Tracking ID">
+						<input type="text" name="trackID" style="margin-left: 0px;" placeholder="Tracking ID">
 					</div>
 
 					{{! SAVE SHIPPING DETAILS }}
 					<button class="btn" id="saveTracking" type="button" style="border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 21px;margin-left: 364px;padding-right: 12px;margin-right: 0px;">Save</button>
+
+					<div>
+						<span>Ship Tracking ID:&nbsp;</span>
+						<span id="viewTrackID">{{order.shipTrackID}}</span>
+					</div>
+					<br>
+
 				</div>
 
 				{{! CUSTOMER DETAILS }}
@@ -120,6 +120,7 @@
 						<span>Area:&nbsp;</span>
 						<span id="viewCustArea">{{order.area}}</span>
 					</div>
+
 				</div>
 			</div>
 

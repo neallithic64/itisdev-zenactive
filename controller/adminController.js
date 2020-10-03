@@ -463,6 +463,22 @@ const adminFunctions = {
 			});
 		} else res.redirect('/login');
 	},
+	
+	// seller inputs the shipTrackID of the courier
+	postTrackID: async function(req, res) {
+		let {ordNo, trackID} = req.body;
+		
+		//if not yet existing in db
+		var orderFind = db.findOne(CustomerOrderDB, {buyOrdNo: ordNo}, '');
+		
+		if (orderFind){
+			if (!orderFind.shipTrackID){
+				db.updateOne(CustomerOrderDB, {buyOrdNo: ordNo}, {shipTrackID: trackID});
+				console.log(orderFind.shipTrackID);
+				res.status(200).send();
+			} else res.status(400).send('Order already has tracking ID.');
+		} else res.status(400).send('Order not found.');
+	},
 
 	postUpdateSalesOrder: async function(req, res) {
 		try {

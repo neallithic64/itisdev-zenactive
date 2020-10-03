@@ -227,6 +227,19 @@ $(document).ready(async function() {
 			error: str => alert(str.responseText)
 		});
 	});
+	
+	$('button#saveTracking').click(function() {
+		var ordNo = $('input[name="inputOrdNo"]').val();
+		var trackID = $('input[name="trackID"]').val();
+		
+		$.ajax({
+			method: 'POST',
+			url: '/addTrackID',
+			data: {ordNo: ordNo, trackID: trackID},
+			success: () => window.location.reload(),
+			error: str => alert(str.responseText)
+		});
+	});
 });
 
 
