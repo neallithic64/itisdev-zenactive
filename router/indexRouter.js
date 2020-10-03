@@ -58,7 +58,6 @@ router.get('/custreport*', adminCont.getCustReport);
 router.get('/webreport*', adminCont.getWebReport);
 router.get('/salesdetreport*', adminCont.getSalesDetReport);
 router.get('/custdetreport*', adminCont.getCustDetReport);
-router.get('/webdetreport*', adminCont.getWebDetReport);
 
 
 

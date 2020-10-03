@@ -741,7 +741,26 @@ const adminFunctions = {
 	},
 	
 	getCustDetReport: async function(req, res, next) {
-		
+		let dateNext = new Date(req.query.date), date = new Date(req.query.date);
+		dateNext.setDate(dateNext.getDate()+1);
+		console.log(date, dateNext);
+		var results = await db.aggregate(CustomerOrderDB, [
+			{'$lookup': {
+				'from': 'CustomerOrder',
+				'localField': 'email',
+				'foreignField': 'email',
+				'as': 'otherOrds'
+			}}
+		]);
+		results = results.filter(e => e.timestamp >= date && e.timestamp < dateNext);
+		results.forEach(e => e.ordCount = e.otherOrds.length);
+		console.log(results);
+		res.render('custdetailed', {
+			title: 'Detailed Customer Report - ZenActivePH',
+			rows: results,
+			date: req.query.date,
+			totalCount: results.reduce((acc, e) => acc + e.ordCount, 0)
+		});
 	},
 	
 /* Generate Web Metrics Report
@@ -761,10 +780,6 @@ const adminFunctions = {
 		});
 	},
 	
-	getWebDetReport: async function(req, res, next) {
-		
-	},
-
 	
 /* Select Pre-Order Batch Threshold
  * 

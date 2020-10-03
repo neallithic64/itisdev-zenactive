@@ -3,27 +3,6 @@
 
 		{{> admin-sidebar }}
 
-		{{! FILTERS }}
-		<div class="col" style="width: 140px;max-width: 140px;height: 782px;">
-			<form METHOD="GET" action="/custreport">
-				{{! DATE RANGE }}
-				<div class="card">
-					<div class="card-body" style="padding: 5px;padding-bottom: 15px;">
-						<div style="padding: 0px;padding-top: 0px;">
-							{{! FROM }}
-							<span style="font-size: 10px;color: #93623c;"><strong>From</strong></span>
-							<input name="startDate" type="date" style="font-weight: 600;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;">
-							{{! TO }}
-							<span style="font-size: 10px;color: #93623c;"><strong>To</strong></span>
-							<input name="endDate" type="date" style="font-weight: 600;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;">
-						</div>
-					</div>
-				</div>
-
-				<button id="btnRange" type="button" class="btn" style="color: rgb(237,211,186);background: rgb(146,96,60);font-size: 10px;width: 100%;padding: 10px;margin-top: 10px;border-color: rgb(255,255,255);"> <strong>Submit</strong> </button>
-			</form>
-		</div>
-
 		<div class="col" style="height: auto;">
 
 			{{! HEADER }}
@@ -32,29 +11,13 @@
 				{{! TITLE AND DATE AND TIMESTAMP }}
 				<div>
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Customer Report</span>
-					<span id="dateDetailed" class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;"> Date Clicked Here </span>
+					<span id="dateDetailed" class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;"> {{date}} </span>
 				</div>
-				
-				<!--
-				{{! SORT }}
-				<div class="d-flex align-items-center align-content-center">
-					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Sort by:</span>
-					<select style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 182px;">
-						<option value="0">Choose</option>
-						<option value="1">Highest to Lowest New</option>
-						<option value="2">Lowest to Highest New</option>
-						<option value="3">Highest to Lowest Repeat</option>
-						<option value="4">Lowest to Highest Repeat</option>
-						<option value="5">Highest to Lowest Total</option>
-						<option value="6">Lowest to Highest Total</option>
-					</select>
-				</div>
-				-->
 				
 				{{! TOTAL CUSTOMER COUNT }}
 				<div>
 					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Total Count: </span>
-					<span id="custCountDetailed" class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;"> Total Cust Count for the Date Here </span>
+					<span id="custCountDetailed" class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;"> {{totalCount}} </span>
 				</div>
 				
 			</div>
@@ -72,7 +35,9 @@
 						</thead>
 
 						<tbody>
+							{{#each rows}}
 								{{> custdetrow}}
+							{{/each}}
 						</tbody>
 					</table>
 				</div>
