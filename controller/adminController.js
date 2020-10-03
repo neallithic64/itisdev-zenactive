@@ -446,16 +446,16 @@ const adminFunctions = {
 					'from': 'CustomerCart',
 					'localField': 'buyOrdNo',
 					'foreignField': 'buyOrdNo',
-					'as': 'customerCart'
+					'as': 'Cart'
 				}},
 				{'$lookup': {
 					'from': 'Product',
-					'localField': 'customerCart.productID',
+					'localField': 'Cart.productID',
 					'foreignField': 'productID',
-					'as': 'product'
+					'as': 'Product'
 				}}
 			]);
-			buyOrder.forEach(e1 => e1.product = e1.product.map((e2, i) => Object.assign({}, e2, e1.customerCart[i])));
+			buyOrder.forEach(e1 => e1.Product = e1.Product.map((e2, i) => Object.assign({}, e2, e1.Cart[i])));
 			// retrieve paymentProof (url/pic) & reference order, for seller to check
 			res.render('viewsalesorder', {
 				title: 'View Sales Order - ZenActivePH',

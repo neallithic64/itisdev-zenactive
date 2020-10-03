@@ -217,7 +217,16 @@ $(document).ready(async function() {
 		}
 	});
 	
-	
+	$('button#validatePayment').click(function() {
+		var ordNo = $('#ordernum').text();
+		$.ajax({
+			method: 'POST',
+			url: '/updateSalesStatus',
+			data: {action: 'Purchase', orderNo: ordNo},
+			success: () => window.location.reload(),
+			error: str => alert(str.responseText)
+		});
+	});
 });
 
 

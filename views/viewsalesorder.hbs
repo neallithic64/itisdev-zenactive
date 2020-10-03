@@ -15,18 +15,6 @@
 					<span id="ordernum"><strong>{{order.buyOrdNo}}</strong></span>
 				</div>
 
-				{{! FILTER BY CATEGORY DIV }}
-				<div class="d-flex align-items-center align-content-center">
-					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Show by:</span>
-					<select id="filterCart" style="background: rgba(255,255,255,0);color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;width: 104px;">
-						<option value="0">Category</option>
-						<option value="1">Tops</option>
-						<option value="2">Bottoms</option>
-						<option value="3">Sets</option>
-						<option value="4">Accessories</option>
-					</select>
-				</div>
-
 				{{! PURCHASE AND SHIP ALL BUTTONS }}
 				<div>
 					<button class="btn" id="purchall" type="button" style="font-size: 12px;background: rgba(0,0,0,0);font-weight: 600;color: #93623c;border-width: 0px;" disabled="">Purchase All</button>
@@ -59,7 +47,7 @@
 
 						{{! TABLE BODY }}
 						<tbody>
-							{{!> salesrow}}
+							{{> salesrow order}}
 						</tbody>
 
 					</table>
@@ -106,7 +94,7 @@
 					</div>
 
 					{{! SAVE SHIPPING DETAILS }}
-					<button class="btn" id="saveTracking" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 21px;margin-left: 364px;padding-right: 12px;margin-right: 0px;">Save</button>
+					<button class="btn" id="saveTracking" type="button" style="border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 21px;margin-left: 364px;padding-right: 12px;margin-right: 0px;">Save</button>
 				</div>
 
 				{{! CUSTOMER DETAILS }}
@@ -151,7 +139,7 @@
 
 				<img id="proofpayment" style="margin: 0px;margin-top: 11px;" src="assets/img/home-set.JPG">
 
-				<button class="btn" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 14px;">Validate Payment</button>
+				<button class="btn" id="validatePayment" type="button" style="color: #000000;border-width: 0px;font-weight: 600;color: #93623c;font-size: 12px;background: #f2d8be;margin: 0px;margin-bottom: 0px;margin-top: 14px;">Validate Payment</button>
 			</div>
 		</div>
 	</div>
