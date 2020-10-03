@@ -13,7 +13,7 @@ const SupplierCart = require('../models/SupplierCart');
 const SupplierOrder = require('../models/SupplierOrder');
 const Threshold = require('../models/Threshold');
 
-const algo = require('algoSet');
+const algo = require('./algoSet');
 
 function forceJSON(e) {
 	return JSON.parse(JSON.stringify(e));

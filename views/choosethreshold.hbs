@@ -38,33 +38,16 @@
 					</div>
 
 					<div>
-
 						{{! THRESHOLDS }}
-						<div style="margin-bottom: 10px;width: 675px;max-width: 675px;">
-							<div class="form-check">
-								<input class="form-check-input" type="radio" id="thresh1" name="thresh">
-								<label class="form-check-label" for="formCheck-1">Threshold 1</label>
+						{{#each thresh}}
+							<div style="margin-bottom: 10px;width: 675px;max-width: 675px;">
+								<div class="form-check">
+									<input class="form-check-input" type="radio" value="{{{this.id}}}" name="thresh">
+									<label class="form-check-label" for="formCheck-1">{{this.name}}</label>
+								</div>
+								<span class="text-truncate text-break" id="threshdesc1" style="margin-left: 20px;">{{this.desc}}</span>
 							</div>
-							<span class="text-truncate text-break" id="threshdesc1" style="margin-left: 20px;">Threshold Description</span>
-						</div>
-
-						<div style="margin-bottom: 10px;">
-							<div class="form-check">
-								<input class="form-check-input" type="radio" id="thresh2" name="thresh">
-								<label class="form-check-label" for="formCheck-1">Threshold 2</label>
-							</div>
-
-							<span id="threshdesc2" style="margin-left: 20px;">Threshold Description</span>
-						</div>
-
-						<div style="margin-bottom: 10px;">
-							<div class="form-check">
-								<input class="form-check-input" type="radio" id="thresh3" name="thresh">
-								<label class="form-check-label" for="formCheck-1">Threshold 3</label>
-							</div>
-
-							<span id="threshdesc3" style="margin-left: 20px;">Threshold Description</span>
-						</div>
+						{{/each}}
 					</div>
 				</div>
 

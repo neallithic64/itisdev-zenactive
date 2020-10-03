@@ -6,6 +6,7 @@ const nodemailer = require('nodemailer');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const algo = require('./algoSet');
 
 /* Accessing the models (db) of each class
  */
@@ -754,13 +755,24 @@ const adminFunctions = {
 	
 	getChooseThresh: async function(req, res, next) {
 		try {
+			console.log(algo.getAlgos());
 			var categs = await db.findMany(CategoryDB, {});
-			var threshes = await db.findMany(ThresholdDB, {});
-			console.log(threshes);
 			res.render('choosethreshold', {
 				title: 'Choose Threshold - ZenActivePH',
-				categs: categs
+				categs: categs,
+				thresh: algo.getAlgos()
 			});
+		} catch (e) {
+			res.send(e);
+		}
+	},
+	
+	
+	postChooseThresh: async function(req, res, next) {
+		try {
+			// let {} = req.body;
+			algo.callAlgo();
+			
 		} catch (e) {
 			res.send(e);
 		}
