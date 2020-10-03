@@ -1,5 +1,3 @@
-const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 /* Accessing the models (db) of each class
  */
 const db = require('../models/db');
@@ -17,29 +15,6 @@ const SupplierCartDB = require('../models/SupplierCart');
 const SupplierOrderDB = require('../models/SupplierOrder');
 const ThresholdDB = require('../models/Threshold');
 
-
-/* Query for joining the ff tables/collections:
- *  - Product
- *  - ProdCategory
- *  - ProdPhoto
- */
-	async function getJoinedQuery(prodID) {
-		return (await db.aggregate(ProductDB, [
-			{'$match': {productID: prodID}},
-			{'$lookup': {
-				'from': 'ProdCategory',
-				'localField': 'productID',
-				'foreignField': 'productID',
-				'as': 'prodCateg'
-			}},
-			{'$lookup': {
-				'from': 'ProdPhoto',
-				'localField': 'productID',
-				'foreignField': 'productID',
-				'as': 'prodPhoto'
-			}}
-		]))[0];
-	}
 
 /* Query for joining the ff tables/collections:
  *  - CustomerOrder
@@ -218,12 +193,7 @@ const adminMiddleware = {
 		if (!orderFind){
 			res.status(400).send(); //order not found!
 		} else return next();
-	},
-	
-	validateCustPayProof: async function (req, res, next) {
-		
 	}
-	
 };
 
 module.exports = adminMiddleware;
