@@ -157,15 +157,17 @@ async function getJoinedPurchOrder(ordNo) {
 			'foreignField': 'batchID',
 			'as': 'SuppCart'
 		}},
+//		{'$unwind': '$SuppCart'},
 		{'$lookup': {
 			'from': 'Product',
-			'localField': 'productID',
+			'localField': 'SuppCart.productID',
 			'foreignField': 'productID',
 			'as': 'Product'
 		}},
+		{'$unwind': '$Product'},
 		{'$lookup': {
 			'from': 'ProdCategory',
-			'localField': 'productID',
+			'localField': 'Product.productID',
 			'foreignField': 'productID',
 			'as': 'Category'
 		}}
@@ -417,6 +419,7 @@ const adminFunctions = {
 	getAllPurchaseOrders: async function(req, res) { 
 		try {
 			var orderMatch = await getJoinedPurchOrder();
+			console.log(orderMatch);
 			res.render('purchtracker', {
 				title: 'Purchases Tracker - ZenActivePH',
 				purchOrder: forceJSON(orderMatch)
