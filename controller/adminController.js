@@ -113,12 +113,19 @@ async function getJoinedSalesOrder(ordNo) {
 			'foreignField': 'buyOrdNo',
 			'as': 'Cart'
 		}},
+		/*{'$map': {
+			'input': '$Cart',
+			'as': 'Total',
+			'in': {"$multiply" : ["$$Cart.price", "$$Cart.qty"]}
+		}},*/
+		{'$unwind': '$Cart'},
 		{'$lookup': {
 			'from': 'Product',
 			'localField': 'Cart.productID',
 			'foreignField': 'productID',
 			'as': 'Product'
 		}},
+		{'$unwind': '$Product'},
 		{'$lookup': {
 			'from': 'ProdCategory',
 			'localField': 'Product.productID',
@@ -754,7 +761,7 @@ const adminFunctions = {
 	
 /* Generate Customer Report
  * 
- * The admin can view all new and repeating customers within a specific timeframe 
+ * The admin can view all new and repeating customers within a specific timeframe
  * (week, month, year) in a summary.
  * 
  */	
