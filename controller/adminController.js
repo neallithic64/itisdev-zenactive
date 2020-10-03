@@ -214,11 +214,7 @@ async function getJoinedSalesQuery(startDate, endDate) {
 }
 
 /* Query for joining the ff tables/collections:
- *  - CustomerOrder
- *  - CustomerCart
- *  - Product
- *  - ProdCategory
- *  - PaymentProof
+ *  - none
  */
 async function getJoinedCustQuery(startDate, endDate) {
 	var results = await db.aggregate(CustomerOrderDB, [
@@ -252,9 +248,7 @@ async function getJoinedCustQuery(startDate, endDate) {
  *  - 
  */
 async function getJoinedWebQuery(startDate, endDate) {
-	var stages = [];
-	// if (prodID) stages.push({'$match': {productID: prodID}});
-	return await db.aggregate(ProductDB, stages.concat([
+	var results = await db.aggregate(ProductDB, [
 		{'$lookup': {
 			'from': 'ProdCategory',
 			'localField': 'productID',
@@ -268,12 +262,37 @@ async function getJoinedWebQuery(startDate, endDate) {
 			'as': 'prodPhoto'
 		}},
 		{'$lookup': {
-			'from': 'Product',
-			'localField': 'name',
-			'foreignField': 'name',
-			'as': 'prodColours'
+			'from': 'PageView',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'pageView'
+		}},
+		{'$lookup': {
+			'from': 'CustomerCart',
+			'localField': 'productID',
+			'foreignField': 'productID',
+			'as': 'custCart'
+		}},
+		{'$lookup': {
+			'from': 'CustomerOrder',
+			'localField': 'custCart.buyOrdNo',
+			'foreignField': 'buyOrdNo',
+			'as': 'custOrder'
 		}}
-	]));
+	]);
+	var newArr = [];
+	if (startDate && endDate) {
+		results.forEach(function(elem1) {
+			newArr = [];
+			elem1.custCart.forEach(function(elem2, index) {
+				if (elem1.custOrder[index].timestamp >= new Date(startDate) && elem1.custOrder[index].timestamp <= new Date(endDate)) {
+					newArr.push(elem2);
+				}
+			});
+			elem1.custCart = newArr;
+		});
+	}
+	return results.filter(e => e.custCart.length > 0);
 }
 
 /* Index Functions

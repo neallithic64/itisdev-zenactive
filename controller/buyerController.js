@@ -60,6 +60,11 @@ function forceJSON(e) {
 	return JSON.parse(JSON.stringify(e));
 }
 
+function formatDate(date) {
+	var d = new Date(date), month = '' + (d.getMonth() + 1), day = '' + d.getDate(), year = d.getFullYear();
+	return [year, month.padStart(2, '0'), day.padStart(2, '0')].join('-');
+}
+
 async function getJoinedQuery(prodID) {
 	return await db.aggregate(ProductDB, [
 		{'$match': {productID: prodID}},
@@ -244,6 +249,12 @@ const buyerFunctions = {
 	getProduct: async function(req, res) {
 		try {
 			var prodMatch = await getJoinedQuery(req.params.prodID);
+			var pageView = await db.findOne(PageViewDB,
+					{productID: prodMatch[0].productID,
+					date: formatDate(new Date())});
+			console.log(pageView);
+			if (!pageView) await db.insertOne(PageViewDB, {productID: prodMatch[0].productID, date: formatDate(new Date()), count: 1});
+			else await db.updateOne(PageViewDB, {productID: prodMatch[0].productID, date: formatDate(new Date())}, {'$inc': {count: 1}});
 			res.render('product', {
 				title: prodMatch[0].productID + ' - ZenActivePH',
 				product: prodMatch[0],
