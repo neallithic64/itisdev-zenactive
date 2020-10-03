@@ -1,0 +1,86 @@
+<div style="height: auto;">
+	<div class="row no-gutters" style="height: auto">
+
+		{{> admin-sidebar }}
+
+		{{! FILTERS }}
+		<div class="col" style="width: 140px;max-width: 140px;height: 782px;">
+			<form METHOD="GET" action="/salesreport">
+				{{! DATE RANGE }}
+				<div class="card">
+					<div class="card-body" style="padding: 5px;padding-bottom: 15px;">
+						<div style="padding: 0px;padding-top: 0px;">
+							{{! FROM }}
+							<span style="font-size: 10px;color: #93623c;"><strong>From</strong></span>
+							<input name="startDate" type="date" style="font-weight: 600;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;">
+							{{! TO }}
+							<span style="font-size: 10px;color: #93623c;"><strong>To</strong></span>
+							<input name="endDate" type="date" style="font-weight: 600;border-width: 0px;width: 128px;font-size: 10px;padding-left: 4px;">
+						</div>
+					</div>
+				</div>
+
+				<button id="btnRange" type="button" class="btn" style="color: rgb(237,211,186);background: rgb(146,96,60);font-size: 10px;width: 100%;padding: 10px;margin-top: 10px;border-color: rgb(255,255,255);"> <strong>Submit</strong> </button>
+			</form>
+		</div>
+
+		<div class="col" style="height: auto;">
+
+			{{! HEADER }}
+			<div class="d-flex justify-content-between align-items-center" style="text-align: right;font-size: 12px;padding-right: 3px;padding-left: 14px;margin-top: 0px;padding-top: 13px;padding-bottom: 13px;">
+
+				{{! TITLE AND DATE AND TIMESTAMP }}
+				<div>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Product Name Here</span>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;">Product ID Here </span>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;padding-left: 10px;">{{getDateNow}}</span>
+				</div>
+
+				{{! SEARCH BAR }}
+				<div class="d-flex">
+					<input type="search" id="salesSearch" placeholder="Search Product" autocomplete="on" style="margin-right: 7px;">
+					<div><a href="#" class="searchbtn" onclick="search()"> <i class="fa fa-search"></i> </a></div>
+				</div>
+				
+				{{ TOTAL COUNT }}
+				<div>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;"> Total Count: </span>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;"> Total Count Here </span>
+				</div>
+				
+				{{ TOTAL SALES }}
+				<div>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;"> Total Sales: </span>
+					<span class="text-sm-center text-md-center text-lg-center text-xl-center" style="text-align: center;font-weight: 600;color: #93623c;"> Total Sales Here </span>
+				</div>
+
+			</div>
+
+			{{! TABLE }}
+			<div style="height: auto;">
+				<div class="table-responsive" style="max-height: auto;margin-bottom: -15px;height: auto;min-height: auto;">
+					<table class="table">
+						<thead style="font-size: 10px;">
+							<tr style="background-color: rgba(242,216,190,0.2);">
+								<th style="width: 54px;">Date</th>
+								<th style="width: 78px;">Product ID</th>
+								<th style="width: 130px;">Product Name</th>
+								<th style="width: 96px;">Category</th>
+								<th style="width: 61px;">Color</th>
+								<th class="text-left" style="width: 35px;">Size</th>
+								<th class="text-right" style="width: 71px;">Price</th>
+							</tr>
+						</thead>
+						<tbody>
+							{{! If total sales greater than target: #b3ffb2 }}
+							{{! If total sales less than 25% target: #ffa7a7 }}
+								{{> salesdetrow}}
+						</tbody>
+					</table>
+				</div>
+
+				<span class="d-xl-flex justify-content-xl-center">END OF REPORT</span>
+			</div>
+		</div>
+	</div>
+</div>
