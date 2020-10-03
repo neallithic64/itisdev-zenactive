@@ -2,27 +2,16 @@
  */
 
 const algoSet = {
-	callAlgo: function(algoName) {
-		switch(algoName) {
-			case 'constantThresh': {
-				return constantThresh;
-				break;
-			}
-			/* 
-			case 'NAME': {
-				return NAME;
-				break;
-			}
-			 */
-		}
+	getAlgos: function() {
+		return ['constantThresh'];
 	},
 	
-	constantThresh: function() {
-		return "hello";
+	constantThresh: function(val) {
+		return val;
 	},
 	
 	linearRegression: function() {
-		
+		return '';
 	}
 };
 

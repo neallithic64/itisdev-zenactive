@@ -753,11 +753,17 @@ const adminFunctions = {
 	},
 	
 	getChooseThresh: async function(req, res, next) {
-		var categs = await db.findMany(CategoryDB, {});
-		res.render('choosethreshold', {
-			title: 'Choose Threshold - ZenActivePH',
-			categs: categs
-		});
+		try {
+			var categs = await db.findMany(CategoryDB, {});
+			var threshes = await db.findMany(ThresholdDB, {});
+			console.log(threshes);
+			res.render('choosethreshold', {
+				title: 'Choose Threshold - ZenActivePH',
+				categs: categs
+			});
+		} catch (e) {
+			res.send(e);
+		}
 	}
 };
 

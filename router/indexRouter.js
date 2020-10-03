@@ -67,6 +67,7 @@ router.post('/addProduct', adminCont.postAddProduct);
 router.post('/addCategory', adminMiddle.validateAddCateg, adminCont.postAddCateg);
 router.post('/updateSalesStatus', adminMiddle.validateUpdateSalesOrd, adminCont.postUpdateSalesOrder);
 router.post('/updatePurchStatus', adminMiddle.validateUpdatePurchOrd, adminCont.postUpdatePurchOrder);
+// router.post('/chooseThreshold', adminCont.postChooseThresh);
 
 router.post('/editProduct/:id', adminMiddle.validateProductExist, adminCont.postEditProduct);
 router.post('/addProdCateg/:id', adminMiddle.validateProductExist, adminMiddle.validateAddProdCateg, adminCont.postAddProdCateg);
