@@ -433,6 +433,7 @@ const adminFunctions = {
 
 	getSalesOrder: async function(req, res) {
 		if (req.session.admin) {
+			// Product, Customer Cart, Customer Order collections
 			var buyOrder = await db.aggregate(CustomerOrderDB, [
 				{'$match': {buyOrdNo: Number.parseInt(req.params.ordNo)}},
 				{'$lookup': {
@@ -452,9 +453,22 @@ const adminFunctions = {
 					'localField': 'Cart.productID',
 					'foreignField': 'productID',
 					'as': 'Product'
-				}}
+				}},
+				{'$lookup': {
+					'from': 'ProdCategory',
+					'localField': 'productID',
+					'foreignField': 'productID',
+					'as': 'Category'
+				}},
+				{'$unwind': '$Product'},
+				{'$unwind': '$Cart'},
+				{'$unwind': '$Category'}
 			]);
-			buyOrder.forEach(e1 => e1.Product = e1.Product.map((e2, i) => Object.assign({}, e2, e1.Cart[i])));
+//			buyOrder.forEach(e1 => e1.Product = e1.Product.map((e2, i) => Object.assign({}, e2, e1.Cart[i])));
+			
+//			console.log(buyOrder[0].Product[0].name);
+			console.log(buyOrder);
+			
 			// retrieve paymentProof (url/pic) & reference order, for seller to check
 			res.render('viewsalesorder', {
 				title: 'View Sales Order - ZenActivePH',

@@ -1,14 +1,14 @@
 <tr id="{{{buyOrdNo}}}" style="font-size: 11px;background: {{{getSalesStyle status}}};">
 	<td> {{buyOrdNo}} </td>
 	<td> {{Product.name}} <br></td>
-	<td> {{Category.categName}} <br></td>
+	<td> {{categToString Category}} <br></td>
 	<td> {{Product.size}} </td>
 	<td class="text-left"> {{Product.color}} </td>
 	<td class="text-right"> {{Cart.qty}} </td>
 	<td class="text-right"> {{Cart.price}} </td>
-	<td class="text-right"> {{!getPriceTotal Cart}} <br></td>
+	<td class="text-right"> {{getPriceTotal Cart}} <br></td>
 	<td> {{modeOfPay}} </td>
-	<td> {{!isProofEmpty PaymentProof}} </td>
+	<td> {{isProofEmpty PaymentProof}} </td>
 	<td> {{status}} </td>
 	<td style="padding: 0px;padding-top: 0px;text-align: center;">
 		{{! if status = confirmed: use dropdown in confirmactions.hbs }}
